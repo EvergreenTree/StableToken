@@ -49,7 +49,7 @@ This report covers the first feasible experiment pass on the local `main` branch
 | Whisper-small ASR config | `bc1f017` | `experiments/configs/asr_degradation_small.yaml` | Complete |
 | Whisper-small ASR smoke | `3aadf75` | `experiments/runs/asr_degradation_small_20260517/` | Complete |
 | Whisper-small ASR 100-clip config | `2743038` | `experiments/configs/asr_degradation_small_100.yaml` | Complete |
-| Whisper-small ASR 100-clip run | pending | `experiments/runs/asr_degradation_small_100_20260517/` | Complete |
+| Whisper-small ASR 100-clip run | `c1a0a81` | `experiments/runs/asr_degradation_small_100_20260517/` | Complete |
 
 ## Exact Commands
 
