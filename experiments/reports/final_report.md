@@ -45,7 +45,7 @@ This report covers the first feasible experiment pass on the local `main` branch
 | 100-clip degradation config | `1dc0119` | `experiments/configs/degradation_full_100.yaml` | Complete |
 | 100-clip degradation run | `2098fb9` | `experiments/runs/degradation_full_100_20260517/` | Complete |
 | ASR degradation runner | `e39aaa6`, `ed03e6f` | `experiments/run_asr_degradation.py` | Complete |
-| ASR degradation smoke | pending | `experiments/runs/asr_degradation_smoke_20260517/` | Complete |
+| ASR degradation smoke | `112024a` | `experiments/runs/asr_degradation_smoke_20260517/` | Complete |
 
 ## Exact Commands
 
