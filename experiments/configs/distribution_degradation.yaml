@@ -1,0 +1,43 @@
+run_name: distribution_degradation
+seed: 42
+device: auto
+checkpoint:
+  repo_id: tencent/StableToken
+  local_dir: checkpoints/StableToken
+  revision: dd19e26b6e7a2ffcc8523d15b80238175c69a2b6
+  allow_patterns:
+    - tokenizer/*
+batch_size: 8
+output_root: experiments/runs
+tasks:
+  - distribution
+data:
+  sources:
+    - name: fleurs_fr_dev100
+      type: jsonl
+      path: /data/speech2text/Qwen3-ASR/finetuning/eval_slices/fleurs_fr_dev100.jsonl
+      language: fr
+      max_items: 50
+    - name: cv21_zh_dev100
+      type: jsonl
+      path: /data/speech2text/Qwen3-ASR/finetuning/eval_slices/cv21_zh_dev100.jsonl
+      language: zh
+      max_items: 50
+distribution:
+  corruptions:
+    - name: clean
+      type: clean
+    - name: gaussian_25db
+      type: gaussian
+      snr_db: 25
+    - name: reverb_small_room
+      type: reverb
+      decay: 0.35
+      delay_ms: 45
+    - name: babble_4spk_10db
+      type: babble
+      speakers: 4
+      snr_db: 10
+    - name: competing_speech_16db
+      type: competing_speech
+      snr_db: 16
