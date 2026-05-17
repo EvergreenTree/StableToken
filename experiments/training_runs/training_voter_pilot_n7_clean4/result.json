@@ -1,0 +1,23 @@
+{
+  "status": "trained",
+  "output_dir": "/data/StableToken/experiments/training_runs/training_voter_pilot_n7_clean4",
+  "variant": {
+    "name": "n7_clean4",
+    "quantize_position": 2,
+    "pooling_position": 2,
+    "pooling_kernel_size": 2,
+    "quantize_vocab_size": 8192,
+    "num_voters": 7,
+    "num_clean_input": 4
+  },
+  "base_model": "openai/whisper-tiny",
+  "metrics": {
+    "train_runtime": 0.7069,
+    "train_samples_per_second": 1.415,
+    "train_steps_per_second": 1.415,
+    "total_flos": 14312704636800.0,
+    "train_loss": 8.94564151763916,
+    "epoch": 0.16666666666666666
+  },
+  "saved_model": false
+}

@@ -39,7 +39,9 @@ This report covers the first feasible experiment pass on the local `main` branch
 | Quantizer-layer pilot config | `f75afa8` | `experiments/configs/training_layer_pilot.yaml` | Complete |
 | Quantizer-layer one-step pilots | `ab88249` | `experiments/training_runs/training_layer_pilot_l*_n5_c3/result.json` | Complete |
 | Factorial pilot config | `8c41bf1` | `experiments/configs/training_factorial_pilot.yaml` | Complete |
-| Factorial one-step pilots | pending | `experiments/training_runs/training_factorial_pilot_*/result.json` | Complete |
+| Factorial one-step pilots | `6137874` | `experiments/training_runs/training_factorial_pilot_*/result.json` | Complete |
+| Voter pilot config | `1254f34` | `experiments/configs/training_voter_pilot.yaml` | Complete |
+| Voter one-step pilots | pending | `experiments/training_runs/training_voter_pilot_*/result.json` | Complete |
 
 ## Exact Commands
 
@@ -62,6 +64,16 @@ This report covers the first feasible experiment pass on the local `main` branch
 /data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_factorial_pilot.yaml --variant multi_no_aug
 /data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_factorial_pilot.yaml --variant multi_aug
 /data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_factorial_pilot.yaml --variant multi_aug_consensus
+/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_voter_pilot.yaml --variant n5_clean5_noisy0
+/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_voter_pilot.yaml --variant n5_clean4_noisy1
+/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_voter_pilot.yaml --variant n5_clean3_noisy2
+/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_voter_pilot.yaml --variant n5_clean2_noisy3
+/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_voter_pilot.yaml --variant n5_clean1_noisy4
+/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_voter_pilot.yaml --variant n5_clean0_noisy5
+/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_voter_pilot.yaml --variant n1_clean1
+/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_voter_pilot.yaml --variant n3_clean2
+/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_voter_pilot.yaml --variant n5_clean3
+/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_voter_pilot.yaml --variant n7_clean4
 ```
 
 ## Key Results
@@ -257,6 +269,27 @@ Result files live under `experiments/training_runs/training_factorial_pilot_*/re
 
 Interpretation: the exact factorial variants now run end to end. Since each run is a single step on a tiny slice, the next meaningful version needs enough steps to produce checkpoints, then the same UED/degradation/downstream evaluation used for inference.
 
+## Voter / Clean-Noisy Pilot
+
+These are one-step feasibility pilots for voter count and clean:noisy branch ratio. They validate that all requested N=5 ratios and N in `{1,3,5,7}` run under matched config.
+
+| Variant | Voters | Clean Inputs | Train Loss | Runtime | Saved Model |
+|---|---:|---:|---:|---:|---|
+| `n5_clean5_noisy0` | 5 | 5 | `10.0948` | `0.763s` | false |
+| `n5_clean4_noisy1` | 5 | 4 | `10.1706` | `0.709s` | false |
+| `n5_clean3_noisy2` | 5 | 3 | `10.2009` | `0.701s` | false |
+| `n5_clean2_noisy3` | 5 | 2 | `10.2554` | `0.704s` | false |
+| `n5_clean1_noisy4` | 5 | 1 | `10.2594` | `0.700s` | false |
+| `n5_clean0_noisy5` | 5 | 0 | `10.1938` | `0.822s` | false |
+| `n1_clean1` | 1 | 1 | `9.6039` | `0.701s` | false |
+| `n3_clean2` | 3 | 2 | `8.8181` | `0.694s` | false |
+| `n5_clean3` | 5 | 3 | `10.2009` | `0.708s` | false |
+| `n7_clean4` | 7 | 4 | `8.9456` | `0.707s` | false |
+
+Result files live under `experiments/training_runs/training_voter_pilot_*/result.json`.
+
+Interpretation: the voter matrix is runnable, including the 0-clean and N=7 cases. One-step losses are not evidence that N=3 or N=7 is better; the next useful run needs enough steps to produce comparable checkpoints, plus token entropy/dead-token/runtime and downstream robustness evaluation.
+
 ## Recommended Next Runs
 
 1. Scale `degradation_full.yaml` to 100-500 clips per language and add more languages. Keep per-language metrics, because the smoke slice shows large source effects.
@@ -267,6 +300,8 @@ Interpretation: the exact factorial variants now run end to end. Since each run 
 
 4. Extend the architecture-vs-augmentation factorial from one-step pilots to matched short runs that save checkpoints, then evaluate UED/nUED, token entropy, ASR WER, and SER.
 
-5. Add downstream ASR WER and SER on the same clean/noisy/degradation splits before investing in full SpeechLLM experiments.
+5. Extend the voter/ratio pilot from one-step checks to matched short runs, then report robustness vs clean performance, token entropy/dead tokens, runtime, and downstream ASR/SER.
 
-6. For SpeechLLM usefulness, start with a small adapter/LoRA controlled experiment on spoken QA or noisy spoken dialogue understanding, using identical data and steps across tokenizer variants.
+6. Add downstream ASR WER and SER on the same clean/noisy/degradation splits before investing in full SpeechLLM experiments.
+
+7. For SpeechLLM usefulness, start with a small adapter/LoRA controlled experiment on spoken QA or noisy spoken dialogue understanding, using identical data and steps across tokenizer variants.

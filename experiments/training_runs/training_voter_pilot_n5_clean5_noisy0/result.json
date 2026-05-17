@@ -1,0 +1,23 @@
+{
+  "status": "trained",
+  "output_dir": "/data/StableToken/experiments/training_runs/training_voter_pilot_n5_clean5_noisy0",
+  "variant": {
+    "name": "n5_clean5_noisy0",
+    "quantize_position": 2,
+    "pooling_position": 2,
+    "pooling_kernel_size": 2,
+    "quantize_vocab_size": 8192,
+    "num_voters": 5,
+    "num_clean_input": 5
+  },
+  "base_model": "openai/whisper-tiny",
+  "metrics": {
+    "train_runtime": 0.7628,
+    "train_samples_per_second": 1.311,
+    "train_steps_per_second": 1.311,
+    "total_flos": 14304344284800.0,
+    "train_loss": 10.094771385192871,
+    "epoch": 0.16666666666666666
+  },
+  "saved_model": false
+}
