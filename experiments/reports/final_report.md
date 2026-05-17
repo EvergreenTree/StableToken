@@ -42,6 +42,8 @@ This report covers the first feasible experiment pass on the local `main` branch
 | Factorial one-step pilots | `6137874` | `experiments/training_runs/training_factorial_pilot_*/result.json` | Complete |
 | Voter pilot config | `1254f34` | `experiments/configs/training_voter_pilot.yaml` | Complete |
 | Voter one-step pilots | `514a554` | `experiments/training_runs/training_voter_pilot_*/result.json` | Complete |
+| 100-clip degradation config | `1dc0119` | `experiments/configs/degradation_full_100.yaml` | Complete |
+| 100-clip degradation run | pending | `experiments/runs/degradation_full_100_20260517/` | Complete |
 
 ## Exact Commands
 
@@ -74,6 +76,7 @@ This report covers the first feasible experiment pass on the local `main` branch
 /data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_voter_pilot.yaml --variant n3_clean2
 /data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_voter_pilot.yaml --variant n5_clean3
 /data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_voter_pilot.yaml --variant n7_clean4
+/data/venv/bin/python experiments/run_experiment.py --config experiments/configs/degradation_full_100.yaml --run-id degradation_full_100_20260517
 ```
 
 ## Key Results
@@ -127,6 +130,25 @@ Plot: [`degradation_mean_ued.png`](../runs/degradation_smoke_20260517/plots/degr
 Full run size: 50 FLEURS-fr + 50 CV21-zh clips x 13 corruptions = 1300 rows.
 
 Plot: [`degradation_mean_ued.png`](../runs/degradation_full_20260517/plots/degradation_mean_ued.png)
+
+### 100-Clip Degradation Scale-Up
+
+| Corruption | FR Mean UED | ZH Mean UED | Lesson |
+|---|---:|---:|---|
+| Babble 4 speakers 10 dB | `0.6071` | `0.4170` | Stable hardest condition at larger sample count. |
+| Competing speech 16 dB | `0.4817` | `0.2750` | Strong semantic interference risk. |
+| Reverb small room | `0.3661` | `0.2399` | Still clearly harder than most codec/channel rows. |
+| Gaussian 25 dB | `0.2635` | `0.1308` | Additive noise remains a useful but incomplete baseline. |
+| Telephone bandpass | `0.2538` | `0.1418` | Similar scale to AAC. |
+| AAC 32k | `0.2530` | `0.1371` | Highest codec UED in the 100-clip run. |
+| MP3 32k | `0.2458` | `0.1125` | Codec degradation is consistent but not dominant. |
+| Opus 24k | `0.2063` | `0.1037` | Lowest codec UED here. |
+| Brown 16 dB | `0.0948` | `0.0493` | Mild for this slice. |
+| Clipping 0.50 | `0.0000` | `0.0703` | Still not a useful FR stressor at this threshold. |
+
+Scale-up run size: 100 FLEURS-fr + 100 CV21-zh clips x 13 corruptions = 2600 rows.
+
+Plot: [`degradation_mean_ued.png`](../runs/degradation_full_100_20260517/plots/degradation_mean_ued.png)
 
 ### Chunking / Pseudo-Streaming
 
@@ -216,7 +238,7 @@ The sanity run supports the basic reproducibility claims for released inference:
 
 The most important negative finding is chunking instability. StableToken is robust to some perturbations, but the Whisper-style non-causal 30s window can still produce substantially different token sequences for the same absolute time span under different streaming policies. The scaled run confirms this beyond a single example, and simple first/majority/center aggregation does not solve it.
 
-The degradation suite says the next robustness budget should go to babble, competing speech, and reverb, not just additive noise. Competing speech is especially valuable because the tokenizer may encode it as real semantic content rather than discard it.
+The degradation suite says the next robustness budget should go to babble, competing speech, and reverb, not just additive noise. The 100-clip run confirms this ranking. Competing speech is especially valuable because the tokenizer may encode it as real semantic content rather than discard it.
 
 The distribution results show broad but sparse code usage, with meaningful language/domain drift. This is not collapse, but it does mean multilingual and noisy/clean analyses need stratified reporting.
 
@@ -292,7 +314,7 @@ Interpretation: the voter matrix is runnable, including the 0-clean and N=7 case
 
 ## Recommended Next Runs
 
-1. Scale `degradation_full.yaml` to 100-500 clips per language and add more languages. Keep per-language metrics, because the smoke slice shows large source effects.
+1. Scale `degradation_full_100.yaml` beyond the current 100 clips per language only if more languages/splits are added; otherwise prioritize downstream ASR/SER on the same corruption suite.
 
 2. Test stronger chunk aggregation beyond first/majority/center: confidence from hidden-state distance, hidden-state averaging before quantization, and training-time chunk-position augmentation.
 

@@ -1,0 +1,190 @@
+{
+  "degradation": {
+    "rows": 2600,
+    "summary": [
+      {
+        "corruption": "aac_32k",
+        "language": "fr",
+        "items": 100,
+        "mean_ued": 0.2529815650385865,
+        "mean_nued": 0.019460120387583577
+      },
+      {
+        "corruption": "aac_32k",
+        "language": "zh",
+        "items": 100,
+        "mean_ued": 0.13713327977691392,
+        "mean_nued": 0.010548713828993382
+      },
+      {
+        "corruption": "babble_4spk_10db",
+        "language": "fr",
+        "items": 100,
+        "mean_ued": 0.6070818830544167,
+        "mean_nued": 0.04669860638880127
+      },
+      {
+        "corruption": "babble_4spk_10db",
+        "language": "zh",
+        "items": 100,
+        "mean_ued": 0.417035457411491,
+        "mean_nued": 0.03207965057011469
+      },
+      {
+        "corruption": "brown_16db",
+        "language": "fr",
+        "items": 100,
+        "mean_ued": 0.09483078962602061,
+        "mean_nued": 0.007294676125078507
+      },
+      {
+        "corruption": "brown_16db",
+        "language": "zh",
+        "items": 100,
+        "mean_ued": 0.0493456556219219,
+        "mean_nued": 0.003795819663224761
+      },
+      {
+        "corruption": "clipping_0p50",
+        "language": "fr",
+        "items": 100,
+        "mean_ued": 0.0,
+        "mean_nued": 0.0
+      },
+      {
+        "corruption": "clipping_0p50",
+        "language": "zh",
+        "items": 100,
+        "mean_ued": 0.07027155268017073,
+        "mean_nued": 0.005405504052320824
+      },
+      {
+        "corruption": "competing_speech_16db",
+        "language": "fr",
+        "items": 100,
+        "mean_ued": 0.4817445075880146,
+        "mean_nued": 0.03705726981446266
+      },
+      {
+        "corruption": "competing_speech_16db",
+        "language": "zh",
+        "items": 100,
+        "mean_ued": 0.2750473946550911,
+        "mean_nued": 0.021157491896545467
+      },
+      {
+        "corruption": "dropout_5pct",
+        "language": "fr",
+        "items": 100,
+        "mean_ued": 0.13089029656647524,
+        "mean_nued": 0.010068484351267329
+      },
+      {
+        "corruption": "dropout_5pct",
+        "language": "zh",
+        "items": 100,
+        "mean_ued": 0.08328551590866554,
+        "mean_nued": 0.006406578146820425
+      },
+      {
+        "corruption": "eq_tilt",
+        "language": "fr",
+        "items": 100,
+        "mean_ued": 0.16374619979902205,
+        "mean_nued": 0.012595861523001692
+      },
+      {
+        "corruption": "eq_tilt",
+        "language": "zh",
+        "items": 100,
+        "mean_ued": 0.09836132655940295,
+        "mean_nued": 0.007566255889184842
+      },
+      {
+        "corruption": "gaussian_25db",
+        "language": "fr",
+        "items": 100,
+        "mean_ued": 0.2634576420912609,
+        "mean_nued": 0.02026597246855853
+      },
+      {
+        "corruption": "gaussian_25db",
+        "language": "zh",
+        "items": 100,
+        "mean_ued": 0.13083146932148085,
+        "mean_nued": 0.01006395917857545
+      },
+      {
+        "corruption": "mp3_32k",
+        "language": "fr",
+        "items": 100,
+        "mean_ued": 0.2457522702858047,
+        "mean_nued": 0.018904020791215743
+      },
+      {
+        "corruption": "mp3_32k",
+        "language": "zh",
+        "items": 100,
+        "mean_ued": 0.11252520044109664,
+        "mean_nued": 0.008655784649315124
+      },
+      {
+        "corruption": "opus_24k",
+        "language": "fr",
+        "items": 100,
+        "mean_ued": 0.20625474116119638,
+        "mean_nued": 0.015865749320092028
+      },
+      {
+        "corruption": "opus_24k",
+        "language": "zh",
+        "items": 100,
+        "mean_ued": 0.10369474211710478,
+        "mean_nued": 0.007976518624392673
+      },
+      {
+        "corruption": "pink_22db",
+        "language": "fr",
+        "items": 100,
+        "mean_ued": 0.23498360330973053,
+        "mean_nued": 0.018075661793056197
+      },
+      {
+        "corruption": "pink_22db",
+        "language": "zh",
+        "items": 100,
+        "mean_ued": 0.1327718452727341,
+        "mean_nued": 0.010213218867133394
+      },
+      {
+        "corruption": "reverb_small_room",
+        "language": "fr",
+        "items": 100,
+        "mean_ued": 0.3660655766307539,
+        "mean_nued": 0.02815889051005799
+      },
+      {
+        "corruption": "reverb_small_room",
+        "language": "zh",
+        "items": 100,
+        "mean_ued": 0.23991753015014086,
+        "mean_nued": 0.01845519462693391
+      },
+      {
+        "corruption": "telephone_bandpass",
+        "language": "fr",
+        "items": 100,
+        "mean_ued": 0.25384634584323534,
+        "mean_nued": 0.019526641987941185
+      },
+      {
+        "corruption": "telephone_bandpass",
+        "language": "zh",
+        "items": 100,
+        "mean_ued": 0.1417999276050158,
+        "mean_nued": 0.010907686738847368
+      }
+    ]
+  },
+  "elapsed_seconds": 250.6794714839998
+}
