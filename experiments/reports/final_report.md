@@ -35,7 +35,9 @@ This report covers the first feasible experiment pass on the local `main` branch
 | Full degradation with codecs and babble | `6437b2c` | `experiments/runs/degradation_full_20260517/` | Complete |
 | Scaled chunking aggregation config | `6f63389` | `experiments/configs/chunking_scaled.yaml` | Complete |
 | Scaled chunking stability run | `327848e` | `experiments/runs/chunking_scaled_20260517/` | Complete |
-| Training harness two-step smoke | pending | `experiments/training_runs/training_smoke_smoke_l2_n3/result.json` | Complete |
+| Training harness two-step smoke | `9af9b18` | `experiments/training_runs/training_smoke_smoke_l2_n3/result.json` | Complete |
+| Quantizer-layer pilot config | `f75afa8` | `experiments/configs/training_layer_pilot.yaml` | Complete |
+| Quantizer-layer one-step pilots | pending | `experiments/training_runs/training_layer_pilot_l*_n5_c3/result.json` | Complete |
 
 ## Exact Commands
 
@@ -50,6 +52,9 @@ This report covers the first feasible experiment pass on the local `main` branch
 /data/venv/bin/python experiments/run_experiment.py --config experiments/configs/degradation_full.yaml --run-id degradation_full_20260517
 /data/venv/bin/python experiments/run_experiment.py --config experiments/configs/chunking_scaled.yaml --run-id chunking_scaled_20260517
 /data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_smoke.yaml
+/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_layer_pilot.yaml --variant l8_n5_c3
+/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_layer_pilot.yaml --variant l16_n5_c3
+/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_layer_pilot.yaml --variant l24_n5_c3
 ```
 
 ## Key Results
@@ -181,7 +186,7 @@ Result: extraction is comfortably faster than realtime on the L4 for these smoke
 |---|---|---|
 | Initial audio loading through `torchaudio.load` | Fixed | Local TorchCodec/FFmpeg libraries were incomplete. The runner and training harness now try `soundfile` first and use `torchaudio` as fallback. |
 | MP3/Opus/AAC compression run | Fixed and executed | Added `imageio-ffmpeg==0.6.0` fallback because system `ffmpeg` is not on PATH. Full codec rows are in `degradation_full_20260517`. |
-| Full training ablations L8/L12/L16/L20/L24 | Not executed | Local harness now passes a two-step smoke, but full scientific runs still need matched data scale, seeds, steps, and more compute time. |
+| Full training ablations L8/L12/L16/L20/L24 | Pilot only | L8/L16/L24 each ran one matched step. Full scientific runs still need matched data scale, seeds, steps, and downstream evaluation. |
 | Architecture-vs-augmentation factorial | Config/harness path only | Needs real training budget and matched seeds/steps. |
 | ASR WER, SER, speaker/prosody, TTS metrics | Not executed | No stable downstream evaluation pipeline was wired in this pass. |
 | SpeechLLM QA/translation/summarization/instruction tasks | Not executed | Needs an adapter/LoRA or full SpeechLLM pipeline; recommended after tokenizer-level issues are scaled. |
@@ -215,13 +220,27 @@ Result file: [`result.json`](../training_runs/training_smoke_smoke_l2_n3/result.
 
 The first actual training run failed once because `WhisperVQConfig` lacked `encoder_causal_convolution`; this was fixed by adding a default `false`, matching the non-causal chunk behavior used by the released tokenizer.
 
+## Quantizer-Layer Pilot
+
+These are one-step feasibility pilots, not scientific ablations. They validate that the requested L8/L16/L24 layer positions can run under matched config on `openai/whisper-medium` with `save_model=false`.
+
+| Variant | Quantizer Layer | Steps | Train Loss | Runtime | Samples/s | Saved Model |
+|---|---:|---:|---:|---:|---:|---|
+| `l8_n5_c3` | 8 | 1 | `78.1307` | `0.800s` | `1.249` | false |
+| `l16_n5_c3` | 16 | 1 | `98.0062` | `0.791s` | `1.264` | false |
+| `l24_n5_c3` | 24 | 1 | `76.4871` | `0.818s` | `1.223` | false |
+
+Result files: [`l8`](../training_runs/training_layer_pilot_l8_n5_c3/result.json), [`l16`](../training_runs/training_layer_pilot_l16_n5_c3/result.json), [`l24`](../training_runs/training_layer_pilot_l24_n5_c3/result.json)
+
+Interpretation: the exact requested layer positions are feasible locally. The next valid comparison needs fixed seeds, fixed data, more steps, and downstream UED/ASR/SER evaluation; one-step losses should not be used to rank L8/L16/L24.
+
 ## Recommended Next Runs
 
 1. Scale `degradation_full.yaml` to 100-500 clips per language and add more languages. Keep per-language metrics, because the smoke slice shows large source effects.
 
 2. Test stronger chunk aggregation beyond first/majority/center: confidence from hidden-state distance, hidden-state averaging before quantization, and training-time chunk-position augmentation.
 
-3. Launch the minimum quantizer-placement training ablation first: L8, L16, L24, fixed data, fixed steps, fixed seeds. The harness now supports real training steps, so start with short pilot runs before increasing data and steps.
+3. Extend the quantizer-placement pilot from one step to a small matched run: L8, L16, L24, fixed data, fixed steps, fixed seeds, then evaluate the resulting checkpoints on UED/degradation before adding L12/L20.
 
 4. Run the architecture-vs-augmentation factorial only after the layer ablation: single-branch/no-aug, single-branch/aug, multi-branch/no-aug, multi-branch/aug, multi-branch/aug+consensus.
 
