@@ -1,0 +1,69 @@
+{
+  "run_name": "asr_degradation_small_100",
+  "seed": 42,
+  "device": "auto",
+  "batch_size": 4,
+  "output_root": "experiments/runs",
+  "asr": {
+    "model_id": "openai/whisper-small",
+    "max_new_tokens": 128
+  },
+  "data": {
+    "sources": [
+      {
+        "name": "fleurs_fr_dev100",
+        "type": "jsonl",
+        "path": "/data/speech2text/Qwen3-ASR/finetuning/eval_slices/fleurs_fr_dev100.jsonl",
+        "language": "fr",
+        "max_items": 100
+      },
+      {
+        "name": "cv21_zh_dev100",
+        "type": "jsonl",
+        "path": "/data/speech2text/Qwen3-ASR/finetuning/eval_slices/cv21_zh_dev100.jsonl",
+        "language": "zh",
+        "max_items": 100
+      }
+    ]
+  },
+  "degradation": {
+    "corruptions": [
+      {
+        "name": "clean",
+        "type": "clean"
+      },
+      {
+        "name": "gaussian_25db",
+        "type": "gaussian",
+        "snr_db": 25
+      },
+      {
+        "name": "reverb_small_room",
+        "type": "reverb",
+        "decay": 0.35,
+        "delay_ms": 45
+      },
+      {
+        "name": "babble_4spk_10db",
+        "type": "babble",
+        "speakers": 4,
+        "snr_db": 10
+      },
+      {
+        "name": "competing_speech_16db",
+        "type": "competing_speech",
+        "snr_db": 16
+      },
+      {
+        "name": "telephone_bandpass",
+        "type": "telephone_bandpass"
+      },
+      {
+        "name": "aac_32k",
+        "type": "codec",
+        "format": "aac",
+        "bitrate": "32k"
+      }
+    ]
+  }
+}

@@ -48,6 +48,8 @@ This report covers the first feasible experiment pass on the local `main` branch
 | ASR degradation smoke | `112024a` | `experiments/runs/asr_degradation_smoke_20260517/` | Complete |
 | Whisper-small ASR config | `bc1f017` | `experiments/configs/asr_degradation_small.yaml` | Complete |
 | Whisper-small ASR smoke | `3aadf75` | `experiments/runs/asr_degradation_small_20260517/` | Complete |
+| Whisper-small ASR 100-clip config | `2743038` | `experiments/configs/asr_degradation_small_100.yaml` | Complete |
+| Whisper-small ASR 100-clip run | pending | `experiments/runs/asr_degradation_small_100_20260517/` | Complete |
 
 ## Exact Commands
 
@@ -83,6 +85,7 @@ This report covers the first feasible experiment pass on the local `main` branch
 /data/venv/bin/python experiments/run_experiment.py --config experiments/configs/degradation_full_100.yaml --run-id degradation_full_100_20260517
 /data/venv/bin/python experiments/run_asr_degradation.py --config experiments/configs/asr_degradation_smoke.yaml --run-id asr_degradation_smoke_20260517
 /data/venv/bin/python experiments/run_asr_degradation.py --config experiments/configs/asr_degradation_small.yaml --run-id asr_degradation_small_20260517
+/data/venv/bin/python experiments/run_asr_degradation.py --config experiments/configs/asr_degradation_small_100.yaml --run-id asr_degradation_small_100_20260517
 ```
 
 ## Key Results
@@ -263,6 +266,22 @@ The same ASR degradation config was rerun with `openai/whisper-small` to check w
 
 Artifacts: [`asr_summary.csv`](../runs/asr_degradation_small_20260517/asr_summary.csv), [`asr_item_metrics.csv`](../runs/asr_degradation_small_20260517/asr_item_metrics.csv)
 
+### Whisper-Small ASR 100-Clip Scale-Up
+
+| Corruption | FR WER | FR CER | ZH CER | Note |
+|---|---:|---:|---:|---|
+| Clean | `0.1165` | `0.0468` | `0.3760` | Stronger, more stable ASR baseline. |
+| Gaussian 25 dB | `0.1637` | `0.0692` | `0.3312` | Moderate FR degradation. |
+| Reverb small room | `0.1428` | `0.0636` | `0.3626` | Mild-to-moderate FR degradation. |
+| Babble 4 speakers 10 dB | `0.2885` | `0.1540` | `0.5059` | Largest downstream ASR hit in both FR WER and ZH CER. |
+| Competing speech 16 dB | `0.1409` | `0.0636` | `0.3873` | Much less severe for Whisper-small than token UED suggested. |
+| Telephone bandpass | `0.1162` | `0.0480` | `0.3880` | Near-clean FR WER. |
+| AAC 32k | `0.1217` | `0.0488` | `0.3807` | Near-clean FR WER. |
+
+Scale-up run size: 100 FLEURS-fr + 100 CV21-zh clips x 7 conditions = 1400 rows.
+
+Artifacts: [`asr_summary.csv`](../runs/asr_degradation_small_100_20260517/asr_summary.csv), [`asr_item_metrics.csv`](../runs/asr_degradation_small_100_20260517/asr_item_metrics.csv)
+
 ## What Failed Or Was Infeasible
 
 | Item | Status | Reason / Fix |
@@ -281,7 +300,7 @@ The sanity run supports the basic reproducibility claims for released inference:
 
 The most important negative finding is chunking instability. StableToken is robust to some perturbations, but the Whisper-style non-causal 30s window can still produce substantially different token sequences for the same absolute time span under different streaming policies. The scaled run confirms this beyond a single example, and simple first/majority/center aggregation does not solve it.
 
-The degradation suite says the next robustness budget should go to babble, competing speech, and reverb, not just additive noise. The 100-clip run confirms this ranking. The ASR smoke also points at competing speech and babble as the strongest downstream failure modes. Competing speech is especially valuable because the tokenizer may encode it as real semantic content rather than discard it.
+The degradation suite says the next robustness budget should go to babble, competing speech, and reverb, not just additive noise. The 100-clip token run confirms this ranking. The 100-clip Whisper-small ASR run agrees that babble is the strongest downstream ASR condition, but competing speech is much less severe for ASR than for token UED, which is an important mismatch to investigate.
 
 The distribution results show broad but sparse code usage, with meaningful language/domain drift. This is not collapse, but it does mean multilingual and noisy/clean analyses need stratified reporting.
 
@@ -367,6 +386,6 @@ Interpretation: the voter matrix is runnable, including the 0-clean and N=7 case
 
 5. Extend the voter/ratio pilot from one-step checks to matched short runs, then report robustness vs clean performance, token entropy/dead tokens, runtime, and downstream ASR/SER.
 
-6. Replace the Whisper-tiny ASR smoke with a stronger ASR model or a StableToken-token ASR head, and add SER on the same clean/noisy/degradation splits before investing in full SpeechLLM experiments.
+6. Add a StableToken-token ASR head or adapter so ASR WER can be measured through the tokenizer itself, then add SER on the same clean/noisy/degradation splits before investing in full SpeechLLM experiments.
 
 7. For SpeechLLM usefulness, start with a small adapter/LoRA controlled experiment on spoken QA or noisy spoken dialogue understanding, using identical data and steps across tokenizer variants.
