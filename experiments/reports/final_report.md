@@ -17,6 +17,18 @@ This report covers the first feasible experiment pass on the local `main` branch
 | Experiment identity | `EvergreenTree <627430923@qq.com>` |
 | Local data | FLEURS-fr and CV21-zh eval slices under `/data/speech2text/Qwen3-ASR/finetuning/eval_slices/` |
 
+## Reviewer-Facing Claims
+
+| Claim / Concern | Experiment | Result | Interpretation |
+|---|---|---|---|
+| Released inference is reproducible. | Load `tencent/StableToken` and tokenize clean/noisy 30s crops. | `25.0 Hz`, `750` tokens per 30s, vocab `8192`, bitrate `325 bps`. | Basic released-checkpoint behavior matches the paper-facing claims. |
+| Whisper-style 30s chunks are not true streaming. | Compare the same absolute audio under non-overlap, 15s, 5s, and 1s stride windows. | Best non-overlap match among tested overlap policies was 15s stride first/majority mismatch `0.3191`; stride-1s edge+voter mismatch to non-overlap was `0.5733`. | Window placement materially changes tokens. Use fixed 30s chunks for reproducibility or define a separate high-overlap consensus tokenizer with explicit latency. |
+| Inference-only aggregation is not enough. | Test first/majority/center, edge/voter/entropy weights, and pre-LFQ hidden averaging. | Hidden edge+voter mismatch to non-overlap was `0.6096`; confidence weighting also worsened the non-overlap target. | The next streaming fix should be training-time chunk-position augmentation or a formally defined high-overlap serving policy, not naive post-hoc aggregation. |
+| Hard real-world degradations matter more than Gaussian alone. | 100-clip UED degradation run over babble, competing speech, reverb, codecs, channel effects, and colored noise. | Babble was hardest in both FR and ZH; competing speech and reverb followed. | Robustness claims should include speech-like interference and reverb, not only additive SNR tests. |
+| Token UED and downstream ASR are related but not interchangeable. | Join 100-clip token UED with Whisper-small WER/CER on the same corruptions. | Babble is high on both axes; competing speech is high token UED but modest direct Whisper-small FR WER. | Report tokenizer robustness separately from downstream task impact. |
+| WER through StableToken needs a trained adapter/head. | Replace Whisper-large-v3 encoder with released StableToken encoder and decode with stock Whisper decoder. | WER/CER were `1.0` for every row in the 16-row smoke; outputs were empty or punctuation. | Zero-shot decoder replacement is not a usable StableToken-token ASR evaluation. |
+| Token distribution drift is language- and corruption-dependent. | Distribution/Zipf/KL under clean, Gaussian, reverb, babble, and competing speech for FR/ZH. | Clean→babble KL was `2.456` bits FR and `2.353` bits ZH; Gaussian was lower at `1.124`/`0.913`. | Token-collapse and drift reports should be stratified by language and hard corruption type. |
+
 ## What Ran
 
 | Family | Commit | Run Directory | Status |
