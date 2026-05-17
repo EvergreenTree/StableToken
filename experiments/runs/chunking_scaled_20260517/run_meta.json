@@ -1,0 +1,20 @@
+{
+  "timestamp_utc": "20260517_215416",
+  "git_commit": "6f633897ba037a965fee01eb4c0de0a65f8659f2",
+  "git_status_short": "",
+  "command": "experiments/run_experiment.py --config experiments/configs/chunking_scaled.yaml --run-id chunking_scaled_20260517",
+  "config_path": "/data/StableToken/experiments/configs/chunking_scaled.yaml",
+  "checkpoint_dir": "/data/StableToken/checkpoints/StableToken",
+  "checkpoint": {
+    "repo_id": "tencent/StableToken",
+    "local_dir": "checkpoints/StableToken",
+    "revision": "dd19e26b6e7a2ffcc8523d15b80238175c69a2b6",
+    "allow_patterns": [
+      "tokenizer/*"
+    ]
+  },
+  "python": "/data/venv/bin/python",
+  "torch": "2.11.0+cu128",
+  "cuda_available": true,
+  "device_name": "NVIDIA L4"
+}

@@ -1,0 +1,8 @@
+{
+  "chunking": {
+    "rows": 720,
+    "distance_rows": 450,
+    "mean_overall_mismatch": 0.4405669881201957
+  },
+  "elapsed_seconds": 244.6305386670001
+}

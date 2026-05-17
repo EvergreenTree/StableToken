@@ -32,7 +32,9 @@ This report covers the first feasible experiment pass on the local `main` branch
 | Full degradation config + Zipf support | `f122ad6` | `experiments/configs/degradation_full.yaml` | Complete |
 | Distribution Zipf smoke | `9124249`, trimmed by `ca156b8` | `experiments/runs/distribution_zipf_smoke_20260517/` | Complete |
 | Codec degradation support | `905fd14` | `requirements.txt`, `experiments/run_experiment.py` | Complete |
-| Full degradation with codecs and babble | pending | `experiments/runs/degradation_full_20260517/` | Complete |
+| Full degradation with codecs and babble | `6437b2c` | `experiments/runs/degradation_full_20260517/` | Complete |
+| Scaled chunking aggregation config | `6f63389` | `experiments/configs/chunking_scaled.yaml` | Complete |
+| Scaled chunking stability run | pending | `experiments/runs/chunking_scaled_20260517/` | Complete |
 
 ## Exact Commands
 
@@ -45,6 +47,7 @@ This report covers the first feasible experiment pass on the local `main` branch
 /data/venv/bin/python experiments/run_experiment.py --config experiments/configs/latency.yaml --run-id latency_smoke_20260517
 /data/venv/bin/python experiments/run_experiment.py --config experiments/configs/distribution.yaml --run-id distribution_zipf_smoke_20260517
 /data/venv/bin/python experiments/run_experiment.py --config experiments/configs/degradation_full.yaml --run-id degradation_full_20260517
+/data/venv/bin/python experiments/run_experiment.py --config experiments/configs/chunking_scaled.yaml --run-id chunking_scaled_20260517
 ```
 
 ## Key Results
@@ -114,6 +117,26 @@ Plot: [`chunking_boundary_instability.png`](../runs/chunking_smoke_20260517/plot
 
 Result: window placement materially changes tokens for the same absolute time span. Naive token majority over overlapping windows is not a fix; it often worsens mismatch and should be replaced with confidence, hidden-state, or alignment-aware aggregation.
 
+### Scaled Chunking / Aggregation
+
+| Policy | Aggregation | Overall Mismatch | Boundary ±0.5s | Boundary ±1s | End 25-30s |
+|---|---|---:|---:|---:|---:|
+| 30s window, 15s stride | first | `0.3215` | `0.4520` | `0.4049` | `0.0000` |
+| 30s window, 15s stride | majority | `0.3215` | `0.4520` | `0.4049` | `0.0000` |
+| 30s window, 15s stride | center | `0.4049` | `0.8440` | `0.8127` | `0.8672` |
+| 30s window, 5s stride | first | `0.4566` | `0.4920` | `0.4627` | `0.0000` |
+| 30s window, 5s stride | majority | `0.4623` | `0.6360` | `0.5608` | `0.3364` |
+| 30s window, 5s stride | center | `0.5509` | `0.8440` | `0.8127` | `0.8652` |
+| 30s window, 1s stride | first | `0.3629` | `0.4520` | `0.4294` | `0.0000` |
+| 30s window, 1s stride | majority | `0.5445` | `0.7320` | `0.7275` | `0.7024` |
+| 30s window, 1s stride | center | `0.5399` | `0.8080` | `0.7961` | `0.8672` |
+
+Scaled run size: 10 stitched 75s FLEURS-fr long samples. The run produced 720 region rows and 450 distance rows.
+
+Plot: [`chunking_boundary_instability.png`](../runs/chunking_scaled_20260517/plots/chunking_boundary_instability.png)
+
+Result: the chunking instability persists beyond the single-audio smoke. The new `center` aggregation is a useful negative result: selecting the token farthest from an overlapping window edge does not reproduce the non-overlap tokenization target and is especially bad near reference chunk ends.
+
 ### Token Distribution
 
 | Group | Entropy Bits | Transition Entropy Bits | Unique Tokens | Dead-Token Rate |
@@ -165,7 +188,7 @@ Result: extraction is comfortably faster than realtime on the L4 for these smoke
 
 The sanity run supports the basic reproducibility claims for released inference: 25 Hz, 750 tokens for 30 seconds, and 8192 vocabulary.
 
-The most important negative finding is chunking instability. StableToken is robust to some perturbations, but the Whisper-style non-causal 30s window can still produce substantially different token sequences for the same absolute time span under different streaming policies. This should be addressed before strong streaming claims.
+The most important negative finding is chunking instability. StableToken is robust to some perturbations, but the Whisper-style non-causal 30s window can still produce substantially different token sequences for the same absolute time span under different streaming policies. The scaled run confirms this beyond a single example, and simple first/majority/center aggregation does not solve it.
 
 The degradation suite says the next robustness budget should go to babble, competing speech, and reverb, not just additive noise. Competing speech is especially valuable because the tokenizer may encode it as real semantic content rather than discard it.
 
@@ -175,7 +198,7 @@ The distribution results show broad but sparse code usage, with meaningful langu
 
 1. Scale `degradation_full.yaml` to 100-500 clips per language and add more languages. Keep per-language metrics, because the smoke slice shows large source effects.
 
-2. Rerun chunking on at least 10 long audios and test aggregation beyond token majority: central-window selection, confidence from hidden-state distance, and hidden-state averaging before quantization.
+2. Test stronger chunk aggregation beyond first/majority/center: confidence from hidden-state distance, hidden-state averaging before quantization, and training-time chunk-position augmentation.
 
 3. Launch the minimum quantizer-placement training ablation first: L8, L16, L24, fixed data, fixed steps, fixed seeds. Add L12/L20 only after the minimum run validates the harness.
 
