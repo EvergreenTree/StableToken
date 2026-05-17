@@ -1142,8 +1142,14 @@ class WhisperLFQEncoder(WhisperPreTrainedModel):
             "avg_entropy": loss_breakdown["codebook_entropy"],
             "codebook_loss": self.config.sample_minimization_weight * (loss_breakdown["per_sample_entropy"] -
                              self.config.batch_maximization_weight * loss_breakdown["codebook_entropy"]),
+            "commitment_loss": loss_breakdown["commitment_loss"],
+            "consensus_loss": loss_breakdown["consensus_loss"],
         }
-        self.quantize_loss =  self.config.quantize_commit_coefficient * loss_breakdown["commitment_loss"]
+        self.quantize_loss = (
+            self.config.quantize_commit_coefficient * loss_breakdown["commitment_loss"]
+            + self.config.consensus_loss_weight * loss_breakdown["consensus_loss"]
+            + self.config.codebook_entropy_loss_weight * codebook_loss_dict["codebook_loss"]
+        )
 
         if self.training:
             codebook_usage = self._compute_lfq_stats(

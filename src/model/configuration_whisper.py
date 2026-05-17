@@ -14,6 +14,8 @@ class WhisperVQConfig(WhisperConfig):
                  num_clean_input=2,
                  use_codebook_ce_loss=False,
                  use_commit_loss=True,
+                 consensus_loss_weight=0.25,
+                 codebook_entropy_loss_weight=1.0,
                  batch_maximization_weight=1.0,
                  sample_minimization_weight=1.0,
                  layernorm_after_quantize=False,
@@ -67,6 +69,8 @@ class WhisperVQConfig(WhisperConfig):
         self.num_clean_input = num_clean_input
         self.use_codebook_ce_loss = use_codebook_ce_loss
         self.use_commit_loss = use_commit_loss
+        self.consensus_loss_weight = consensus_loss_weight
+        self.codebook_entropy_loss_weight = codebook_entropy_loss_weight
         self.batch_maximization_weight = batch_maximization_weight
         self.sample_minimization_weight = sample_minimization_weight
         self.layernorm_after_quantize = layernorm_after_quantize

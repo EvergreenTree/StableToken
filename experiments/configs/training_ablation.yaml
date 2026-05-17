@@ -1,0 +1,123 @@
+run_name: training_ablation_matrix
+seed: 42
+device: cuda
+output_root: experiments/training_runs
+data:
+  train_file: /data/speech2text/Qwen3-ASR/finetuning/data/fleurs-fr/train/train.jsonl
+  eval_file: /data/speech2text/Qwen3-ASR/finetuning/data/fleurs-fr/dev/dev.jsonl
+  language: fr
+  max_train_items: 256
+  max_eval_items: 64
+  sample_rate: 16000
+training:
+  base_model: openai/whisper-large-v3
+  batch_size: 1
+  grad_accum: 8
+  max_steps: 100000
+  learning_rate: 1.5e-5
+  warmup_steps: 1000
+  weight_decay: 0.01
+  grad_clip: 1.0
+  bf16: true
+  gradient_checkpointing: true
+  save_steps: 1000
+  logging_steps: 25
+  consensus_loss_weight: 0.25
+  commitment_loss_weight: 0.25
+  codebook_entropy_loss_weight: 1.0
+  augmentation:
+    enabled: true
+    choices:
+      - type: gaussian
+        min_snr_db: 16
+        max_snr_db: 30
+      - type: pink
+        min_snr_db: 16
+        max_snr_db: 24
+      - type: brown
+        min_snr_db: 12
+        max_snr_db: 24
+      - type: bit_crush
+        min_bit_depth: 8
+        max_bit_depth: 14
+matrix:
+  quantizer_placement:
+    - name: l8_n5_3c2n
+      quantize_position: 8
+      pooling_position: 8
+      pooling_kernel_size: 2
+      quantize_vocab_size: 8192
+      num_voters: 5
+      num_clean_input: 3
+    - name: l16_n5_3c2n
+      quantize_position: 16
+      pooling_position: 16
+      pooling_kernel_size: 2
+      quantize_vocab_size: 8192
+      num_voters: 5
+      num_clean_input: 3
+    - name: l24_n5_3c2n
+      quantize_position: 24
+      pooling_position: 24
+      pooling_kernel_size: 2
+      quantize_vocab_size: 8192
+      num_voters: 5
+      num_clean_input: 3
+  architecture_augmentation:
+    - name: single_noaug
+      quantize_position: 16
+      pooling_position: 16
+      pooling_kernel_size: 2
+      quantize_vocab_size: 8192
+      num_voters: 1
+      num_clean_input: 1
+      augmentation_enabled: false
+      consensus_loss_weight: 0.0
+    - name: single_aug
+      quantize_position: 16
+      pooling_position: 16
+      pooling_kernel_size: 2
+      quantize_vocab_size: 8192
+      num_voters: 1
+      num_clean_input: 1
+      augmentation_enabled: true
+      consensus_loss_weight: 0.0
+    - name: multi_noaug
+      quantize_position: 16
+      pooling_position: 16
+      pooling_kernel_size: 2
+      quantize_vocab_size: 8192
+      num_voters: 5
+      num_clean_input: 5
+      augmentation_enabled: false
+      consensus_loss_weight: 0.0
+    - name: multi_aug
+      quantize_position: 16
+      pooling_position: 16
+      pooling_kernel_size: 2
+      quantize_vocab_size: 8192
+      num_voters: 5
+      num_clean_input: 3
+      augmentation_enabled: true
+      consensus_loss_weight: 0.0
+    - name: multi_aug_consensus
+      quantize_position: 16
+      pooling_position: 16
+      pooling_kernel_size: 2
+      quantize_vocab_size: 8192
+      num_voters: 5
+      num_clean_input: 3
+      augmentation_enabled: true
+      consensus_loss_weight: 0.25
+  voter_ratio:
+    - {name: n5_5c0n, num_voters: 5, num_clean_input: 5}
+    - {name: n5_4c1n, num_voters: 5, num_clean_input: 4}
+    - {name: n5_3c2n, num_voters: 5, num_clean_input: 3}
+    - {name: n5_2c3n, num_voters: 5, num_clean_input: 2}
+    - {name: n5_1c4n, num_voters: 5, num_clean_input: 1}
+    - {name: n5_0c5n, num_voters: 5, num_clean_input: 0}
+  voter_count:
+    - {name: n1, num_voters: 1, num_clean_input: 1}
+    - {name: n3, num_voters: 3, num_clean_input: 2}
+    - {name: n5, num_voters: 5, num_clean_input: 3}
+    - {name: n7, num_voters: 7, num_clean_input: 4}
