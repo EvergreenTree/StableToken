@@ -1,0 +1,557 @@
+{
+  "summary": [
+    {
+      "group": "fr:clean",
+      "total_tokens": 12087,
+      "unique_tokens": 4237,
+      "unique_token_rate": 0.5172119140625,
+      "dead_token_rate": 0.4827880859375,
+      "entropy_bits": 11.460725482171734,
+      "transition_entropy_bits": 13.058236628272148,
+      "top_tokens": "1108 1124 3316 3297 3185 7397 3301 3312 3828 3556"
+    },
+    {
+      "group": "zh:clean",
+      "total_tokens": 7321,
+      "unique_tokens": 3163,
+      "unique_token_rate": 0.3861083984375,
+      "dead_token_rate": 0.6138916015625,
+      "entropy_bits": 11.023227281075737,
+      "transition_entropy_bits": 12.12289906624612,
+      "top_tokens": "3234 3238 3303 3299 3830 3298 7398 3318 3302 3827"
+    },
+    {
+      "group": "fr:gaussian_25db",
+      "total_tokens": 12087,
+      "unique_tokens": 4272,
+      "unique_token_rate": 0.521484375,
+      "dead_token_rate": 0.478515625,
+      "entropy_bits": 11.470401043154,
+      "transition_entropy_bits": 13.053443192502446,
+      "top_tokens": "1108 1124 3316 7397 3232 3297 3828 3556 3312 3185"
+    },
+    {
+      "group": "zh:gaussian_25db",
+      "total_tokens": 7321,
+      "unique_tokens": 3144,
+      "unique_token_rate": 0.3837890625,
+      "dead_token_rate": 0.6162109375,
+      "entropy_bits": 11.01607344238607,
+      "transition_entropy_bits": 12.124993521436158,
+      "top_tokens": "3234 3238 3830 3299 3303 3298 7398 3318 7922 3302"
+    },
+    {
+      "group": "fr:reverb_small_room",
+      "total_tokens": 12087,
+      "unique_tokens": 4321,
+      "unique_token_rate": 0.5274658203125,
+      "dead_token_rate": 0.4725341796875,
+      "entropy_bits": 11.506411938444073,
+      "transition_entropy_bits": 13.075129601105825,
+      "top_tokens": "1124 1108 3297 3316 7397 3185 3312 3828 3556 3232"
+    },
+    {
+      "group": "zh:reverb_small_room",
+      "total_tokens": 7321,
+      "unique_tokens": 3125,
+      "unique_token_rate": 0.3814697265625,
+      "dead_token_rate": 0.6185302734375,
+      "entropy_bits": 11.008846875712212,
+      "transition_entropy_bits": 12.121587433638485,
+      "top_tokens": "3234 3238 3830 3303 3299 3298 7398 3318 3827 7922"
+    },
+    {
+      "group": "fr:babble_4spk_10db",
+      "total_tokens": 12087,
+      "unique_tokens": 4665,
+      "unique_token_rate": 0.5694580078125,
+      "dead_token_rate": 0.4305419921875,
+      "entropy_bits": 11.748997854438528,
+      "transition_entropy_bits": 13.300006414626113,
+      "top_tokens": "3296 1124 3236 3301 3539 3297 3234 3556 3316 1473"
+    },
+    {
+      "group": "zh:babble_4spk_10db",
+      "total_tokens": 7321,
+      "unique_tokens": 3253,
+      "unique_token_rate": 0.3970947265625,
+      "dead_token_rate": 0.6029052734375,
+      "entropy_bits": 11.093017527820018,
+      "transition_entropy_bits": 12.228743582039725,
+      "top_tokens": "3234 3238 3830 3299 3303 3298 3302 7398 3827 7926"
+    },
+    {
+      "group": "fr:competing_speech_16db",
+      "total_tokens": 12087,
+      "unique_tokens": 4651,
+      "unique_token_rate": 0.5677490234375,
+      "dead_token_rate": 0.4322509765625,
+      "entropy_bits": 11.724442659535864,
+      "transition_entropy_bits": 13.312039307294743,
+      "top_tokens": "1124 1108 3297 3537 3301 3312 3556 3316 3296 7396"
+    },
+    {
+      "group": "zh:competing_speech_16db",
+      "total_tokens": 7321,
+      "unique_tokens": 3242,
+      "unique_token_rate": 0.395751953125,
+      "dead_token_rate": 0.604248046875,
+      "entropy_bits": 11.096180567697886,
+      "transition_entropy_bits": 12.203570694934578,
+      "top_tokens": "3234 3238 3830 3303 3298 3299 7398 3827 3318 7394"
+    }
+  ],
+  "kl": [
+    {
+      "left": "fr:babble_4spk_10db",
+      "right": "fr:clean",
+      "kl_bits": 3.677450701534433
+    },
+    {
+      "left": "fr:babble_4spk_10db",
+      "right": "fr:competing_speech_16db",
+      "kl_bits": 2.6781950246325454
+    },
+    {
+      "left": "fr:babble_4spk_10db",
+      "right": "fr:gaussian_25db",
+      "kl_bits": 3.637520647128386
+    },
+    {
+      "left": "fr:babble_4spk_10db",
+      "right": "fr:reverb_small_room",
+      "kl_bits": 3.582476829320821
+    },
+    {
+      "left": "fr:babble_4spk_10db",
+      "right": "zh:babble_4spk_10db",
+      "kl_bits": 10.370779046983959
+    },
+    {
+      "left": "fr:babble_4spk_10db",
+      "right": "zh:clean",
+      "kl_bits": 10.77961908069146
+    },
+    {
+      "left": "fr:babble_4spk_10db",
+      "right": "zh:competing_speech_16db",
+      "kl_bits": 10.242679146429403
+    },
+    {
+      "left": "fr:babble_4spk_10db",
+      "right": "zh:gaussian_25db",
+      "kl_bits": 10.842143576255026
+    },
+    {
+      "left": "fr:babble_4spk_10db",
+      "right": "zh:reverb_small_room",
+      "kl_bits": 10.890891663117786
+    },
+    {
+      "left": "fr:clean",
+      "right": "fr:babble_4spk_10db",
+      "kl_bits": 2.4555151525253414
+    },
+    {
+      "left": "fr:clean",
+      "right": "fr:competing_speech_16db",
+      "kl_bits": 1.602752152465206
+    },
+    {
+      "left": "fr:clean",
+      "right": "fr:gaussian_25db",
+      "kl_bits": 1.1240102307733173
+    },
+    {
+      "left": "fr:clean",
+      "right": "fr:reverb_small_room",
+      "kl_bits": 1.6046331104843308
+    },
+    {
+      "left": "fr:clean",
+      "right": "zh:babble_4spk_10db",
+      "kl_bits": 12.945129381497855
+    },
+    {
+      "left": "fr:clean",
+      "right": "zh:clean",
+      "kl_bits": 13.018120601918296
+    },
+    {
+      "left": "fr:clean",
+      "right": "zh:competing_speech_16db",
+      "kl_bits": 12.531493847033477
+    },
+    {
+      "left": "fr:clean",
+      "right": "zh:gaussian_25db",
+      "kl_bits": 13.21796156663083
+    },
+    {
+      "left": "fr:clean",
+      "right": "zh:reverb_small_room",
+      "kl_bits": 13.28861757205911
+    },
+    {
+      "left": "fr:competing_speech_16db",
+      "right": "fr:babble_4spk_10db",
+      "kl_bits": 2.589297723458724
+    },
+    {
+      "left": "fr:competing_speech_16db",
+      "right": "fr:clean",
+      "kl_bits": 2.464871413851039
+    },
+    {
+      "left": "fr:competing_speech_16db",
+      "right": "fr:gaussian_25db",
+      "kl_bits": 2.6160554706908687
+    },
+    {
+      "left": "fr:competing_speech_16db",
+      "right": "fr:reverb_small_room",
+      "kl_bits": 2.7755528394965077
+    },
+    {
+      "left": "fr:competing_speech_16db",
+      "right": "zh:babble_4spk_10db",
+      "kl_bits": 11.357453089484338
+    },
+    {
+      "left": "fr:competing_speech_16db",
+      "right": "zh:clean",
+      "kl_bits": 11.720079440877951
+    },
+    {
+      "left": "fr:competing_speech_16db",
+      "right": "zh:competing_speech_16db",
+      "kl_bits": 11.209964980237753
+    },
+    {
+      "left": "fr:competing_speech_16db",
+      "right": "zh:gaussian_25db",
+      "kl_bits": 11.82956223560463
+    },
+    {
+      "left": "fr:competing_speech_16db",
+      "right": "zh:reverb_small_room",
+      "kl_bits": 11.900025409684876
+    },
+    {
+      "left": "fr:gaussian_25db",
+      "right": "fr:babble_4spk_10db",
+      "kl_bits": 2.5215410396414786
+    },
+    {
+      "left": "fr:gaussian_25db",
+      "right": "fr:clean",
+      "kl_bits": 1.1846835679095198
+    },
+    {
+      "left": "fr:gaussian_25db",
+      "right": "fr:competing_speech_16db",
+      "kl_bits": 1.7645595739632638
+    },
+    {
+      "left": "fr:gaussian_25db",
+      "right": "fr:reverb_small_room",
+      "kl_bits": 1.7538751997487885
+    },
+    {
+      "left": "fr:gaussian_25db",
+      "right": "zh:babble_4spk_10db",
+      "kl_bits": 12.969214602185106
+    },
+    {
+      "left": "fr:gaussian_25db",
+      "right": "zh:clean",
+      "kl_bits": 13.105021534080326
+    },
+    {
+      "left": "fr:gaussian_25db",
+      "right": "zh:competing_speech_16db",
+      "kl_bits": 12.614276589802126
+    },
+    {
+      "left": "fr:gaussian_25db",
+      "right": "zh:gaussian_25db",
+      "kl_bits": 13.359135713335908
+    },
+    {
+      "left": "fr:gaussian_25db",
+      "right": "zh:reverb_small_room",
+      "kl_bits": 13.333249645098975
+    },
+    {
+      "left": "fr:reverb_small_room",
+      "right": "fr:babble_4spk_10db",
+      "kl_bits": 2.585009471589661
+    },
+    {
+      "left": "fr:reverb_small_room",
+      "right": "fr:clean",
+      "kl_bits": 1.7692323910566208
+    },
+    {
+      "left": "fr:reverb_small_room",
+      "right": "fr:competing_speech_16db",
+      "kl_bits": 2.0137608778894065
+    },
+    {
+      "left": "fr:reverb_small_room",
+      "right": "fr:gaussian_25db",
+      "kl_bits": 1.8722344316299586
+    },
+    {
+      "left": "fr:reverb_small_room",
+      "right": "zh:babble_4spk_10db",
+      "kl_bits": 12.819302498831068
+    },
+    {
+      "left": "fr:reverb_small_room",
+      "right": "zh:clean",
+      "kl_bits": 12.940884373552844
+    },
+    {
+      "left": "fr:reverb_small_room",
+      "right": "zh:competing_speech_16db",
+      "kl_bits": 12.378840964750916
+    },
+    {
+      "left": "fr:reverb_small_room",
+      "right": "zh:gaussian_25db",
+      "kl_bits": 13.107132761121889
+    },
+    {
+      "left": "fr:reverb_small_room",
+      "right": "zh:reverb_small_room",
+      "kl_bits": 13.10216294617966
+    },
+    {
+      "left": "zh:babble_4spk_10db",
+      "right": "fr:babble_4spk_10db",
+      "kl_bits": 6.167901108080551
+    },
+    {
+      "left": "zh:babble_4spk_10db",
+      "right": "fr:clean",
+      "kl_bits": 9.885937095881696
+    },
+    {
+      "left": "zh:babble_4spk_10db",
+      "right": "fr:competing_speech_16db",
+      "kl_bits": 7.071340567097475
+    },
+    {
+      "left": "zh:babble_4spk_10db",
+      "right": "fr:gaussian_25db",
+      "kl_bits": 9.78447812988804
+    },
+    {
+      "left": "zh:babble_4spk_10db",
+      "right": "fr:reverb_small_room",
+      "kl_bits": 9.224255129845151
+    },
+    {
+      "left": "zh:babble_4spk_10db",
+      "right": "zh:clean",
+      "kl_bits": 2.7364959978400765
+    },
+    {
+      "left": "zh:babble_4spk_10db",
+      "right": "zh:competing_speech_16db",
+      "kl_bits": 2.61846719461115
+    },
+    {
+      "left": "zh:babble_4spk_10db",
+      "right": "zh:gaussian_25db",
+      "kl_bits": 2.742797687287028
+    },
+    {
+      "left": "zh:babble_4spk_10db",
+      "right": "zh:reverb_small_room",
+      "kl_bits": 3.0717344759643552
+    },
+    {
+      "left": "zh:clean",
+      "right": "fr:babble_4spk_10db",
+      "kl_bits": 6.431487297364739
+    },
+    {
+      "left": "zh:clean",
+      "right": "fr:clean",
+      "kl_bits": 9.989203720056217
+    },
+    {
+      "left": "zh:clean",
+      "right": "fr:competing_speech_16db",
+      "kl_bits": 7.408336106124596
+    },
+    {
+      "left": "zh:clean",
+      "right": "fr:gaussian_25db",
+      "kl_bits": 9.92859350627903
+    },
+    {
+      "left": "zh:clean",
+      "right": "fr:reverb_small_room",
+      "kl_bits": 9.351303091840759
+    },
+    {
+      "left": "zh:clean",
+      "right": "zh:babble_4spk_10db",
+      "kl_bits": 2.35330951078539
+    },
+    {
+      "left": "zh:clean",
+      "right": "zh:competing_speech_16db",
+      "kl_bits": 1.5739883969563147
+    },
+    {
+      "left": "zh:clean",
+      "right": "zh:gaussian_25db",
+      "kl_bits": 0.9132412016744905
+    },
+    {
+      "left": "zh:clean",
+      "right": "zh:reverb_small_room",
+      "kl_bits": 1.7264559206693413
+    },
+    {
+      "left": "zh:competing_speech_16db",
+      "right": "fr:babble_4spk_10db",
+      "kl_bits": 6.338170056077441
+    },
+    {
+      "left": "zh:competing_speech_16db",
+      "right": "fr:clean",
+      "kl_bits": 9.904207452673667
+    },
+    {
+      "left": "zh:competing_speech_16db",
+      "right": "fr:competing_speech_16db",
+      "kl_bits": 7.217389821289277
+    },
+    {
+      "left": "zh:competing_speech_16db",
+      "right": "fr:gaussian_25db",
+      "kl_bits": 9.879710531448337
+    },
+    {
+      "left": "zh:competing_speech_16db",
+      "right": "fr:reverb_small_room",
+      "kl_bits": 9.21674770599827
+    },
+    {
+      "left": "zh:competing_speech_16db",
+      "right": "zh:babble_4spk_10db",
+      "kl_bits": 2.5699911631350645
+    },
+    {
+      "left": "zh:competing_speech_16db",
+      "right": "zh:clean",
+      "kl_bits": 1.8669424040431946
+    },
+    {
+      "left": "zh:competing_speech_16db",
+      "right": "zh:gaussian_25db",
+      "kl_bits": 1.9151616325836744
+    },
+    {
+      "left": "zh:competing_speech_16db",
+      "right": "zh:reverb_small_room",
+      "kl_bits": 2.471001357568422
+    },
+    {
+      "left": "zh:gaussian_25db",
+      "right": "fr:babble_4spk_10db",
+      "kl_bits": 6.440517324082642
+    },
+    {
+      "left": "zh:gaussian_25db",
+      "right": "fr:clean",
+      "kl_bits": 10.067094920101374
+    },
+    {
+      "left": "zh:gaussian_25db",
+      "right": "fr:competing_speech_16db",
+      "kl_bits": 7.455045518501797
+    },
+    {
+      "left": "zh:gaussian_25db",
+      "right": "fr:gaussian_25db",
+      "kl_bits": 10.0138058096127
+    },
+    {
+      "left": "zh:gaussian_25db",
+      "right": "fr:reverb_small_room",
+      "kl_bits": 9.378957178858672
+    },
+    {
+      "left": "zh:gaussian_25db",
+      "right": "zh:babble_4spk_10db",
+      "kl_bits": 2.440595231310856
+    },
+    {
+      "left": "zh:gaussian_25db",
+      "right": "zh:clean",
+      "kl_bits": 0.8663715047565251
+    },
+    {
+      "left": "zh:gaussian_25db",
+      "right": "zh:competing_speech_16db",
+      "kl_bits": 1.688835477510963
+    },
+    {
+      "left": "zh:gaussian_25db",
+      "right": "zh:reverb_small_room",
+      "kl_bits": 1.8492984859230897
+    },
+    {
+      "left": "zh:reverb_small_room",
+      "right": "fr:babble_4spk_10db",
+      "kl_bits": 6.367191896660644
+    },
+    {
+      "left": "zh:reverb_small_room",
+      "right": "fr:clean",
+      "kl_bits": 9.975771626501952
+    },
+    {
+      "left": "zh:reverb_small_room",
+      "right": "fr:competing_speech_16db",
+      "kl_bits": 7.327995147658898
+    },
+    {
+      "left": "zh:reverb_small_room",
+      "right": "fr:gaussian_25db",
+      "kl_bits": 9.856145695571907
+    },
+    {
+      "left": "zh:reverb_small_room",
+      "right": "fr:reverb_small_room",
+      "kl_bits": 9.324234750444834
+    },
+    {
+      "left": "zh:reverb_small_room",
+      "right": "zh:babble_4spk_10db",
+      "kl_bits": 2.5952691896550926
+    },
+    {
+      "left": "zh:reverb_small_room",
+      "right": "zh:clean",
+      "kl_bits": 1.6266708902251437
+    },
+    {
+      "left": "zh:reverb_small_room",
+      "right": "zh:competing_speech_16db",
+      "kl_bits": 2.092762185814333
+    },
+    {
+      "left": "zh:reverb_small_room",
+      "right": "zh:gaussian_25db",
+      "kl_bits": 1.7379250762852005
+    }
+  ],
+  "zipf_csv": "distribution_zipf.csv"
+}
