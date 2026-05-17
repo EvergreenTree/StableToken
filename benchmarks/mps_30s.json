@@ -1,0 +1,30 @@
+{
+  "device": "mps",
+  "torch": "2.7.1",
+  "audio_path": "/Users/evergreen/inf/genai/StableToken/benchmarks/tone_30s.wav",
+  "input_seconds": 30.0,
+  "tokens": 750,
+  "output_seconds": 29.98857142857143,
+  "decoder_autocast": false,
+  "load_s": 9.91030541699729,
+  "tokenization": {
+    "min_s": 0.7619702500014682,
+    "median_s": 0.7710140415001661,
+    "max_s": 0.7800578329988639
+  },
+  "reconstruction": {
+    "min_s": 17.550183583000035,
+    "median_s": 22.115372707998176,
+    "max_s": 26.680561832996318
+  },
+  "tokenization_realtime_factor": {
+    "min_s": 0.025399008333382274,
+    "median_s": 0.025700468050005535,
+    "max_s": 0.026001927766628796
+  },
+  "reconstruction_realtime_factor": {
+    "min_s": 0.5852290638386063,
+    "median_s": 0.7374600274199087,
+    "max_s": 0.8896909910012111
+  }
+}
