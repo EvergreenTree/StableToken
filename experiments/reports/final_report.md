@@ -47,7 +47,7 @@ This report covers the first feasible experiment pass on the local `main` branch
 | ASR degradation runner | `e39aaa6`, `ed03e6f` | `experiments/run_asr_degradation.py` | Complete |
 | ASR degradation smoke | `112024a` | `experiments/runs/asr_degradation_smoke_20260517/` | Complete |
 | Whisper-small ASR config | `bc1f017` | `experiments/configs/asr_degradation_small.yaml` | Complete |
-| Whisper-small ASR smoke | pending | `experiments/runs/asr_degradation_small_20260517/` | Complete |
+| Whisper-small ASR smoke | `3aadf75` | `experiments/runs/asr_degradation_small_20260517/` | Complete |
 
 ## Exact Commands
 
