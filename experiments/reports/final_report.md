@@ -55,6 +55,8 @@ This report covers the first feasible experiment pass on the local `main` branch
 | Token-vs-ASR comparison | `cb3c99e` | `experiments/analysis/token_asr_degradation_comparison.csv` | Complete |
 | StableToken-encoder ASR probe | `8f10d9e`, `8f480b0`, `141eedd` | `experiments/configs/asr_stabletoken_smoke.yaml` | Complete |
 | StableToken-encoder ASR smoke | `f2b5462` | `experiments/runs/asr_stabletoken_smoke_20260517/` | Negative result complete |
+| Degradation distribution config | `16620a1` | `experiments/configs/distribution_degradation.yaml` | Complete |
+| Degradation distribution run | `16ea989` | `experiments/runs/distribution_degradation_20260517/` | Complete |
 
 ## Exact Commands
 
@@ -93,6 +95,7 @@ This report covers the first feasible experiment pass on the local `main` branch
 /data/venv/bin/python experiments/run_asr_degradation.py --config experiments/configs/asr_degradation_small.yaml --run-id asr_degradation_small_20260517
 /data/venv/bin/python experiments/run_asr_degradation.py --config experiments/configs/asr_degradation_small_100.yaml --run-id asr_degradation_small_100_20260517
 /data/venv/bin/python experiments/run_asr_degradation.py --config experiments/configs/asr_stabletoken_smoke.yaml --run-id asr_stabletoken_smoke_20260517
+/data/venv/bin/python experiments/run_experiment.py --config experiments/configs/distribution_degradation.yaml --run-id distribution_degradation_20260517
 ```
 
 ## Key Results
@@ -256,6 +259,32 @@ Plots: [`distribution_entropy.png`](../runs/distribution_zipf_smoke_20260517/plo
 
 Result: language/source distribution dominates Gaussian token drift in this slice. Future claims should report token usage separately by language/domain/noise condition.
 
+### Distribution Drift Under Hard Degradations
+
+| Group | Entropy Bits | Transition Entropy Bits | Unique Tokens | Dead-Token Rate |
+|---|---:|---:|---:|---:|
+| FR clean | `11.461` | `13.058` | `4237` | `0.483` |
+| FR reverb | `11.506` | `13.075` | `4321` | `0.473` |
+| FR babble | `11.749` | `13.300` | `4665` | `0.431` |
+| FR competing speech | `11.724` | `13.312` | `4651` | `0.432` |
+| ZH clean | `11.023` | `12.123` | `3163` | `0.614` |
+| ZH reverb | `11.009` | `12.122` | `3125` | `0.619` |
+| ZH babble | `11.093` | `12.229` | `3253` | `0.603` |
+| ZH competing speech | `11.096` | `12.204` | `3242` | `0.604` |
+
+| Clean -> Corruption KL | FR KL Bits | ZH KL Bits |
+|---|---:|---:|
+| Gaussian 25 dB | `1.124` | `0.913` |
+| Reverb small room | `1.605` | `1.726` |
+| Babble 4 speakers 10 dB | `2.456` | `2.353` |
+| Competing speech 16 dB | `1.603` | `1.574` |
+
+Cross-language KL `FR -> ZH` decreased from `13.018` on clean speech to `10.371` under babble and `11.210` under competing speech, suggesting speech-like interference pushes both languages toward a more shared noisy token distribution.
+
+Plots: [`distribution_entropy.png`](../runs/distribution_degradation_20260517/plots/distribution_entropy.png), [`distribution_zipf.png`](../runs/distribution_degradation_20260517/plots/distribution_zipf.png)
+
+Result: Gaussian noise understates distribution drift. Babble is the largest clean-to-corruption drift in both languages and also increases unique-token usage, especially for French. Future token-collapse/drift claims should include hard speech-like corruptions, not only additive noise.
+
 ### Latency / Efficiency
 
 | Duration | Batch | Mean Latency | RTF | Audio Seconds / Second | Tokens / Item | Peak CUDA MB |
@@ -385,7 +414,7 @@ The most important negative finding is chunking instability. StableToken is robu
 
 The degradation suite says the next robustness budget should go to babble, competing speech, and reverb, not just additive noise. The 100-clip token run confirms this ranking. The 100-clip Whisper-small ASR run agrees that babble is the strongest downstream ASR condition, but competing speech is much less severe for direct Whisper ASR than for token UED, which is an important mismatch to investigate. The StableToken-encoder ASR probe shows that downstream WER through the tokenizer cannot be obtained by simply attaching the stock Whisper decoder; it needs a trained adapter/head.
 
-The distribution results show broad but sparse code usage, with meaningful language/domain drift. This is not collapse, but it does mean multilingual and noisy/clean analyses need stratified reporting.
+The distribution results show broad but sparse code usage, with meaningful language/domain drift. This is not collapse, but it does mean multilingual and noisy/clean analyses need stratified reporting. The degradation distribution run strengthens that point: babble and competing speech change token usage more than Gaussian noise and partly compress cross-language differences into a shared noisy-token regime.
 
 The training harness can now run real steps locally. The two-step `openai/whisper-tiny` smoke is not a scientific ablation, but it validates that the LFQ encoder, noisy branch, tokenizer, collator, and Trainer loop are wired well enough to justify small matched ablation pilots.
 
