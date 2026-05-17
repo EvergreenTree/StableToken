@@ -1,0 +1,106 @@
+{
+  "summary": [
+    {
+      "group": "fr:clean",
+      "total_tokens": 4721,
+      "unique_tokens": 2562,
+      "unique_token_rate": 0.312744140625,
+      "dead_token_rate": 0.687255859375,
+      "entropy_bits": 10.959045826536064,
+      "transition_entropy_bits": 11.917284485674214,
+      "top_tokens": "1124 1108 1140 3185 3312 3316 3297 7397 7924 3828"
+    },
+    {
+      "group": "zh:clean",
+      "total_tokens": 2728,
+      "unique_tokens": 1689,
+      "unique_token_rate": 0.2061767578125,
+      "dead_token_rate": 0.7938232421875,
+      "entropy_bits": 10.324435223196641,
+      "transition_entropy_bits": 10.921701646772622,
+      "top_tokens": "3234 3238 3303 3299 3298 3830 7398 3318 3302 7394"
+    },
+    {
+      "group": "fr:gaussian_25db",
+      "total_tokens": 4721,
+      "unique_tokens": 2606,
+      "unique_token_rate": 0.318115234375,
+      "dead_token_rate": 0.681884765625,
+      "entropy_bits": 10.9917396054192,
+      "transition_entropy_bits": 11.920717730845706,
+      "top_tokens": "1124 3185 3316 7397 3312 1140 3556 3828 1108 7664"
+    },
+    {
+      "group": "zh:gaussian_25db",
+      "total_tokens": 2728,
+      "unique_tokens": 1671,
+      "unique_token_rate": 0.2039794921875,
+      "dead_token_rate": 0.7960205078125,
+      "entropy_bits": 10.303740088798591,
+      "transition_entropy_bits": 10.919806772583625,
+      "top_tokens": "3234 3238 3303 3299 3298 3830 7398 3827 3318 3302"
+    }
+  ],
+  "kl": [
+    {
+      "left": "fr:clean",
+      "right": "fr:gaussian_25db",
+      "kl_bits": 2.133537776261601
+    },
+    {
+      "left": "fr:clean",
+      "right": "zh:clean",
+      "kl_bits": 16.218015067804405
+    },
+    {
+      "left": "fr:clean",
+      "right": "zh:gaussian_25db",
+      "kl_bits": 16.265077003031628
+    },
+    {
+      "left": "fr:gaussian_25db",
+      "right": "fr:clean",
+      "kl_bits": 2.307526768470364
+    },
+    {
+      "left": "fr:gaussian_25db",
+      "right": "zh:clean",
+      "kl_bits": 16.164104093187238
+    },
+    {
+      "left": "fr:gaussian_25db",
+      "right": "zh:gaussian_25db",
+      "kl_bits": 16.218971665316293
+    },
+    {
+      "left": "zh:clean",
+      "right": "fr:clean",
+      "kl_bits": 16.090496078672707
+    },
+    {
+      "left": "zh:clean",
+      "right": "fr:gaussian_25db",
+      "kl_bits": 15.429075785368221
+    },
+    {
+      "left": "zh:clean",
+      "right": "zh:gaussian_25db",
+      "kl_bits": 1.3043965073277801
+    },
+    {
+      "left": "zh:gaussian_25db",
+      "right": "fr:clean",
+      "kl_bits": 16.149280467441503
+    },
+    {
+      "left": "zh:gaussian_25db",
+      "right": "fr:gaussian_25db",
+      "kl_bits": 15.445308514562836
+    },
+    {
+      "left": "zh:gaussian_25db",
+      "right": "zh:clean",
+      "kl_bits": 1.2276310679008902
+    }
+  ]
+}

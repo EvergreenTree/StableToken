@@ -1,0 +1,13 @@
+kl_bits,left,right
+2.133537776261601,fr:clean,fr:gaussian_25db
+16.218015067804405,fr:clean,zh:clean
+16.265077003031628,fr:clean,zh:gaussian_25db
+2.307526768470364,fr:gaussian_25db,fr:clean
+16.164104093187238,fr:gaussian_25db,zh:clean
+16.218971665316293,fr:gaussian_25db,zh:gaussian_25db
+16.090496078672707,zh:clean,fr:clean
+15.429075785368221,zh:clean,fr:gaussian_25db
+1.3043965073277801,zh:clean,zh:gaussian_25db
+16.149280467441503,zh:gaussian_25db,fr:clean
+15.445308514562836,zh:gaussian_25db,fr:gaussian_25db
+1.2276310679008902,zh:gaussian_25db,zh:clean
