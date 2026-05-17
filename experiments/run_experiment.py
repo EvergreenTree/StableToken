@@ -921,7 +921,7 @@ def run_distribution(cfg, run_dir: Path, model, feature_extractor, items, device
     write_csv(run_dir / "distribution_summary.csv", rows)
     write_csv(run_dir / "distribution_kl.csv", kl_rows)
     write_csv(run_dir / "distribution_zipf.csv", zipf_rows)
-    write_json(run_dir / "distribution_metrics.json", {"summary": rows, "kl": kl_rows, "zipf": zipf_rows})
+    write_json(run_dir / "distribution_metrics.json", {"summary": rows, "kl": kl_rows, "zipf_csv": "distribution_zipf.csv"})
     plot_bar(
         run_dir / "plots" / "distribution_entropy.png",
         rows,
