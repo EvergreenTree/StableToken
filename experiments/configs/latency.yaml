@@ -1,0 +1,23 @@
+run_name: latency_smoke
+seed: 42
+device: auto
+checkpoint:
+  repo_id: tencent/StableToken
+  local_dir: checkpoints/StableToken
+  revision: dd19e26b6e7a2ffcc8523d15b80238175c69a2b6
+  allow_patterns:
+    - tokenizer/*
+batch_size: 8
+output_root: experiments/runs
+tasks:
+  - latency
+latency:
+  durations_seconds:
+    - 1
+    - 10
+    - 30
+  batch_sizes:
+    - 1
+    - 4
+  warmup: 1
+  repeats: 3

@@ -1,0 +1,58 @@
+run_name: degradation_smoke
+seed: 42
+device: auto
+checkpoint:
+  repo_id: tencent/StableToken
+  local_dir: checkpoints/StableToken
+  revision: dd19e26b6e7a2ffcc8523d15b80238175c69a2b6
+  allow_patterns:
+    - tokenizer/*
+batch_size: 8
+output_root: experiments/runs
+tasks:
+  - degradation
+data:
+  sources:
+    - name: fleurs_fr_dev100
+      type: jsonl
+      path: /data/speech2text/Qwen3-ASR/finetuning/eval_slices/fleurs_fr_dev100.jsonl
+      language: fr
+      max_items: 5
+    - name: cv21_zh_dev100
+      type: jsonl
+      path: /data/speech2text/Qwen3-ASR/finetuning/eval_slices/cv21_zh_dev100.jsonl
+      language: zh
+      max_items: 5
+degradation:
+  corruptions:
+    - name: gaussian_25db
+      type: gaussian
+      snr_db: 25
+    - name: pink_22db
+      type: pink
+      snr_db: 22
+    - name: brown_16db
+      type: brown
+      snr_db: 16
+    - name: bitcrush_10bit
+      type: bit_crush
+      bit_depth: 10
+    - name: clipping_0p50
+      type: clipping
+      threshold: 0.5
+    - name: dropout_5pct
+      type: dropout
+      drop_prob: 0.05
+      max_drop_ms: 120
+    - name: telephone_bandpass
+      type: telephone_bandpass
+    - name: eq_tilt
+      type: eq_tilt
+      gain_db: -8
+    - name: reverb_small_room
+      type: reverb
+      decay: 0.35
+      delay_ms: 45
+    - name: competing_speech_16db
+      type: competing_speech
+      snr_db: 16

@@ -127,6 +127,14 @@ results/
 *.out
 logs/
 
+# Experiment outputs are intentionally tracked when they are lightweight.
+!experiments/**/*.csv
+!experiments/**/*.tsv
+!experiments/**/*.json
+!experiments/**/*.png
+!experiments/**/*.txt
+!experiments/**/*.md
+
 # Model weights/checkpoints
 *.ckpt
 *.pth
