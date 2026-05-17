@@ -1,0 +1,11 @@
+{
+  "chunking": {
+    "rows": 216,
+    "distance_rows": 135,
+    "reference_rows": 288,
+    "overlap_rows": 13725,
+    "commit_latency_rows": 360,
+    "mean_overall_mismatch": 0.4588641975308642
+  },
+  "elapsed_seconds": 725.6869747169985
+}

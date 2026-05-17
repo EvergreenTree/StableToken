@@ -1,0 +1,86 @@
+{
+  "run_name": "chunking_advanced",
+  "seed": 42,
+  "device": "auto",
+  "checkpoint": {
+    "repo_id": "tencent/StableToken",
+    "local_dir": "checkpoints/StableToken",
+    "revision": "dd19e26b6e7a2ffcc8523d15b80238175c69a2b6",
+    "allow_patterns": [
+      "tokenizer/*"
+    ]
+  },
+  "batch_size": 4,
+  "output_root": "experiments/runs",
+  "tasks": [
+    "chunking"
+  ],
+  "data": {
+    "sources": [
+      {
+        "name": "fleurs_fr_dev100",
+        "type": "jsonl",
+        "path": "/data/speech2text/Qwen3-ASR/finetuning/eval_slices/fleurs_fr_dev100.jsonl",
+        "language": "fr",
+        "max_items": 80
+      }
+    ]
+  },
+  "chunking": {
+    "advanced": true,
+    "long_audio_count": 3,
+    "target_long_seconds": 75,
+    "frame_rate": 25.0,
+    "policies": [
+      {
+        "name": "nonoverlap_30s",
+        "window_seconds": 30,
+        "stride_seconds": 30
+      },
+      {
+        "name": "stride_15s",
+        "window_seconds": 30,
+        "stride_seconds": 15
+      },
+      {
+        "name": "stride_5s",
+        "window_seconds": 30,
+        "stride_seconds": 5
+      },
+      {
+        "name": "stride_1s",
+        "window_seconds": 30,
+        "stride_seconds": 1
+      }
+    ],
+    "aggregation_modes": [
+      "first",
+      "majority",
+      "center",
+      "edge_weighted",
+      "voter_margin",
+      "entropy_weighted",
+      "edge_voter",
+      "edge_entropy",
+      "edge_voter_entropy",
+      "hidden_mean",
+      "hidden_edge",
+      "hidden_edge_voter"
+    ],
+    "high_overlap_reference_mode": "edge_voter",
+    "commit_latency_policy": "stride_1s",
+    "commit_latency_seconds": [
+      1,
+      3,
+      5,
+      10,
+      15
+    ],
+    "boundary_windows_seconds": [
+      0.5,
+      1.0,
+      2.0,
+      5.0
+    ]
+  }
+}

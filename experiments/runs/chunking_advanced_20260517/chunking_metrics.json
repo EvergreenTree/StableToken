@@ -1,0 +1,3516 @@
+{
+  "rows": [
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.30666666666666664,
+      "ued": 0.3061333333333333,
+      "edit_distance": 574,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.44,
+      "ued": 0.44,
+      "edit_distance": 22,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.39215686274509803,
+      "ued": 0.39215686274509803,
+      "edit_distance": 40,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.400990099009901,
+      "ued": 0.400990099009901,
+      "edit_distance": 81,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.35856573705179284,
+      "ued": 0.35856573705179284,
+      "edit_distance": 180,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.47733333333333333,
+      "ued": 0.47733333333333333,
+      "edit_distance": 179,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.3168,
+      "ued": 0.316,
+      "edit_distance": 395,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.0,
+      "ued": 0.0,
+      "edit_distance": 0,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.30666666666666664,
+      "ued": 0.3061333333333333,
+      "edit_distance": 574,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.44,
+      "ued": 0.44,
+      "edit_distance": 22,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.39215686274509803,
+      "ued": 0.39215686274509803,
+      "edit_distance": 40,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.400990099009901,
+      "ued": 0.400990099009901,
+      "edit_distance": 81,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.35856573705179284,
+      "ued": 0.35856573705179284,
+      "edit_distance": 180,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.47733333333333333,
+      "ued": 0.47733333333333333,
+      "edit_distance": 179,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.3168,
+      "ued": 0.316,
+      "edit_distance": 395,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.0,
+      "ued": 0.0,
+      "edit_distance": 0,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.3856,
+      "ued": 0.38453333333333334,
+      "edit_distance": 721,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.74,
+      "ued": 0.74,
+      "edit_distance": 37,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.7254901960784313,
+      "ued": 0.7254901960784313,
+      "edit_distance": 74,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.7574257425742574,
+      "ued": 0.7574257425742574,
+      "edit_distance": 153,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.7470119521912351,
+      "ued": 0.7450199203187251,
+      "edit_distance": 374,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.47733333333333333,
+      "ued": 0.47733333333333333,
+      "edit_distance": 179,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.2792,
+      "ued": 0.2784,
+      "edit_distance": 348,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.78,
+      "ued": 0.776,
+      "edit_distance": 194,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.44906666666666667,
+      "ued": 0.44693333333333335,
+      "edit_distance": 838,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.48,
+      "ued": 0.48,
+      "edit_distance": 24,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.47058823529411764,
+      "ued": 0.47058823529411764,
+      "edit_distance": 48,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.44554455445544555,
+      "ued": 0.43564356435643564,
+      "edit_distance": 88,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.42231075697211157,
+      "ued": 0.41832669322709165,
+      "edit_distance": 210,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.56,
+      "ued": 0.5546666666666666,
+      "edit_distance": 208,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.5056,
+      "ued": 0.504,
+      "edit_distance": 630,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.0,
+      "ued": 0.0,
+      "edit_distance": 0,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.4896,
+      "ued": 0.488,
+      "edit_distance": 915,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.68,
+      "ued": 0.68,
+      "edit_distance": 34,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.6568627450980392,
+      "ued": 0.6568627450980392,
+      "edit_distance": 67,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.6039603960396039,
+      "ued": 0.594059405940594,
+      "edit_distance": 120,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.5776892430278885,
+      "ued": 0.5737051792828686,
+      "edit_distance": 288,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.42933333333333334,
+      "ued": 0.424,
+      "edit_distance": 159,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.504,
+      "ued": 0.5032,
+      "edit_distance": 629,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.508,
+      "ued": 0.508,
+      "edit_distance": 127,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.5194666666666666,
+      "ued": 0.5184,
+      "edit_distance": 972,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.74,
+      "ued": 0.74,
+      "edit_distance": 37,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.7254901960784313,
+      "ued": 0.7254901960784313,
+      "edit_distance": 74,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.7574257425742574,
+      "ued": 0.7574257425742574,
+      "edit_distance": 153,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.7211155378486056,
+      "ued": 0.7171314741035857,
+      "edit_distance": 360,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.45066666666666666,
+      "ued": 0.45066666666666666,
+      "edit_distance": 169,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.4904,
+      "ued": 0.4904,
+      "edit_distance": 613,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.768,
+      "ued": 0.76,
+      "edit_distance": 190,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.48746666666666666,
+      "ued": 0.4864,
+      "edit_distance": 912,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.46,
+      "ued": 0.46,
+      "edit_distance": 23,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.4215686274509804,
+      "ued": 0.4215686274509804,
+      "edit_distance": 43,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.5495049504950495,
+      "ued": 0.5495049504950495,
+      "edit_distance": 111,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.5796812749003984,
+      "ued": 0.5776892430278885,
+      "edit_distance": 290,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.5493333333333333,
+      "ued": 0.5493333333333333,
+      "edit_distance": 206,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.5,
+      "ued": 0.4992,
+      "edit_distance": 624,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.332,
+      "ued": 0.328,
+      "edit_distance": 82,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.5728,
+      "ued": 0.5717333333333333,
+      "edit_distance": 1072,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.68,
+      "ued": 0.68,
+      "edit_distance": 34,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.7058823529411765,
+      "ued": 0.7058823529411765,
+      "edit_distance": 72,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.7029702970297029,
+      "ued": 0.7029702970297029,
+      "edit_distance": 142,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.6533864541832669,
+      "ued": 0.651394422310757,
+      "edit_distance": 327,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.42933333333333334,
+      "ued": 0.42933333333333334,
+      "edit_distance": 161,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.5912,
+      "ued": 0.5904,
+      "edit_distance": 738,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.696,
+      "ued": 0.692,
+      "edit_distance": 173,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.5482666666666667,
+      "ued": 0.5477333333333333,
+      "edit_distance": 1027,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.74,
+      "ued": 0.74,
+      "edit_distance": 37,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.7549019607843137,
+      "ued": 0.7549019607843137,
+      "edit_distance": 77,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.7524752475247525,
+      "ued": 0.7524752475247525,
+      "edit_distance": 152,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.6832669322709163,
+      "ued": 0.6812749003984063,
+      "edit_distance": 342,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.4186666666666667,
+      "ued": 0.4186666666666667,
+      "edit_distance": 157,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.5488,
+      "ued": 0.5488,
+      "edit_distance": 686,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.74,
+      "ued": 0.736,
+      "edit_distance": 184,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.32,
+      "ued": 0.3178666666666667,
+      "edit_distance": 596,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.4,
+      "ued": 0.4,
+      "edit_distance": 20,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.39215686274509803,
+      "ued": 0.39215686274509803,
+      "edit_distance": 40,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.3910891089108911,
+      "ued": 0.37623762376237624,
+      "edit_distance": 76,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.3665338645418327,
+      "ued": 0.3605577689243028,
+      "edit_distance": 181,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.48533333333333334,
+      "ued": 0.47733333333333333,
+      "edit_distance": 179,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.3344,
+      "ued": 0.3336,
+      "edit_distance": 417,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.0,
+      "ued": 0.0,
+      "edit_distance": 0,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.32,
+      "ued": 0.3178666666666667,
+      "edit_distance": 596,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.4,
+      "ued": 0.4,
+      "edit_distance": 20,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.39215686274509803,
+      "ued": 0.39215686274509803,
+      "edit_distance": 40,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.3910891089108911,
+      "ued": 0.37623762376237624,
+      "edit_distance": 76,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.3665338645418327,
+      "ued": 0.3605577689243028,
+      "edit_distance": 181,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.48533333333333334,
+      "ued": 0.47733333333333333,
+      "edit_distance": 179,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.3344,
+      "ued": 0.3336,
+      "edit_distance": 417,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.0,
+      "ued": 0.0,
+      "edit_distance": 0,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.3989333333333333,
+      "ued": 0.3968,
+      "edit_distance": 744,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.88,
+      "ued": 0.86,
+      "edit_distance": 43,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.8627450980392157,
+      "ued": 0.8529411764705882,
+      "edit_distance": 87,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.8514851485148515,
+      "ued": 0.8316831683168316,
+      "edit_distance": 168,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.7908366533864541,
+      "ued": 0.7848605577689243,
+      "edit_distance": 394,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.48533333333333334,
+      "ued": 0.47733333333333333,
+      "edit_distance": 179,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.2824,
+      "ued": 0.2816,
+      "edit_distance": 352,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.852,
+      "ued": 0.852,
+      "edit_distance": 213,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.4576,
+      "ued": 0.4570666666666667,
+      "edit_distance": 857,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.5,
+      "ued": 0.5,
+      "edit_distance": 25,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.45098039215686275,
+      "ued": 0.45098039215686275,
+      "edit_distance": 46,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.4405940594059406,
+      "ued": 0.4405940594059406,
+      "edit_distance": 89,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.41434262948207173,
+      "ued": 0.4123505976095618,
+      "edit_distance": 207,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.5493333333333333,
+      "ued": 0.5466666666666666,
+      "edit_distance": 205,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.5216,
+      "ued": 0.5216,
+      "edit_distance": 652,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.0,
+      "ued": 0.0,
+      "edit_distance": 0,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.46453333333333335,
+      "ued": 0.464,
+      "edit_distance": 870,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.66,
+      "ued": 0.66,
+      "edit_distance": 33,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.5980392156862745,
+      "ued": 0.5980392156862745,
+      "edit_distance": 61,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.5643564356435643,
+      "ued": 0.5643564356435643,
+      "edit_distance": 114,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.549800796812749,
+      "ued": 0.547808764940239,
+      "edit_distance": 275,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.4613333333333333,
+      "ued": 0.45866666666666667,
+      "edit_distance": 172,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.4776,
+      "ued": 0.4776,
+      "edit_distance": 597,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.404,
+      "ued": 0.404,
+      "edit_distance": 101,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.5285333333333333,
+      "ued": 0.5258666666666667,
+      "edit_distance": 986,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.88,
+      "ued": 0.86,
+      "edit_distance": 43,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.8627450980392157,
+      "ued": 0.8529411764705882,
+      "edit_distance": 87,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.8514851485148515,
+      "ued": 0.8316831683168316,
+      "edit_distance": 168,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.7729083665338645,
+      "ued": 0.7649402390438247,
+      "edit_distance": 384,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.4746666666666667,
+      "ued": 0.4666666666666667,
+      "edit_distance": 175,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.484,
+      "ued": 0.4832,
+      "edit_distance": 604,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.832,
+      "ued": 0.828,
+      "edit_distance": 207,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.4885333333333333,
+      "ued": 0.488,
+      "edit_distance": 915,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.5,
+      "ued": 0.5,
+      "edit_distance": 25,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.46078431372549017,
+      "ued": 0.46078431372549017,
+      "edit_distance": 47,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.5643564356435643,
+      "ued": 0.5643564356435643,
+      "edit_distance": 114,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.5896414342629482,
+      "ued": 0.5896414342629482,
+      "edit_distance": 296,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.56,
+      "ued": 0.56,
+      "edit_distance": 210,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.4976,
+      "ued": 0.4968,
+      "edit_distance": 621,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.336,
+      "ued": 0.336,
+      "edit_distance": 84,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.5664,
+      "ued": 0.5648,
+      "edit_distance": 1059,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.88,
+      "ued": 0.84,
+      "edit_distance": 42,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.7843137254901961,
+      "ued": 0.7745098039215687,
+      "edit_distance": 79,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.7871287128712872,
+      "ued": 0.7821782178217822,
+      "edit_distance": 158,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.6832669322709163,
+      "ued": 0.6812749003984063,
+      "edit_distance": 342,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.43466666666666665,
+      "ued": 0.432,
+      "edit_distance": 162,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.568,
+      "ued": 0.5672,
+      "edit_distance": 709,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.756,
+      "ued": 0.756,
+      "edit_distance": 189,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.5749333333333333,
+      "ued": 0.5744,
+      "edit_distance": 1077,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.88,
+      "ued": 0.86,
+      "edit_distance": 43,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.8529411764705882,
+      "ued": 0.8529411764705882,
+      "edit_distance": 87,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.8465346534653465,
+      "ued": 0.8366336633663366,
+      "edit_distance": 169,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.7609561752988048,
+      "ued": 0.7609561752988048,
+      "edit_distance": 382,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.4613333333333333,
+      "ued": 0.4613333333333333,
+      "edit_distance": 173,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.5584,
+      "ued": 0.5576,
+      "edit_distance": 697,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.828,
+      "ued": 0.828,
+      "edit_distance": 207,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.33066666666666666,
+      "ued": 0.328,
+      "edit_distance": 615,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.5,
+      "ued": 0.48,
+      "edit_distance": 24,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.5,
+      "ued": 0.49019607843137253,
+      "edit_distance": 50,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.5,
+      "ued": 0.48514851485148514,
+      "edit_distance": 98,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.4262948207171315,
+      "ued": 0.41832669322709165,
+      "edit_distance": 210,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.5653333333333334,
+      "ued": 0.5546666666666666,
+      "edit_distance": 208,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.3264,
+      "ued": 0.3256,
+      "edit_distance": 407,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.0,
+      "ued": 0.0,
+      "edit_distance": 0,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.33066666666666666,
+      "ued": 0.328,
+      "edit_distance": 615,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.5,
+      "ued": 0.48,
+      "edit_distance": 24,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.5,
+      "ued": 0.49019607843137253,
+      "edit_distance": 50,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.5,
+      "ued": 0.48514851485148514,
+      "edit_distance": 98,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.4262948207171315,
+      "ued": 0.41832669322709165,
+      "edit_distance": 210,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.5653333333333334,
+      "ued": 0.5546666666666666,
+      "edit_distance": 208,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.3264,
+      "ued": 0.3256,
+      "edit_distance": 407,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.0,
+      "ued": 0.0,
+      "edit_distance": 0,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.41973333333333335,
+      "ued": 0.41706666666666664,
+      "edit_distance": 782,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.9,
+      "ued": 0.88,
+      "edit_distance": 44,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.9215686274509803,
+      "ued": 0.9117647058823529,
+      "edit_distance": 93,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.9356435643564357,
+      "ued": 0.9207920792079208,
+      "edit_distance": 186,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.852589641434263,
+      "ued": 0.8446215139442231,
+      "edit_distance": 424,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.5653333333333334,
+      "ued": 0.5546666666666666,
+      "edit_distance": 208,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.2888,
+      "ued": 0.288,
+      "edit_distance": 360,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.856,
+      "ued": 0.856,
+      "edit_distance": 214,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.45386666666666664,
+      "ued": 0.45013333333333333,
+      "edit_distance": 844,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.52,
+      "ued": 0.52,
+      "edit_distance": 26,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.5098039215686274,
+      "ued": 0.5098039215686274,
+      "edit_distance": 52,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.4752475247524752,
+      "ued": 0.46534653465346537,
+      "edit_distance": 94,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.42828685258964144,
+      "ued": 0.4203187250996016,
+      "edit_distance": 211,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.568,
+      "ued": 0.5573333333333333,
+      "edit_distance": 209,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.5104,
+      "ued": 0.508,
+      "edit_distance": 635,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.0,
+      "ued": 0.0,
+      "edit_distance": 0,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.4597333333333333,
+      "ued": 0.45653333333333335,
+      "edit_distance": 856,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.6,
+      "ued": 0.6,
+      "edit_distance": 30,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.6078431372549019,
+      "ued": 0.6078431372549019,
+      "edit_distance": 62,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.6435643564356436,
+      "ued": 0.6336633663366337,
+      "edit_distance": 128,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.5517928286852589,
+      "ued": 0.5438247011952191,
+      "edit_distance": 273,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.488,
+      "ued": 0.47733333333333333,
+      "edit_distance": 179,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.4696,
+      "ued": 0.468,
+      "edit_distance": 585,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.368,
+      "ued": 0.368,
+      "edit_distance": 92,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.5632,
+      "ued": 0.5589333333333333,
+      "edit_distance": 1048,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.9,
+      "ued": 0.88,
+      "edit_distance": 44,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.9215686274509803,
+      "ued": 0.9117647058823529,
+      "edit_distance": 93,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.9356435643564357,
+      "ued": 0.9207920792079208,
+      "edit_distance": 186,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.8426294820717132,
+      "ued": 0.8326693227091634,
+      "edit_distance": 418,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.5546666666666666,
+      "ued": 0.544,
+      "edit_distance": 204,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.508,
+      "ued": 0.5056,
+      "edit_distance": 632,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.852,
+      "ued": 0.848,
+      "edit_distance": 212,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.48746666666666666,
+      "ued": 0.4864,
+      "edit_distance": 912,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.52,
+      "ued": 0.52,
+      "edit_distance": 26,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.5098039215686274,
+      "ued": 0.5098039215686274,
+      "edit_distance": 52,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.6138613861386139,
+      "ued": 0.6138613861386139,
+      "edit_distance": 124,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.5956175298804781,
+      "ued": 0.5936254980079682,
+      "edit_distance": 298,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.584,
+      "ued": 0.584,
+      "edit_distance": 219,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.4936,
+      "ued": 0.4928,
+      "edit_distance": 616,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.312,
+      "ued": 0.308,
+      "edit_distance": 77,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.5765333333333333,
+      "ued": 0.5749333333333333,
+      "edit_distance": 1078,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.74,
+      "ued": 0.74,
+      "edit_distance": 37,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.7450980392156863,
+      "ued": 0.7450980392156863,
+      "edit_distance": 76,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.8118811881188119,
+      "ued": 0.806930693069307,
+      "edit_distance": 163,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.703187250996016,
+      "ued": 0.6992031872509961,
+      "edit_distance": 351,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.504,
+      "ued": 0.5013333333333333,
+      "edit_distance": 188,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.5752,
+      "ued": 0.5744,
+      "edit_distance": 718,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.692,
+      "ued": 0.688,
+      "edit_distance": 172,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "region": "end_25_30s"
+    },
+    {
+      "tokens": 1875,
+      "mismatch_rate": 0.5824,
+      "ued": 0.5786666666666667,
+      "edit_distance": 1085,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "overall"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.9,
+      "ued": 0.88,
+      "edit_distance": 44,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "boundary_pm_0.5s"
+    },
+    {
+      "tokens": 102,
+      "mismatch_rate": 0.9117647058823529,
+      "ued": 0.9019607843137255,
+      "edit_distance": 92,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "boundary_pm_1s"
+    },
+    {
+      "tokens": 202,
+      "mismatch_rate": 0.9207920792079208,
+      "ued": 0.9108910891089109,
+      "edit_distance": 184,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "boundary_pm_2s"
+    },
+    {
+      "tokens": 502,
+      "mismatch_rate": 0.8207171314741036,
+      "ued": 0.8107569721115537,
+      "edit_distance": 407,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "boundary_pm_5s"
+    },
+    {
+      "tokens": 375,
+      "mismatch_rate": 0.5306666666666666,
+      "ued": 0.52,
+      "edit_distance": 195,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "start_0_5s"
+    },
+    {
+      "tokens": 1250,
+      "mismatch_rate": 0.5456,
+      "ued": 0.544,
+      "edit_distance": 680,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "middle_5_25s"
+    },
+    {
+      "tokens": 250,
+      "mismatch_rate": 0.844,
+      "ued": 0.844,
+      "edit_distance": 211,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "region": "end_25_30s"
+    }
+  ],
+  "distance_rows": [
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.44,
+      "ued": 0.44,
+      "edit_distance": 22,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.3541666666666667,
+      "ued": 0.3541666666666667,
+      "edit_distance": 17,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.4,
+      "ued": 0.4,
+      "edit_distance": 40,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.3333333333333333,
+      "ued": 0.3333333333333333,
+      "edit_distance": 100,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.396,
+      "ued": 0.395,
+      "edit_distance": 395,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.44,
+      "ued": 0.44,
+      "edit_distance": 22,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.3541666666666667,
+      "ued": 0.3541666666666667,
+      "edit_distance": 17,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.4,
+      "ued": 0.4,
+      "edit_distance": 40,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.3333333333333333,
+      "ued": 0.3333333333333333,
+      "edit_distance": 100,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.396,
+      "ued": 0.395,
+      "edit_distance": 395,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.74,
+      "ued": 0.74,
+      "edit_distance": 37,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.7083333333333334,
+      "ued": 0.7083333333333334,
+      "edit_distance": 34,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.78,
+      "ued": 0.78,
+      "edit_distance": 78,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.7433333333333333,
+      "ued": 0.74,
+      "edit_distance": 222,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.351,
+      "ued": 0.35,
+      "edit_distance": 350,
+      "audio_index": 0,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.48,
+      "ued": 0.48,
+      "edit_distance": 24,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.4583333333333333,
+      "ued": 0.4583333333333333,
+      "edit_distance": 22,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.42,
+      "ued": 0.41,
+      "edit_distance": 41,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.4066666666666667,
+      "ued": 0.4066666666666667,
+      "edit_distance": 122,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.631,
+      "ued": 0.629,
+      "edit_distance": 629,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.68,
+      "ued": 0.68,
+      "edit_distance": 34,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.625,
+      "ued": 0.625,
+      "edit_distance": 30,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.57,
+      "ued": 0.56,
+      "edit_distance": 56,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.5533333333333333,
+      "ued": 0.5533333333333333,
+      "edit_distance": 166,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.61,
+      "ued": 0.609,
+      "edit_distance": 609,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.74,
+      "ued": 0.74,
+      "edit_distance": 37,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.7083333333333334,
+      "ued": 0.7083333333333334,
+      "edit_distance": 34,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.78,
+      "ued": 0.78,
+      "edit_distance": 78,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.7033333333333334,
+      "ued": 0.6966666666666667,
+      "edit_distance": 209,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.614,
+      "ued": 0.614,
+      "edit_distance": 614,
+      "audio_index": 0,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.46,
+      "ued": 0.46,
+      "edit_distance": 23,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.375,
+      "ued": 0.375,
+      "edit_distance": 18,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.67,
+      "ued": 0.67,
+      "edit_distance": 67,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.6,
+      "ued": 0.5966666666666667,
+      "edit_distance": 179,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.625,
+      "ued": 0.624,
+      "edit_distance": 624,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.68,
+      "ued": 0.68,
+      "edit_distance": 34,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.7083333333333334,
+      "ued": 0.7083333333333334,
+      "edit_distance": 34,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.7,
+      "ued": 0.7,
+      "edit_distance": 70,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.6233333333333333,
+      "ued": 0.62,
+      "edit_distance": 186,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.646,
+      "ued": 0.645,
+      "edit_distance": 645,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.74,
+      "ued": 0.74,
+      "edit_distance": 37,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.75,
+      "ued": 0.75,
+      "edit_distance": 36,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.75,
+      "ued": 0.75,
+      "edit_distance": 75,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.6433333333333333,
+      "ued": 0.64,
+      "edit_distance": 192,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.687,
+      "ued": 0.687,
+      "edit_distance": 687,
+      "audio_index": 0,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.4,
+      "ued": 0.4,
+      "edit_distance": 20,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.3958333333333333,
+      "ued": 0.3958333333333333,
+      "edit_distance": 19,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.38,
+      "ued": 0.36,
+      "edit_distance": 36,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.35,
+      "ued": 0.35,
+      "edit_distance": 105,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.418,
+      "ued": 0.417,
+      "edit_distance": 417,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.4,
+      "ued": 0.4,
+      "edit_distance": 20,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.3958333333333333,
+      "ued": 0.3958333333333333,
+      "edit_distance": 19,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.38,
+      "ued": 0.36,
+      "edit_distance": 36,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.35,
+      "ued": 0.35,
+      "edit_distance": 105,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.418,
+      "ued": 0.417,
+      "edit_distance": 417,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.88,
+      "ued": 0.86,
+      "edit_distance": 43,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.8541666666666666,
+      "ued": 0.8541666666666666,
+      "edit_distance": 41,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.83,
+      "ued": 0.81,
+      "edit_distance": 81,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.75,
+      "ued": 0.75,
+      "edit_distance": 225,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.355,
+      "ued": 0.354,
+      "edit_distance": 354,
+      "audio_index": 1,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.5,
+      "ued": 0.5,
+      "edit_distance": 25,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.4166666666666667,
+      "ued": 0.4166666666666667,
+      "edit_distance": 20,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.42,
+      "ued": 0.42,
+      "edit_distance": 42,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.39666666666666667,
+      "ued": 0.39666666666666667,
+      "edit_distance": 119,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.651,
+      "ued": 0.651,
+      "edit_distance": 651,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.66,
+      "ued": 0.66,
+      "edit_distance": 33,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.5416666666666666,
+      "ued": 0.5416666666666666,
+      "edit_distance": 26,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.52,
+      "ued": 0.52,
+      "edit_distance": 52,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.54,
+      "ued": 0.54,
+      "edit_distance": 162,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.578,
+      "ued": 0.578,
+      "edit_distance": 578,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.88,
+      "ued": 0.86,
+      "edit_distance": 43,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.8541666666666666,
+      "ued": 0.8541666666666666,
+      "edit_distance": 41,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.83,
+      "ued": 0.81,
+      "edit_distance": 81,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.72,
+      "ued": 0.7166666666666667,
+      "edit_distance": 215,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.607,
+      "ued": 0.606,
+      "edit_distance": 606,
+      "audio_index": 1,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.5,
+      "ued": 0.5,
+      "edit_distance": 25,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.4375,
+      "ued": 0.4375,
+      "edit_distance": 21,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.66,
+      "ued": 0.66,
+      "edit_distance": 66,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.6033333333333334,
+      "ued": 0.6033333333333334,
+      "edit_distance": 181,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.622,
+      "ued": 0.621,
+      "edit_distance": 621,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.88,
+      "ued": 0.84,
+      "edit_distance": 42,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.7083333333333334,
+      "ued": 0.7083333333333334,
+      "edit_distance": 34,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.77,
+      "ued": 0.77,
+      "edit_distance": 77,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.6133333333333333,
+      "ued": 0.6133333333333333,
+      "edit_distance": 184,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.647,
+      "ued": 0.646,
+      "edit_distance": 646,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.88,
+      "ued": 0.86,
+      "edit_distance": 43,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.8333333333333334,
+      "ued": 0.8333333333333334,
+      "edit_distance": 40,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.83,
+      "ued": 0.82,
+      "edit_distance": 82,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.7033333333333334,
+      "ued": 0.7033333333333334,
+      "edit_distance": 211,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.7,
+      "ued": 0.699,
+      "edit_distance": 699,
+      "audio_index": 1,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.5,
+      "ued": 0.48,
+      "edit_distance": 24,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.5,
+      "ued": 0.5,
+      "edit_distance": 24,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.5,
+      "ued": 0.49,
+      "edit_distance": 49,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.37666666666666665,
+      "ued": 0.37333333333333335,
+      "edit_distance": 112,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.408,
+      "ued": 0.407,
+      "edit_distance": 407,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "first",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.5,
+      "ued": 0.48,
+      "edit_distance": 24,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.5,
+      "ued": 0.5,
+      "edit_distance": 24,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.5,
+      "ued": 0.49,
+      "edit_distance": 49,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.37666666666666665,
+      "ued": 0.37333333333333335,
+      "edit_distance": 112,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.408,
+      "ued": 0.407,
+      "edit_distance": 407,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "majority",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.9,
+      "ued": 0.88,
+      "edit_distance": 44,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.9375,
+      "ued": 0.9166666666666666,
+      "edit_distance": 44,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.95,
+      "ued": 0.94,
+      "edit_distance": 94,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.7966666666666666,
+      "ued": 0.7933333333333333,
+      "edit_distance": 238,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.363,
+      "ued": 0.362,
+      "edit_distance": 362,
+      "audio_index": 2,
+      "policy": "stride_15s",
+      "aggregation": "center",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.52,
+      "ued": 0.52,
+      "edit_distance": 26,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.5,
+      "ued": 0.5,
+      "edit_distance": 24,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.44,
+      "ued": 0.43,
+      "edit_distance": 43,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.39666666666666667,
+      "ued": 0.3933333333333333,
+      "edit_distance": 118,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.637,
+      "ued": 0.634,
+      "edit_distance": 634,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "first",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.6,
+      "ued": 0.6,
+      "edit_distance": 30,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.625,
+      "ued": 0.625,
+      "edit_distance": 30,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.67,
+      "ued": 0.66,
+      "edit_distance": 66,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.49,
+      "ued": 0.4866666666666667,
+      "edit_distance": 146,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.566,
+      "ued": 0.564,
+      "edit_distance": 564,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "majority",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.9,
+      "ued": 0.88,
+      "edit_distance": 44,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.9375,
+      "ued": 0.9166666666666666,
+      "edit_distance": 44,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.95,
+      "ued": 0.94,
+      "edit_distance": 94,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.78,
+      "ued": 0.7733333333333333,
+      "edit_distance": 232,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.637,
+      "ued": 0.634,
+      "edit_distance": 634,
+      "audio_index": 2,
+      "policy": "stride_5s",
+      "aggregation": "center",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.52,
+      "ued": 0.52,
+      "edit_distance": 26,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.5,
+      "ued": 0.5,
+      "edit_distance": 24,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.72,
+      "ued": 0.72,
+      "edit_distance": 72,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.58,
+      "ued": 0.5766666666666667,
+      "edit_distance": 173,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.617,
+      "ued": 0.616,
+      "edit_distance": 616,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "first",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.74,
+      "ued": 0.74,
+      "edit_distance": 37,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.7291666666666666,
+      "ued": 0.7291666666666666,
+      "edit_distance": 35,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.89,
+      "ued": 0.89,
+      "edit_distance": 89,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.6266666666666667,
+      "ued": 0.6233333333333333,
+      "edit_distance": 187,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.636,
+      "ued": 0.635,
+      "edit_distance": 635,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "majority",
+      "distance_bin": "5-15s"
+    },
+    {
+      "tokens": 50,
+      "mismatch_rate": 0.9,
+      "ued": 0.88,
+      "edit_distance": 44,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "distance_bin": "0-0.5s"
+    },
+    {
+      "tokens": 48,
+      "mismatch_rate": 0.9166666666666666,
+      "ued": 0.9166666666666666,
+      "edit_distance": 44,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "distance_bin": "0.5-1s"
+    },
+    {
+      "tokens": 100,
+      "mismatch_rate": 0.93,
+      "ued": 0.93,
+      "edit_distance": 93,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "distance_bin": "1-2s"
+    },
+    {
+      "tokens": 300,
+      "mismatch_rate": 0.7533333333333333,
+      "ued": 0.7466666666666667,
+      "edit_distance": 224,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "distance_bin": "2-5s"
+    },
+    {
+      "tokens": 1000,
+      "mismatch_rate": 0.684,
+      "ued": 0.682,
+      "edit_distance": 682,
+      "audio_index": 2,
+      "policy": "stride_1s",
+      "aggregation": "center",
+      "distance_bin": "5-15s"
+    }
+  ]
+}
