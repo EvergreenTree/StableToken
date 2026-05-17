@@ -41,7 +41,7 @@ This report covers the first feasible experiment pass on the local `main` branch
 | Factorial pilot config | `8c41bf1` | `experiments/configs/training_factorial_pilot.yaml` | Complete |
 | Factorial one-step pilots | `6137874` | `experiments/training_runs/training_factorial_pilot_*/result.json` | Complete |
 | Voter pilot config | `1254f34` | `experiments/configs/training_voter_pilot.yaml` | Complete |
-| Voter one-step pilots | pending | `experiments/training_runs/training_voter_pilot_*/result.json` | Complete |
+| Voter one-step pilots | `514a554` | `experiments/training_runs/training_voter_pilot_*/result.json` | Complete |
 
 ## Exact Commands
 
