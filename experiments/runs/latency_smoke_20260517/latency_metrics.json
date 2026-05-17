@@ -1,0 +1,64 @@
+{
+  "rows": [
+    {
+      "duration_seconds": 1.0,
+      "batch_size": 1,
+      "mean_latency_seconds": 0.011154143999798785,
+      "rtf": 0.011154143999798785,
+      "throughput_audio_seconds_per_second": 89.65277837708025,
+      "tokens_per_item": 25,
+      "peak_memory_mb": 1299.05126953125,
+      "memory_before_mb": 1289.92578125
+    },
+    {
+      "duration_seconds": 1.0,
+      "batch_size": 4,
+      "mean_latency_seconds": 0.020713936333322636,
+      "rtf": 0.005178484083330659,
+      "throughput_audio_seconds_per_second": 193.1067053423919,
+      "tokens_per_item": 25,
+      "peak_memory_mb": 1304.97216796875,
+      "memory_before_mb": 1304.97216796875
+    },
+    {
+      "duration_seconds": 10.0,
+      "batch_size": 1,
+      "mean_latency_seconds": 0.045530646333342396,
+      "rtf": 0.00455306463333424,
+      "throughput_audio_seconds_per_second": 219.6322873782034,
+      "tokens_per_item": 250,
+      "peak_memory_mb": 1314.66259765625,
+      "memory_before_mb": 1314.66259765625
+    },
+    {
+      "duration_seconds": 10.0,
+      "batch_size": 4,
+      "mean_latency_seconds": 0.17905121333327165,
+      "rtf": 0.004476280333331791,
+      "throughput_audio_seconds_per_second": 223.39977068765901,
+      "tokens_per_item": 250,
+      "peak_memory_mb": 1427.5947265625,
+      "memory_before_mb": 1427.5947265625
+    },
+    {
+      "duration_seconds": 30.0,
+      "batch_size": 1,
+      "mean_latency_seconds": 0.15132637666662654,
+      "rtf": 0.005044212555554218,
+      "throughput_audio_seconds_per_second": 198.24699871120478,
+      "tokens_per_item": 750,
+      "peak_memory_mb": 1394.95068359375,
+      "memory_before_mb": 1427.5947265625
+    },
+    {
+      "duration_seconds": 30.0,
+      "batch_size": 4,
+      "mean_latency_seconds": 0.5856772593333517,
+      "rtf": 0.004880643827777931,
+      "throughput_audio_seconds_per_second": 204.89100112336655,
+      "tokens_per_item": 750,
+      "peak_memory_mb": 1638.087890625,
+      "memory_before_mb": 1638.087890625
+    }
+  ]
+}
