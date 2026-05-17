@@ -1,0 +1,149 @@
+{
+  "config": {
+    "run_name": "training_voter_pilot",
+    "seed": 42,
+    "device": "cuda",
+    "output_root": "experiments/training_runs",
+    "data": {
+      "train_file": "/data/speech2text/Qwen3-ASR/finetuning/data/fleurs-fr/train/train.jsonl",
+      "eval_file": "/data/speech2text/Qwen3-ASR/finetuning/data/fleurs-fr/dev/dev.jsonl",
+      "language": "fr",
+      "max_train_items": 6,
+      "max_eval_items": 2,
+      "sample_rate": 16000
+    },
+    "training": {
+      "base_model": "openai/whisper-tiny",
+      "batch_size": 1,
+      "grad_accum": 1,
+      "max_steps": 1,
+      "learning_rate": 1.5e-05,
+      "warmup_steps": 0,
+      "weight_decay": 0.0,
+      "grad_clip": 1.0,
+      "bf16": true,
+      "gradient_checkpointing": false,
+      "save_model": false,
+      "save_strategy": "no",
+      "logging_steps": 1,
+      "consensus_loss_weight": 0.25,
+      "commitment_loss_weight": 0.25,
+      "codebook_entropy_loss_weight": 1.0,
+      "augmentation": {
+        "enabled": true,
+        "choices": [
+          {
+            "type": "gaussian",
+            "min_snr_db": 20,
+            "max_snr_db": 25
+          }
+        ]
+      }
+    },
+    "matrix": {
+      "voter_ratio": [
+        {
+          "name": "n5_clean5_noisy0",
+          "quantize_position": 2,
+          "pooling_position": 2,
+          "pooling_kernel_size": 2,
+          "quantize_vocab_size": 8192,
+          "num_voters": 5,
+          "num_clean_input": 5
+        },
+        {
+          "name": "n5_clean4_noisy1",
+          "quantize_position": 2,
+          "pooling_position": 2,
+          "pooling_kernel_size": 2,
+          "quantize_vocab_size": 8192,
+          "num_voters": 5,
+          "num_clean_input": 4
+        },
+        {
+          "name": "n5_clean3_noisy2",
+          "quantize_position": 2,
+          "pooling_position": 2,
+          "pooling_kernel_size": 2,
+          "quantize_vocab_size": 8192,
+          "num_voters": 5,
+          "num_clean_input": 3
+        },
+        {
+          "name": "n5_clean2_noisy3",
+          "quantize_position": 2,
+          "pooling_position": 2,
+          "pooling_kernel_size": 2,
+          "quantize_vocab_size": 8192,
+          "num_voters": 5,
+          "num_clean_input": 2
+        },
+        {
+          "name": "n5_clean1_noisy4",
+          "quantize_position": 2,
+          "pooling_position": 2,
+          "pooling_kernel_size": 2,
+          "quantize_vocab_size": 8192,
+          "num_voters": 5,
+          "num_clean_input": 1
+        },
+        {
+          "name": "n5_clean0_noisy5",
+          "quantize_position": 2,
+          "pooling_position": 2,
+          "pooling_kernel_size": 2,
+          "quantize_vocab_size": 8192,
+          "num_voters": 5,
+          "num_clean_input": 0
+        }
+      ],
+      "voter_count": [
+        {
+          "name": "n1_clean1",
+          "quantize_position": 2,
+          "pooling_position": 2,
+          "pooling_kernel_size": 2,
+          "quantize_vocab_size": 8192,
+          "num_voters": 1,
+          "num_clean_input": 1
+        },
+        {
+          "name": "n3_clean2",
+          "quantize_position": 2,
+          "pooling_position": 2,
+          "pooling_kernel_size": 2,
+          "quantize_vocab_size": 8192,
+          "num_voters": 3,
+          "num_clean_input": 2
+        },
+        {
+          "name": "n5_clean3",
+          "quantize_position": 2,
+          "pooling_position": 2,
+          "pooling_kernel_size": 2,
+          "quantize_vocab_size": 8192,
+          "num_voters": 5,
+          "num_clean_input": 3
+        },
+        {
+          "name": "n7_clean4",
+          "quantize_position": 2,
+          "pooling_position": 2,
+          "pooling_kernel_size": 2,
+          "quantize_vocab_size": 8192,
+          "num_voters": 7,
+          "num_clean_input": 4
+        }
+      ]
+    }
+  },
+  "variant": {
+    "name": "n1_clean1",
+    "quantize_position": 2,
+    "pooling_position": 2,
+    "pooling_kernel_size": 2,
+    "quantize_vocab_size": 8192,
+    "num_voters": 1,
+    "num_clean_input": 1
+  }
+}
