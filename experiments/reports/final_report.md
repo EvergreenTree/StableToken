@@ -37,7 +37,9 @@ This report covers the first feasible experiment pass on the local `main` branch
 | Scaled chunking stability run | `327848e` | `experiments/runs/chunking_scaled_20260517/` | Complete |
 | Training harness two-step smoke | `9af9b18` | `experiments/training_runs/training_smoke_smoke_l2_n3/result.json` | Complete |
 | Quantizer-layer pilot config | `f75afa8` | `experiments/configs/training_layer_pilot.yaml` | Complete |
-| Quantizer-layer one-step pilots | pending | `experiments/training_runs/training_layer_pilot_l*_n5_c3/result.json` | Complete |
+| Quantizer-layer one-step pilots | `ab88249` | `experiments/training_runs/training_layer_pilot_l*_n5_c3/result.json` | Complete |
+| Factorial pilot config | `8c41bf1` | `experiments/configs/training_factorial_pilot.yaml` | Complete |
+| Factorial one-step pilots | pending | `experiments/training_runs/training_factorial_pilot_*/result.json` | Complete |
 
 ## Exact Commands
 
@@ -55,6 +57,11 @@ This report covers the first feasible experiment pass on the local `main` branch
 /data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_layer_pilot.yaml --variant l8_n5_c3
 /data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_layer_pilot.yaml --variant l16_n5_c3
 /data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_layer_pilot.yaml --variant l24_n5_c3
+/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_factorial_pilot.yaml --variant single_no_aug
+/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_factorial_pilot.yaml --variant single_aug
+/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_factorial_pilot.yaml --variant multi_no_aug
+/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_factorial_pilot.yaml --variant multi_aug
+/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_factorial_pilot.yaml --variant multi_aug_consensus
 ```
 
 ## Key Results
@@ -187,7 +194,7 @@ Result: extraction is comfortably faster than realtime on the L4 for these smoke
 | Initial audio loading through `torchaudio.load` | Fixed | Local TorchCodec/FFmpeg libraries were incomplete. The runner and training harness now try `soundfile` first and use `torchaudio` as fallback. |
 | MP3/Opus/AAC compression run | Fixed and executed | Added `imageio-ffmpeg==0.6.0` fallback because system `ffmpeg` is not on PATH. Full codec rows are in `degradation_full_20260517`. |
 | Full training ablations L8/L12/L16/L20/L24 | Pilot only | L8/L16/L24 each ran one matched step. Full scientific runs still need matched data scale, seeds, steps, and downstream evaluation. |
-| Architecture-vs-augmentation factorial | Config/harness path only | Needs real training budget and matched seeds/steps. |
+| Architecture-vs-augmentation factorial | Pilot only | All five variants ran one matched step. Full conclusions need real training budget, matched seeds/steps, and downstream evaluation. |
 | ASR WER, SER, speaker/prosody, TTS metrics | Not executed | No stable downstream evaluation pipeline was wired in this pass. |
 | SpeechLLM QA/translation/summarization/instruction tasks | Not executed | Needs an adapter/LoRA or full SpeechLLM pipeline; recommended after tokenizer-level issues are scaled. |
 
@@ -234,6 +241,22 @@ Result files: [`l8`](../training_runs/training_layer_pilot_l8_n5_c3/result.json)
 
 Interpretation: the exact requested layer positions are feasible locally. The next valid comparison needs fixed seeds, fixed data, more steps, and downstream UED/ASR/SER evaluation; one-step losses should not be used to rank L8/L16/L24.
 
+## Factorial Pilot
+
+These are one-step feasibility pilots for the architecture-vs-augmentation concern. They validate that the matched matrix is runnable; they do not isolate real performance differences yet.
+
+| Variant | Branches | Augmentation | Consensus | Train Loss | Runtime | Saved Model |
+|---|---:|---|---:|---:|---:|---|
+| `single_no_aug` | 1 | false | `0.0` | `9.6039` | `0.682s` | false |
+| `single_aug` | 1 | true | `0.0` | `9.6039` | `0.689s` | false |
+| `multi_no_aug` | 5 | false | `0.0` | `10.0473` | `0.776s` | false |
+| `multi_aug` | 5 | true | `0.0` | `10.1541` | `0.725s` | false |
+| `multi_aug_consensus` | 5 | true | `0.25` | `10.2009` | `0.715s` | false |
+
+Result files live under `experiments/training_runs/training_factorial_pilot_*/result.json`.
+
+Interpretation: the exact factorial variants now run end to end. Since each run is a single step on a tiny slice, the next meaningful version needs enough steps to produce checkpoints, then the same UED/degradation/downstream evaluation used for inference.
+
 ## Recommended Next Runs
 
 1. Scale `degradation_full.yaml` to 100-500 clips per language and add more languages. Keep per-language metrics, because the smoke slice shows large source effects.
@@ -242,7 +265,7 @@ Interpretation: the exact requested layer positions are feasible locally. The ne
 
 3. Extend the quantizer-placement pilot from one step to a small matched run: L8, L16, L24, fixed data, fixed steps, fixed seeds, then evaluate the resulting checkpoints on UED/degradation before adding L12/L20.
 
-4. Run the architecture-vs-augmentation factorial only after the layer ablation: single-branch/no-aug, single-branch/aug, multi-branch/no-aug, multi-branch/aug, multi-branch/aug+consensus.
+4. Extend the architecture-vs-augmentation factorial from one-step pilots to matched short runs that save checkpoints, then evaluate UED/nUED, token entropy, ASR WER, and SER.
 
 5. Add downstream ASR WER and SER on the same clean/noisy/degradation splits before investing in full SpeechLLM experiments.
 

@@ -1,0 +1,25 @@
+{
+  "status": "trained",
+  "output_dir": "/data/StableToken/experiments/training_runs/training_factorial_pilot_single_no_aug",
+  "variant": {
+    "name": "single_no_aug",
+    "quantize_position": 2,
+    "pooling_position": 2,
+    "pooling_kernel_size": 2,
+    "quantize_vocab_size": 8192,
+    "num_voters": 1,
+    "num_clean_input": 1,
+    "augmentation_enabled": false,
+    "consensus_loss_weight": 0.0
+  },
+  "base_model": "openai/whisper-tiny",
+  "metrics": {
+    "train_runtime": 0.6818,
+    "train_samples_per_second": 1.467,
+    "train_steps_per_second": 1.467,
+    "total_flos": 14287623580800.0,
+    "train_loss": 9.60393238067627,
+    "epoch": 0.16666666666666666
+  },
+  "saved_model": false
+}
