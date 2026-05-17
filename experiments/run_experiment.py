@@ -303,10 +303,20 @@ def match_length(wav: np.ndarray, target_samples: int) -> np.ndarray:
     return wav.astype(np.float32)
 
 
-def codec_roundtrip(wav: np.ndarray, fmt: str, bitrate: str) -> np.ndarray:
+def resolve_ffmpeg() -> str:
     ffmpeg = shutil.which("ffmpeg")
-    if ffmpeg is None:
-        raise RuntimeError("codec corruption requires ffmpeg on PATH")
+    if ffmpeg is not None:
+        return ffmpeg
+    try:
+        import imageio_ffmpeg
+
+        return imageio_ffmpeg.get_ffmpeg_exe()
+    except Exception as exc:
+        raise RuntimeError("codec corruption requires ffmpeg on PATH or imageio-ffmpeg installed") from exc
+
+
+def codec_roundtrip(wav: np.ndarray, fmt: str, bitrate: str) -> np.ndarray:
+    ffmpeg = resolve_ffmpeg()
     fmt = fmt.lower()
     suffix = ".m4a" if fmt == "aac" else f".{fmt}"
     with tempfile.TemporaryDirectory(prefix="stabletoken_codec_") as tmp:
