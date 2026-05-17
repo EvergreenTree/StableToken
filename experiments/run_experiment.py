@@ -20,8 +20,10 @@ import math
 import os
 import pickle
 import random
+import shutil
 import subprocess
 import sys
+import tempfile
 import time
 from collections import Counter, defaultdict
 from dataclasses import dataclass
@@ -293,6 +295,67 @@ def simple_reverb(wav: np.ndarray, decay: float, delay_ms: float) -> np.ndarray:
     return (out / peak).astype(np.float32)
 
 
+def match_length(wav: np.ndarray, target_samples: int) -> np.ndarray:
+    if wav.shape[0] > target_samples:
+        return wav[:target_samples].astype(np.float32)
+    if wav.shape[0] < target_samples:
+        return np.pad(wav, (0, target_samples - wav.shape[0])).astype(np.float32)
+    return wav.astype(np.float32)
+
+
+def codec_roundtrip(wav: np.ndarray, fmt: str, bitrate: str) -> np.ndarray:
+    ffmpeg = shutil.which("ffmpeg")
+    if ffmpeg is None:
+        raise RuntimeError("codec corruption requires ffmpeg on PATH")
+    fmt = fmt.lower()
+    suffix = ".m4a" if fmt == "aac" else f".{fmt}"
+    with tempfile.TemporaryDirectory(prefix="stabletoken_codec_") as tmp:
+        tmp_path = Path(tmp)
+        input_path = tmp_path / "input.wav"
+        encoded_path = tmp_path / f"encoded{suffix}"
+        decoded_path = tmp_path / "decoded.wav"
+        sf.write(input_path, wav, SAMPLE_RATE)
+        subprocess.run(
+            [
+                ffmpeg,
+                "-y",
+                "-hide_banner",
+                "-loglevel",
+                "error",
+                "-i",
+                str(input_path),
+                "-b:a",
+                bitrate,
+                str(encoded_path),
+            ],
+            check=True,
+        )
+        subprocess.run(
+            [
+                ffmpeg,
+                "-y",
+                "-hide_banner",
+                "-loglevel",
+                "error",
+                "-i",
+                str(encoded_path),
+                "-ac",
+                "1",
+                "-ar",
+                str(SAMPLE_RATE),
+                str(decoded_path),
+            ],
+            check=True,
+        )
+        out, sr = sf.read(decoded_path, dtype="float32", always_2d=False)
+    if out.ndim == 2:
+        out = out.mean(axis=1)
+    if sr != SAMPLE_RATE:
+        wav_t = torch.from_numpy(out).unsqueeze(0)
+        out = torchaudio.functional.resample(wav_t, sr, SAMPLE_RATE).squeeze(0).numpy()
+    return match_length(out, wav.shape[0])
+
+
 def corrupt_audio(
     wav: np.ndarray,
     spec: dict[str, Any],
@@ -323,6 +386,20 @@ def corrupt_audio(
         return eq_tilt(wav, float(spec.get("gain_db", -8)))
     if ctype == "reverb":
         return simple_reverb(wav, float(spec.get("decay", 0.35)), float(spec.get("delay_ms", 45)))
+    if ctype == "codec":
+        return codec_roundtrip(wav, str(spec.get("format", "mp3")), str(spec.get("bitrate", "32k")))
+    if ctype == "babble":
+        if not distractors:
+            raise ValueError("babble requires distractor audio")
+        speakers = max(1, int(spec.get("speakers", 4)))
+        selected = [random.choice(distractors) for _ in range(speakers)]
+        max_len = max(x.shape[0] for x in selected)
+        mix = np.zeros(max_len, dtype=np.float32)
+        for other in selected:
+            mix[: other.shape[0]] += other
+        mix = mix / float(speakers)
+        noise = scale_noise(wav, mix, float(spec.get("snr_db", 10)))
+        return np.clip(wav + noise, -1.0, 1.0).astype(np.float32)
     if ctype == "competing_speech":
         if not distractors:
             raise ValueError("competing_speech requires distractor audio")
@@ -509,6 +586,26 @@ def plot_bar(path: Path, rows: list[dict[str, Any]], x_key: str, y_key: str, tit
     plt.xticks(rotation=30, ha="right")
     plt.ylabel(ylabel)
     plt.title(title)
+    plt.tight_layout()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    plt.savefig(path, dpi=160)
+    plt.close()
+
+
+def plot_zipf(path: Path, zipf_rows: list[dict[str, Any]]) -> None:
+    if not zipf_rows:
+        return
+    groups = sorted({str(row["group"]) for row in zipf_rows})
+    plt.figure(figsize=(7, 4.5))
+    for group in groups:
+        rows = [row for row in zipf_rows if row["group"] == group]
+        ranks = [int(row["rank"]) for row in rows]
+        freqs = [float(row["frequency"]) for row in rows]
+        plt.loglog(ranks, freqs, marker=".", linewidth=1.2, label=group)
+    plt.xlabel("Token rank")
+    plt.ylabel("Frequency")
+    plt.title("Token Zipf curves")
+    plt.legend(fontsize=8)
     plt.tight_layout()
     path.parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(path, dpi=160)
@@ -764,6 +861,7 @@ def run_distribution(cfg, run_dir: Path, model, feature_extractor, items, device
     vocab_size = int(model.config.quantize_vocab_size or 8192)
     loaded = [(item, load_audio_item(item)[0]) for item in items]
     rows = []
+    zipf_rows: list[dict[str, Any]] = []
     counts_by_group: dict[str, Counter[int]] = {}
     transition_counts_by_group: dict[str, Counter[tuple[int, int]]] = {}
 
@@ -783,6 +881,16 @@ def run_distribution(cfg, run_dir: Path, model, feature_extractor, items, device
             counts_by_group[group] = counts
             transition_counts_by_group[group] = transitions
             total = sum(counts.values())
+            for rank, (token, count) in enumerate(counts.most_common(), 1):
+                zipf_rows.append(
+                    {
+                        "group": group,
+                        "rank": rank,
+                        "token": token,
+                        "count": count,
+                        "frequency": count / max(1, total),
+                    }
+                )
             rows.append(
                 {
                     "group": group,
@@ -812,7 +920,8 @@ def run_distribution(cfg, run_dir: Path, model, feature_extractor, items, device
 
     write_csv(run_dir / "distribution_summary.csv", rows)
     write_csv(run_dir / "distribution_kl.csv", kl_rows)
-    write_json(run_dir / "distribution_metrics.json", {"summary": rows, "kl": kl_rows})
+    write_csv(run_dir / "distribution_zipf.csv", zipf_rows)
+    write_json(run_dir / "distribution_metrics.json", {"summary": rows, "kl": kl_rows, "zipf": zipf_rows})
     plot_bar(
         run_dir / "plots" / "distribution_entropy.png",
         rows,
@@ -821,6 +930,7 @@ def run_distribution(cfg, run_dir: Path, model, feature_extractor, items, device
         "Token entropy by group",
         "Entropy (bits)",
     )
+    plot_zipf(run_dir / "plots" / "distribution_zipf.png", zipf_rows)
     return {"groups": len(rows), "kl_pairs": len(kl_rows)}
 
 
