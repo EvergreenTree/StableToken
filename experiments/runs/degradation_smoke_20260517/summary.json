@@ -1,0 +1,148 @@
+{
+  "degradation": {
+    "rows": 100,
+    "summary": [
+      {
+        "corruption": "bitcrush_10bit",
+        "language": "fr",
+        "items": 5,
+        "mean_ued": 0.20072102038054015,
+        "mean_nued": 0.01544007849081078
+      },
+      {
+        "corruption": "bitcrush_10bit",
+        "language": "zh",
+        "items": 5,
+        "mean_ued": 0.030538664738315263,
+        "mean_nued": 0.002349128056793481
+      },
+      {
+        "corruption": "brown_16db",
+        "language": "fr",
+        "items": 5,
+        "mean_ued": 0.08464876131032487,
+        "mean_nued": 0.006511443177717296
+      },
+      {
+        "corruption": "brown_16db",
+        "language": "zh",
+        "items": 5,
+        "mean_ued": 0.04870869831597821,
+        "mean_nued": 0.0037468229473829385
+      },
+      {
+        "corruption": "clipping_0p50",
+        "language": "fr",
+        "items": 5,
+        "mean_ued": 0.0,
+        "mean_nued": 0.0
+      },
+      {
+        "corruption": "clipping_0p50",
+        "language": "zh",
+        "items": 5,
+        "mean_ued": 0.050568063252679464,
+        "mean_nued": 0.0038898510194368824
+      },
+      {
+        "corruption": "competing_speech_16db",
+        "language": "fr",
+        "items": 5,
+        "mean_ued": 0.36027722631420045,
+        "mean_nued": 0.027713632793400035
+      },
+      {
+        "corruption": "competing_speech_16db",
+        "language": "zh",
+        "items": 5,
+        "mean_ued": 0.23240956540576638,
+        "mean_nued": 0.01787765887736665
+      },
+      {
+        "corruption": "dropout_5pct",
+        "language": "fr",
+        "items": 5,
+        "mean_ued": 0.1569547856181503,
+        "mean_nued": 0.012073445047550025
+      },
+      {
+        "corruption": "dropout_5pct",
+        "language": "zh",
+        "items": 5,
+        "mean_ued": 0.20529891888017468,
+        "mean_nued": 0.015792224529244205
+      },
+      {
+        "corruption": "eq_tilt",
+        "language": "fr",
+        "items": 5,
+        "mean_ued": 0.15216849183719794,
+        "mean_nued": 0.01170526860286138
+      },
+      {
+        "corruption": "eq_tilt",
+        "language": "zh",
+        "items": 5,
+        "mean_ued": 0.1031698997088383,
+        "mean_nued": 0.007936146131449101
+      },
+      {
+        "corruption": "gaussian_25db",
+        "language": "fr",
+        "items": 5,
+        "mean_ued": 0.25883412580986476,
+        "mean_nued": 0.0199103173699896
+      },
+      {
+        "corruption": "gaussian_25db",
+        "language": "zh",
+        "items": 5,
+        "mean_ued": 0.11340479087108264,
+        "mean_nued": 0.008723445451621742
+      },
+      {
+        "corruption": "pink_22db",
+        "language": "fr",
+        "items": 5,
+        "mean_ued": 0.23522272519134776,
+        "mean_nued": 0.018094055783949826
+      },
+      {
+        "corruption": "pink_22db",
+        "language": "zh",
+        "items": 5,
+        "mean_ued": 0.09799692537927598,
+        "mean_nued": 0.007538225029175077
+      },
+      {
+        "corruption": "reverb_small_room",
+        "language": "fr",
+        "items": 5,
+        "mean_ued": 0.4222333554171126,
+        "mean_nued": 0.032479488878239426
+      },
+      {
+        "corruption": "reverb_small_room",
+        "language": "zh",
+        "items": 5,
+        "mean_ued": 0.22480660757308546,
+        "mean_nued": 0.01729281596716042
+      },
+      {
+        "corruption": "telephone_bandpass",
+        "language": "fr",
+        "items": 5,
+        "mean_ued": 0.22515133688168215,
+        "mean_nued": 0.01731933360628324
+      },
+      {
+        "corruption": "telephone_bandpass",
+        "language": "zh",
+        "items": 5,
+        "mean_ued": 0.1266535331144448,
+        "mean_nued": 0.009742579470341907
+      }
+    ]
+  },
+  "elapsed_seconds": 8.505822409000302
+}
