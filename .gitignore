@@ -135,11 +135,21 @@ logs/
 !experiments/**/*.txt
 !experiments/**/*.md
 
+# Training smoke metadata is tracked; heavyweight checkpoints stay local.
+experiments/training_runs/**
+!experiments/training_runs/
+!experiments/training_runs/**/
+!experiments/training_runs/**/resolved_config.json
+!experiments/training_runs/**/result.json
+!experiments/training_runs/**/README.md
+
 # Model weights/checkpoints
 *.ckpt
+*.safetensors
 *.pth
 *.pt
 *.h5
+*.bin
 checkpoints/
 
 # Reconstructed audios

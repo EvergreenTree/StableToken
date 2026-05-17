@@ -20,6 +20,7 @@ class WhisperVQConfig(WhisperConfig):
                  sample_minimization_weight=1.0,
                  layernorm_after_quantize=False,
                  use_projection_bias=True,
+                 encoder_causal_convolution=False,
                  **kwargs):
         """
         Initialize WhisperVQ configuration.
@@ -55,6 +56,9 @@ class WhisperVQConfig(WhisperConfig):
                 Can help stabilize training with discrete representations.
             use_projection_bias (bool): Whether to use bias terms in projection layers.
                 Affects the linear transformations in the quantization module.
+            encoder_causal_convolution (bool): Whether encoder convolutions should be
+                causal. StableToken inference uses Whisper-style non-causal chunks by
+                default.
             **kwargs: Additional arguments passed to parent WhisperConfig.
         """
         # Pooling configuration - controls temporal feature compression
@@ -75,4 +79,5 @@ class WhisperVQConfig(WhisperConfig):
         self.sample_minimization_weight = sample_minimization_weight
         self.layernorm_after_quantize = layernorm_after_quantize
         self.use_projection_bias = use_projection_bias
+        self.encoder_causal_convolution = encoder_causal_convolution
         super().__init__(**kwargs)

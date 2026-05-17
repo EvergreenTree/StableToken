@@ -1,0 +1,26 @@
+{
+  "status": "trained",
+  "command": "/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_smoke.yaml",
+  "output_dir": "/data/StableToken/experiments/training_runs/training_smoke_smoke_l2_n3",
+  "variant": "smoke_l2_n3",
+  "base_model": "openai/whisper-tiny",
+  "max_steps": 2,
+  "train_runtime_seconds": 1.9735,
+  "train_samples_per_second": 1.013,
+  "train_steps_per_second": 1.013,
+  "train_loss": 8.543272972106934,
+  "step_losses": [
+    9.0804,
+    8.0062
+  ],
+  "grad_norms": [
+    152.04547119140625,
+    111.2849349975586
+  ],
+  "lfq_encoder_missing_keys": 10,
+  "lfq_encoder_unexpected_keys": 0,
+  "notes": [
+    "Actual two-step training smoke succeeded after adding encoder_causal_convolution default to WhisperVQConfig.",
+    "Heavy model/checkpoint artifacts were left on disk but ignored by git."
+  ]
+}
