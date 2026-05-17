@@ -31,6 +31,8 @@ This report covers the first feasible experiment pass on the local `main` branch
 | Latency smoke | `6a394c4` | `experiments/runs/latency_smoke_20260517/` | Complete |
 | Full degradation config + Zipf support | `f122ad6` | `experiments/configs/degradation_full.yaml` | Complete |
 | Distribution Zipf smoke | `9124249`, trimmed by `ca156b8` | `experiments/runs/distribution_zipf_smoke_20260517/` | Complete |
+| Codec degradation support | `905fd14` | `requirements.txt`, `experiments/run_experiment.py` | Complete |
+| Full degradation with codecs and babble | pending | `experiments/runs/degradation_full_20260517/` | Complete |
 
 ## Exact Commands
 
@@ -42,6 +44,7 @@ This report covers the first feasible experiment pass on the local `main` branch
 /data/venv/bin/python experiments/run_experiment.py --config experiments/configs/distribution.yaml --run-id distribution_smoke_20260517
 /data/venv/bin/python experiments/run_experiment.py --config experiments/configs/latency.yaml --run-id latency_smoke_20260517
 /data/venv/bin/python experiments/run_experiment.py --config experiments/configs/distribution.yaml --run-id distribution_zipf_smoke_20260517
+/data/venv/bin/python experiments/run_experiment.py --config experiments/configs/degradation_full.yaml --run-id degradation_full_20260517
 ```
 
 ## Key Results
@@ -76,6 +79,25 @@ Result: the released checkpoint loads and matches the expected 25 Hz, 30s-to-750
 | Clipping 0.50 | `0.0000` | `0.0506` | Mild clipping was mostly harmless in this slice. |
 
 Plot: [`degradation_mean_ued.png`](../runs/degradation_smoke_20260517/plots/degradation_mean_ued.png)
+
+### Full Degradation With Codecs
+
+| Corruption | FR Mean UED | ZH Mean UED | Lesson |
+|---|---:|---:|---|
+| Babble 4 speakers 10 dB | `0.6382` | `0.4134` | Hardest condition; multi-speaker interference should be a headline robustness test. |
+| Competing speech 16 dB | `0.4579` | `0.2882` | Still a top semantic interference risk. |
+| Reverb small room | `0.3639` | `0.2315` | Remains stronger than most additive/channel corruptions. |
+| Gaussian 25 dB | `0.2607` | `0.1305` | Useful baseline, but not the hardest condition. |
+| AAC 32k | `0.2547` | `0.1394` | Codec degradation is measurable at low bitrate. |
+| Telephone bandpass | `0.2518` | `0.1334` | Similar scale to low-bitrate codecs. |
+| MP3 32k | `0.2392` | `0.1193` | Lower than AAC in this run. |
+| Opus 24k | `0.2063` | `0.1025` | Lowest codec UED here despite lower nominal bitrate. |
+| Brown 16 dB | `0.1050` | `0.0485` | Milder than expected on this slice. |
+| Clipping 0.50 | `0.0000` | `0.0695` | Mild clipping is not a useful stressor for FR in this slice. |
+
+Full run size: 50 FLEURS-fr + 50 CV21-zh clips x 13 corruptions = 1300 rows.
+
+Plot: [`degradation_mean_ued.png`](../runs/degradation_full_20260517/plots/degradation_mean_ued.png)
 
 ### Chunking / Pseudo-Streaming
 
@@ -133,7 +155,7 @@ Result: extraction is comfortably faster than realtime on the L4 for these smoke
 | Item | Status | Reason / Fix |
 |---|---|---|
 | Initial audio loading through `torchaudio.load` | Fixed | Local TorchCodec/FFmpeg libraries were incomplete. The runner and training harness now try `soundfile` first and use `torchaudio` as fallback. |
-| MP3/Opus/AAC compression run | Prepared, not executed | `ffmpeg` is not on PATH in this host. `codec` corruptions are config-driven in `degradation_full.yaml` and will run once ffmpeg is installed. |
+| MP3/Opus/AAC compression run | Fixed and executed | Added `imageio-ffmpeg==0.6.0` fallback because system `ffmpeg` is not on PATH. Full codec rows are in `degradation_full_20260517`. |
 | Full training ablations L8/L12/L16/L20/L24 | Not executed | Upstream does not ship full tokenizer training scripts; local harness was scaffolded and dry-run only. Full runs need matched data scale, steps, and more compute time. |
 | Architecture-vs-augmentation factorial | Config/harness path only | Needs real training budget and matched seeds/steps. |
 | ASR WER, SER, speaker/prosody, TTS metrics | Not executed | No stable downstream evaluation pipeline was wired in this pass. |
@@ -145,26 +167,20 @@ The sanity run supports the basic reproducibility claims for released inference:
 
 The most important negative finding is chunking instability. StableToken is robust to some perturbations, but the Whisper-style non-causal 30s window can still produce substantially different token sequences for the same absolute time span under different streaming policies. This should be addressed before strong streaming claims.
 
-The degradation suite says the next robustness budget should go to reverb and competing speech, not just additive noise. Competing speech is especially valuable because the tokenizer may encode it as real semantic content rather than discard it.
+The degradation suite says the next robustness budget should go to babble, competing speech, and reverb, not just additive noise. Competing speech is especially valuable because the tokenizer may encode it as real semantic content rather than discard it.
 
 The distribution results show broad but sparse code usage, with meaningful language/domain drift. This is not collapse, but it does mean multilingual and noisy/clean analyses need stratified reporting.
 
 ## Recommended Next Runs
 
-1. Install `ffmpeg`, then run:
+1. Scale `degradation_full.yaml` to 100-500 clips per language and add more languages. Keep per-language metrics, because the smoke slice shows large source effects.
 
-```bash
-/data/venv/bin/python experiments/run_experiment.py --config experiments/configs/degradation_full.yaml --run-id degradation_full_20260517
-```
+2. Rerun chunking on at least 10 long audios and test aggregation beyond token majority: central-window selection, confidence from hidden-state distance, and hidden-state averaging before quantization.
 
-2. Scale `degradation.yaml` to 100-500 clips per language and add more languages. Keep per-language metrics, because the smoke slice shows large source effects.
+3. Launch the minimum quantizer-placement training ablation first: L8, L16, L24, fixed data, fixed steps, fixed seeds. Add L12/L20 only after the minimum run validates the harness.
 
-3. Rerun chunking on at least 10 long audios and test aggregation beyond token majority: central-window selection, confidence from hidden-state distance, and hidden-state averaging before quantization.
+4. Run the architecture-vs-augmentation factorial only after the layer ablation: single-branch/no-aug, single-branch/aug, multi-branch/no-aug, multi-branch/aug, multi-branch/aug+consensus.
 
-4. Launch the minimum quantizer-placement training ablation first: L8, L16, L24, fixed data, fixed steps, fixed seeds. Add L12/L20 only after the minimum run validates the harness.
+5. Add downstream ASR WER and SER on the same clean/noisy/degradation splits before investing in full SpeechLLM experiments.
 
-5. Run the architecture-vs-augmentation factorial only after the layer ablation: single-branch/no-aug, single-branch/aug, multi-branch/no-aug, multi-branch/aug, multi-branch/aug+consensus.
-
-6. Add downstream ASR WER and SER on the same clean/noisy/degradation splits before investing in full SpeechLLM experiments.
-
-7. For SpeechLLM usefulness, start with a small adapter/LoRA controlled experiment on spoken QA or noisy spoken dialogue understanding, using identical data and steps across tokenizer variants.
+6. For SpeechLLM usefulness, start with a small adapter/LoRA controlled experiment on spoken QA or noisy spoken dialogue understanding, using identical data and steps across tokenizer variants.
