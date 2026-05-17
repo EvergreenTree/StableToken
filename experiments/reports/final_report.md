@@ -35,6 +35,8 @@ This report covers the first feasible experiment pass on the local `main` branch
 | Full degradation with codecs and babble | `6437b2c` | `experiments/runs/degradation_full_20260517/` | Complete |
 | Scaled chunking aggregation config | `6f63389` | `experiments/configs/chunking_scaled.yaml` | Complete |
 | Scaled chunking stability run | `327848e` | `experiments/runs/chunking_scaled_20260517/` | Complete |
+| Advanced chunking stability config | `3d0ce9a` | `experiments/configs/chunking_advanced.yaml` | Complete |
+| Advanced chunking stability run | `00f951b` | `experiments/runs/chunking_advanced_20260517/` | Complete |
 | Training harness two-step smoke | `9af9b18` | `experiments/training_runs/training_smoke_smoke_l2_n3/result.json` | Complete |
 | Quantizer-layer pilot config | `f75afa8` | `experiments/configs/training_layer_pilot.yaml` | Complete |
 | Quantizer-layer one-step pilots | `ab88249` | `experiments/training_runs/training_layer_pilot_l*_n5_c3/result.json` | Complete |
@@ -64,6 +66,7 @@ This report covers the first feasible experiment pass on the local `main` branch
 /data/venv/bin/python experiments/run_experiment.py --config experiments/configs/distribution.yaml --run-id distribution_zipf_smoke_20260517
 /data/venv/bin/python experiments/run_experiment.py --config experiments/configs/degradation_full.yaml --run-id degradation_full_20260517
 /data/venv/bin/python experiments/run_experiment.py --config experiments/configs/chunking_scaled.yaml --run-id chunking_scaled_20260517
+/data/venv/bin/python experiments/run_experiment.py --config experiments/configs/chunking_advanced.yaml --run-id chunking_advanced_20260517
 /data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_smoke.yaml
 /data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_layer_pilot.yaml --variant l8_n5_c3
 /data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_layer_pilot.yaml --variant l16_n5_c3
@@ -195,6 +198,40 @@ Plot: [`chunking_boundary_instability.png`](../runs/chunking_scaled_20260517/plo
 
 Result: the chunking instability persists beyond the single-audio smoke. The new `center` aggregation is a useful negative result: selecting the token farthest from an overlapping window edge does not reproduce the non-overlap tokenization target and is especially bad near reference chunk ends.
 
+### Advanced Chunking / Window Placement
+
+This pass adds overlap consistency by absolute token index, distance-from-window-edge curves, comparison against both non-overlap and high-overlap references, hidden-state averaging before LFQ, distance/voter/entropy confidence weights, and commit-latency curves.
+
+| Policy | Aggregation | Reference | Mean Mismatch |
+|---|---|---|---:|
+| 30s window, 15s stride | first | non-overlap majority | `0.3191` |
+| 30s window, 15s stride | edge + voter weighted | non-overlap majority | `0.4012` |
+| 30s window, 5s stride | first | non-overlap majority | `0.4535` |
+| 30s window, 1s stride | first | non-overlap majority | `0.4878` |
+| 30s window, 1s stride | edge + voter weighted | non-overlap majority | `0.5733` |
+| 30s window, 1s stride | hidden edge + voter | non-overlap majority | `0.6096` |
+| 30s window, 1s stride | edge + voter weighted | high-overlap edge-voter | `0.0000` |
+| 30s window, 5s stride | edge + voter weighted | high-overlap edge-voter | `0.3282` |
+| 30s window, 15s stride | edge + voter weighted | high-overlap edge-voter | `0.4204` |
+
+| Policy | Mean Overlap Disagreement |
+|---|---:|
+| 30s window, 15s stride | `0.3883` |
+| 30s window, 5s stride | `0.4881` |
+| 30s window, 1s stride | `0.5624` |
+
+| Commit Latency | Best vs High-Overlap Consensus | Coverage | Best vs Non-Overlap | Coverage |
+|---:|---:|---:|---:|---:|
+| 1s | `0.7748` | `0.6133` | `0.7954` | `0.6133` |
+| 3s | `0.7214` | `0.6400` | `0.7542` | `0.6400` |
+| 5s | `0.7035` | `0.6667` | `0.7264` | `0.6667` |
+| 10s | `0.4453` | `0.7333` | `0.6349` | `0.7333` |
+| 15s | `0.2524` | `0.8000` | `0.6051` | `0.8000` |
+
+Plots: [`advanced_reference_comparison.png`](../runs/chunking_advanced_20260517/plots/advanced_reference_comparison.png), [`advanced_edge_distance.png`](../runs/chunking_advanced_20260517/plots/advanced_edge_distance.png), [`advanced_commit_latency.png`](../runs/chunking_advanced_20260517/plots/advanced_commit_latency.png), [`advanced_overlap_disagreement.png`](../runs/chunking_advanced_20260517/plots/advanced_overlap_disagreement.png)
+
+Result: the best policy depends on the serving contract. If the goal is to reproduce the offline non-overlap tokenizer, the least bad tested option is still 15s-stride first/majority at `0.3191` mismatch; hidden-state aggregation and confidence weighting make that target worse. If the goal is a new high-overlap streaming policy, stride-1s edge+voter weighting is internally stable by construction, and 15s commit latency gets mismatch down to `0.2524` versus that high-overlap consensus with `0.8000` coverage. Recommendation: do not describe StableToken as true streaming under the released 30s non-causal tokenizer; serve either fixed 30s non-overlap chunks for reproducibility or explicitly define a separate high-overlap consensus tokenizer with documented latency and coverage.
+
 ### Token Distribution
 
 | Group | Entropy Bits | Transition Entropy Bits | Unique Tokens | Dead-Token Rate |
@@ -315,6 +352,7 @@ Interpretation: token UED is a useful robustness diagnostic, but it is not a dir
 | Full training ablations L8/L12/L16/L20/L24 | Pilot only | L8/L16/L24 each ran one matched step. Full scientific runs still need matched data scale, seeds, steps, and downstream evaluation. |
 | Architecture-vs-augmentation factorial | Pilot only | All five variants ran one matched step. Full conclusions need real training budget, matched seeds/steps, and downstream evaluation. |
 | ASR WER/CER | Smoke complete | Whisper-tiny downstream ASR degradation smoke is wired. StableToken-token ASR and SER remain future work. |
+| Hidden-state chunk aggregation | Executed negative result | Pre-LFQ hidden averaging was accessible and ran, but it worsened mismatch against the offline non-overlap reference and added substantial runtime. |
 | SER, speaker/prosody, TTS metrics | Not executed | No stable downstream evaluation pipeline was wired in this pass. |
 | SpeechLLM QA/translation/summarization/instruction tasks | Not executed | Needs an adapter/LoRA or full SpeechLLM pipeline; recommended after tokenizer-level issues are scaled. |
 
@@ -322,7 +360,7 @@ Interpretation: token UED is a useful robustness diagnostic, but it is not a dir
 
 The sanity run supports the basic reproducibility claims for released inference: 25 Hz, 750 tokens for 30 seconds, and 8192 vocabulary.
 
-The most important negative finding is chunking instability. StableToken is robust to some perturbations, but the Whisper-style non-causal 30s window can still produce substantially different token sequences for the same absolute time span under different streaming policies. The scaled run confirms this beyond a single example, and simple first/majority/center aggregation does not solve it.
+The most important negative finding is chunking instability. StableToken is robust to some perturbations, but the Whisper-style non-causal 30s window can still produce substantially different token sequences for the same absolute time span under different streaming policies. The scaled and advanced runs confirm this beyond a single example. Simple first/majority/center aggregation does not solve it, and neither do hidden-state averaging or voter/entropy confidence weighting when the target is the released offline non-overlap tokenizer.
 
 The degradation suite says the next robustness budget should go to babble, competing speech, and reverb, not just additive noise. The 100-clip token run confirms this ranking. The 100-clip Whisper-small ASR run agrees that babble is the strongest downstream ASR condition, but competing speech is much less severe for ASR than for token UED, which is an important mismatch to investigate.
 
@@ -400,9 +438,9 @@ Interpretation: the voter matrix is runnable, including the 0-clean and N=7 case
 
 ## Recommended Next Runs
 
-1. Scale `degradation_full_100.yaml` beyond the current 100 clips per language only if more languages/splits are added; otherwise prioritize downstream ASR/SER on the same corruption suite.
+1. Build the StableToken-token ASR head or adapter so WER/CER is measured through the tokenizer itself, then rerun the fixed corruption suite: babble, competing speech, reverb, Gaussian, telephone bandpass, and AAC.
 
-2. Test stronger chunk aggregation beyond first/majority/center: confidence from hidden-state distance, hidden-state averaging before quantization, and training-time chunk-position augmentation.
+2. For pseudo-streaming, either keep fixed non-overlap 30s chunks for reproducibility or define a separate high-overlap consensus tokenizer. The next chunking experiment should test training-time chunk-position augmentation, because inference-only aggregation did not recover the offline token stream.
 
 3. Extend the quantizer-placement pilot from one step to a small matched run: L8, L16, L24, fixed data, fixed steps, fixed seeds, then evaluate the resulting checkpoints on UED/degradation before adding L12/L20.
 
@@ -410,6 +448,6 @@ Interpretation: the voter matrix is runnable, including the 0-clean and N=7 case
 
 5. Extend the voter/ratio pilot from one-step checks to matched short runs, then report robustness vs clean performance, token entropy/dead tokens, runtime, and downstream ASR/SER.
 
-6. Add a StableToken-token ASR head or adapter so ASR WER can be measured through the tokenizer itself, then add SER on the same clean/noisy/degradation splits before investing in full SpeechLLM experiments.
+6. Add SER and speaker/prosody probes on the same clean/noisy/degradation splits before investing in full SpeechLLM experiments.
 
 7. For SpeechLLM usefulness, start with a small adapter/LoRA controlled experiment on spoken QA or noisy spoken dialogue understanding, using identical data and steps across tokenizer variants.
