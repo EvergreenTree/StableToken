@@ -53,6 +53,8 @@ This report covers the first feasible experiment pass on the local `main` branch
 | Whisper-small ASR 100-clip config | `2743038` | `experiments/configs/asr_degradation_small_100.yaml` | Complete |
 | Whisper-small ASR 100-clip run | `c1a0a81` | `experiments/runs/asr_degradation_small_100_20260517/` | Complete |
 | Token-vs-ASR comparison | `cb3c99e` | `experiments/analysis/token_asr_degradation_comparison.csv` | Complete |
+| StableToken-encoder ASR probe | `8f10d9e`, `8f480b0`, `141eedd` | `experiments/configs/asr_stabletoken_smoke.yaml` | Complete |
+| StableToken-encoder ASR smoke | `f2b5462` | `experiments/runs/asr_stabletoken_smoke_20260517/` | Negative result complete |
 
 ## Exact Commands
 
@@ -90,6 +92,7 @@ This report covers the first feasible experiment pass on the local `main` branch
 /data/venv/bin/python experiments/run_asr_degradation.py --config experiments/configs/asr_degradation_smoke.yaml --run-id asr_degradation_smoke_20260517
 /data/venv/bin/python experiments/run_asr_degradation.py --config experiments/configs/asr_degradation_small.yaml --run-id asr_degradation_small_20260517
 /data/venv/bin/python experiments/run_asr_degradation.py --config experiments/configs/asr_degradation_small_100.yaml --run-id asr_degradation_small_100_20260517
+/data/venv/bin/python experiments/run_asr_degradation.py --config experiments/configs/asr_stabletoken_smoke.yaml --run-id asr_stabletoken_smoke_20260517
 ```
 
 ## Key Results
@@ -343,15 +346,33 @@ Artifacts: [`token_asr_degradation_comparison.csv`](../analysis/token_asr_degrad
 
 Interpretation: token UED is a useful robustness diagnostic, but it is not a direct proxy for downstream ASR impact. Babble is high on both axes. Competing speech is high token UED but modest French Whisper-small WER, suggesting either the tokenizer changes are not always ASR-relevant or Whisper-small ignores some competing content.
 
+### StableToken-Encoder ASR Probe
+
+To test whether WER can be measured through the released tokenizer without a new training run, the ASR runner was extended to replace `openai/whisper-large-v3`'s encoder with the released StableToken LFQ encoder, precompute the quantized encoder outputs, and decode with the stock Whisper decoder.
+
+| Corruption | FR WER | FR CER | ZH CER | Note |
+|---|---:|---:|---:|---|
+| Clean | `1.0000` | `1.0000` | `1.0000` | Predictions were empty or punctuation. |
+| Reverb small room | `1.0000` | `1.0000` | `1.0000` | Same failure mode. |
+| Babble 4 speakers 10 dB | `1.0000` | `1.0000` | `1.0000` | Same failure mode. |
+| Competing speech 16 dB | `1.0000` | `1.0000` | `1.0000` | Same failure mode. |
+
+Run size: 2 FLEURS-fr + 2 CV21-zh clips x 4 conditions = 16 rows.
+
+Artifacts: [`asr_summary.csv`](../runs/asr_stabletoken_smoke_20260517/asr_summary.csv), [`asr_item_metrics.csv`](../runs/asr_stabletoken_smoke_20260517/asr_item_metrics.csv)
+
+Result: zero-shot decoder replacement is not a usable StableToken-token ASR evaluation. This is a useful negative result: reviewer-grade downstream WER through StableToken needs a trained adapter/head or LoRA, not just a stock Whisper decoder attached to the released tokenizer.
+
 ## What Failed Or Was Infeasible
 
 | Item | Status | Reason / Fix |
 |---|---|---|
 | Initial audio loading through `torchaudio.load` | Fixed | Local TorchCodec/FFmpeg libraries were incomplete. The runner and training harness now try `soundfile` first and use `torchaudio` as fallback. |
 | MP3/Opus/AAC compression run | Fixed and executed | Added `imageio-ffmpeg==0.6.0` fallback because system `ffmpeg` is not on PATH. Full codec rows are in `degradation_full_20260517`. |
+| StableToken-encoder ASR integration | Fixed for smoke | Whisper generation padded features in a way that broke the custom encoder mask; the runner now pads to the StableToken stride and precomputes encoder outputs before decoder generation. |
 | Full training ablations L8/L12/L16/L20/L24 | Pilot only | L8/L16/L24 each ran one matched step. Full scientific runs still need matched data scale, seeds, steps, and downstream evaluation. |
 | Architecture-vs-augmentation factorial | Pilot only | All five variants ran one matched step. Full conclusions need real training budget, matched seeds/steps, and downstream evaluation. |
-| ASR WER/CER | Smoke complete | Whisper-tiny downstream ASR degradation smoke is wired. StableToken-token ASR and SER remain future work. |
+| ASR WER/CER | Smoke complete | Direct Whisper downstream ASR and zero-shot StableToken-encoder ASR are wired. A trained StableToken-token ASR adapter/head remains future work. |
 | Hidden-state chunk aggregation | Executed negative result | Pre-LFQ hidden averaging was accessible and ran, but it worsened mismatch against the offline non-overlap reference and added substantial runtime. |
 | SER, speaker/prosody, TTS metrics | Not executed | No stable downstream evaluation pipeline was wired in this pass. |
 | SpeechLLM QA/translation/summarization/instruction tasks | Not executed | Needs an adapter/LoRA or full SpeechLLM pipeline; recommended after tokenizer-level issues are scaled. |
@@ -362,7 +383,7 @@ The sanity run supports the basic reproducibility claims for released inference:
 
 The most important negative finding is chunking instability. StableToken is robust to some perturbations, but the Whisper-style non-causal 30s window can still produce substantially different token sequences for the same absolute time span under different streaming policies. The scaled and advanced runs confirm this beyond a single example. Simple first/majority/center aggregation does not solve it, and neither do hidden-state averaging or voter/entropy confidence weighting when the target is the released offline non-overlap tokenizer.
 
-The degradation suite says the next robustness budget should go to babble, competing speech, and reverb, not just additive noise. The 100-clip token run confirms this ranking. The 100-clip Whisper-small ASR run agrees that babble is the strongest downstream ASR condition, but competing speech is much less severe for ASR than for token UED, which is an important mismatch to investigate.
+The degradation suite says the next robustness budget should go to babble, competing speech, and reverb, not just additive noise. The 100-clip token run confirms this ranking. The 100-clip Whisper-small ASR run agrees that babble is the strongest downstream ASR condition, but competing speech is much less severe for direct Whisper ASR than for token UED, which is an important mismatch to investigate. The StableToken-encoder ASR probe shows that downstream WER through the tokenizer cannot be obtained by simply attaching the stock Whisper decoder; it needs a trained adapter/head.
 
 The distribution results show broad but sparse code usage, with meaningful language/domain drift. This is not collapse, but it does mean multilingual and noisy/clean analyses need stratified reporting.
 
