@@ -2,9 +2,10 @@
 """Config-driven ASR degradation evaluation.
 
 This is a downstream smoke hook for the same corruptions used by the
-StableToken tokenizer experiments. It does not claim to evaluate a SpeechLLM
-token pipeline directly; it gives a lightweight WER/CER reference for how hard
-the selected corruptions are for a multilingual Whisper ASR model.
+StableToken tokenizer experiments. By default it evaluates a normal Whisper ASR
+model. With `asr.use_stabletoken_encoder=true`, it replaces the Whisper encoder
+with the released StableToken LFQ encoder so generation goes through the
+discrete-token bottleneck before the Whisper decoder.
 """
 from __future__ import annotations
 
@@ -32,8 +33,10 @@ if str(REPO_ROOT) not in sys.path:
 from experiments.run_experiment import (  # noqa: E402
     SAMPLE_RATE,
     corrupt_audio,
+    ensure_checkpoint,
     load_audio_item,
     load_items,
+    load_tokenizer_model,
     write_csv,
     write_json,
 )
@@ -131,6 +134,13 @@ def main() -> None:
     model_id = asr_cfg.get("model_id", "openai/whisper-tiny")
     processor = WhisperProcessor.from_pretrained(model_id)
     model = WhisperForConditionalGeneration.from_pretrained(model_id).to(device)
+    encoder_source = "native_whisper"
+    if asr_cfg.get("use_stabletoken_encoder", False):
+        checkpoint_dir = ensure_checkpoint(cfg.get("checkpoint", {}))
+        stabletoken_encoder, stabletoken_feature_extractor = load_tokenizer_model(checkpoint_dir, device)
+        model.model.encoder = stabletoken_encoder
+        processor.feature_extractor = stabletoken_feature_extractor
+        encoder_source = f"stabletoken:{checkpoint_dir / 'tokenizer'}"
     model.eval()
 
     batch_size = int(cfg.get("batch_size", 4))
@@ -195,6 +205,7 @@ def main() -> None:
     summary = {
         "asr": {
             "model_id": model_id,
+            "encoder_source": encoder_source,
             "rows": len(rows),
             "summary": summary_rows,
         },
