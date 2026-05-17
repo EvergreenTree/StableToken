@@ -1,0 +1,107 @@
+{
+  "asr": {
+    "model_id": "openai/whisper-tiny",
+    "rows": 112,
+    "summary": [
+      {
+        "corruption": "aac_32k",
+        "language": "fr",
+        "items": 8,
+        "mean_wer": 0.5311191832689244,
+        "mean_cer": 0.24482290050213926
+      },
+      {
+        "corruption": "aac_32k",
+        "language": "zh",
+        "items": 8,
+        "mean_wer": 1.0,
+        "mean_cer": 0.6205911413148255
+      },
+      {
+        "corruption": "babble_4spk_10db",
+        "language": "fr",
+        "items": 8,
+        "mean_wer": 0.7259517574215413,
+        "mean_cer": 0.381141722166545
+      },
+      {
+        "corruption": "babble_4spk_10db",
+        "language": "zh",
+        "items": 8,
+        "mean_wer": 1.0,
+        "mean_cer": 0.7509772026219395
+      },
+      {
+        "corruption": "clean",
+        "language": "fr",
+        "items": 8,
+        "mean_wer": 0.420088003574111,
+        "mean_cer": 0.21201671092214805
+      },
+      {
+        "corruption": "clean",
+        "language": "zh",
+        "items": 8,
+        "mean_wer": 1.0,
+        "mean_cer": 0.6071982841719684
+      },
+      {
+        "corruption": "competing_speech_16db",
+        "language": "fr",
+        "items": 8,
+        "mean_wer": 1.054452832276145,
+        "mean_cer": 0.7200187451971386
+      },
+      {
+        "corruption": "competing_speech_16db",
+        "language": "zh",
+        "items": 8,
+        "mean_wer": 1.0,
+        "mean_cer": 0.7701766435319067
+      },
+      {
+        "corruption": "gaussian_25db",
+        "language": "fr",
+        "items": 8,
+        "mean_wer": 0.5120726155990479,
+        "mean_cer": 0.26570415137058867
+      },
+      {
+        "corruption": "gaussian_25db",
+        "language": "zh",
+        "items": 8,
+        "mean_wer": 1.0,
+        "mean_cer": 0.607676041064199
+      },
+      {
+        "corruption": "reverb_small_room",
+        "language": "fr",
+        "items": 8,
+        "mean_wer": 0.4743264511996311,
+        "mean_cer": 0.22624863124056144
+      },
+      {
+        "corruption": "reverb_small_room",
+        "language": "zh",
+        "items": 8,
+        "mean_wer": 1.0,
+        "mean_cer": 0.6151478455754771
+      },
+      {
+        "corruption": "telephone_bandpass",
+        "language": "fr",
+        "items": 8,
+        "mean_wer": 0.47959691923131176,
+        "mean_cer": 0.21914043031877017
+      },
+      {
+        "corruption": "telephone_bandpass",
+        "language": "zh",
+        "items": 8,
+        "mean_wer": 1.0,
+        "mean_cer": 0.6042220936957778
+      }
+    ]
+  },
+  "elapsed_seconds": 8.096621176000554
+}

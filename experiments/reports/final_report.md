@@ -43,7 +43,9 @@ This report covers the first feasible experiment pass on the local `main` branch
 | Voter pilot config | `1254f34` | `experiments/configs/training_voter_pilot.yaml` | Complete |
 | Voter one-step pilots | `514a554` | `experiments/training_runs/training_voter_pilot_*/result.json` | Complete |
 | 100-clip degradation config | `1dc0119` | `experiments/configs/degradation_full_100.yaml` | Complete |
-| 100-clip degradation run | pending | `experiments/runs/degradation_full_100_20260517/` | Complete |
+| 100-clip degradation run | `2098fb9` | `experiments/runs/degradation_full_100_20260517/` | Complete |
+| ASR degradation runner | `e39aaa6`, `ed03e6f` | `experiments/run_asr_degradation.py` | Complete |
+| ASR degradation smoke | pending | `experiments/runs/asr_degradation_smoke_20260517/` | Complete |
 
 ## Exact Commands
 
@@ -77,6 +79,7 @@ This report covers the first feasible experiment pass on the local `main` branch
 /data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_voter_pilot.yaml --variant n5_clean3
 /data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_voter_pilot.yaml --variant n7_clean4
 /data/venv/bin/python experiments/run_experiment.py --config experiments/configs/degradation_full_100.yaml --run-id degradation_full_100_20260517
+/data/venv/bin/python experiments/run_asr_degradation.py --config experiments/configs/asr_degradation_smoke.yaml --run-id asr_degradation_smoke_20260517
 ```
 
 ## Key Results
@@ -221,6 +224,26 @@ Plot: [`latency_rtf.png`](../runs/latency_smoke_20260517/plots/latency_rtf.png)
 
 Result: extraction is comfortably faster than realtime on the L4 for these smoke settings. The 1s rows are dominated by fixed overhead and should not be used alone for throughput claims.
 
+### ASR Degradation Smoke
+
+This downstream smoke uses `openai/whisper-tiny` directly on corrupted audio. It is not a StableToken-token SpeechLLM evaluation, but it provides a lightweight WER/CER reference for the same degradation suite.
+
+| Corruption | FR WER | FR CER | ZH CER | Note |
+|---|---:|---:|---:|---|
+| Clean | `0.4201` | `0.2120` | `0.6072` | Whisper-tiny is a weak baseline on these slices. |
+| Gaussian 25 dB | `0.5121` | `0.2657` | `0.6077` | Small ASR degradation for zh CER in this tiny slice. |
+| Reverb small room | `0.4743` | `0.2262` | `0.6151` | Mild-to-moderate ASR degradation. |
+| Babble 4 speakers 10 dB | `0.7260` | `0.3811` | `0.7510` | Strong downstream hit. |
+| Competing speech 16 dB | `1.0545` | `0.7200` | `0.7702` | Worst ASR condition in this smoke. |
+| Telephone bandpass | `0.4796` | `0.2191` | `0.6042` | Comparable to clean/reverb for tiny model here. |
+| AAC 32k | `0.5311` | `0.2448` | `0.6206` | Codec degradation is measurable but not worst. |
+
+Run size: 8 FLEURS-fr + 8 CV21-zh clips x 7 conditions = 112 rows.
+
+Artifacts: [`asr_summary.csv`](../runs/asr_degradation_smoke_20260517/asr_summary.csv), [`asr_item_metrics.csv`](../runs/asr_degradation_smoke_20260517/asr_item_metrics.csv)
+
+For Chinese, WER is not useful without word segmentation; use CER.
+
 ## What Failed Or Was Infeasible
 
 | Item | Status | Reason / Fix |
@@ -229,7 +252,8 @@ Result: extraction is comfortably faster than realtime on the L4 for these smoke
 | MP3/Opus/AAC compression run | Fixed and executed | Added `imageio-ffmpeg==0.6.0` fallback because system `ffmpeg` is not on PATH. Full codec rows are in `degradation_full_20260517`. |
 | Full training ablations L8/L12/L16/L20/L24 | Pilot only | L8/L16/L24 each ran one matched step. Full scientific runs still need matched data scale, seeds, steps, and downstream evaluation. |
 | Architecture-vs-augmentation factorial | Pilot only | All five variants ran one matched step. Full conclusions need real training budget, matched seeds/steps, and downstream evaluation. |
-| ASR WER, SER, speaker/prosody, TTS metrics | Not executed | No stable downstream evaluation pipeline was wired in this pass. |
+| ASR WER/CER | Smoke complete | Whisper-tiny downstream ASR degradation smoke is wired. StableToken-token ASR and SER remain future work. |
+| SER, speaker/prosody, TTS metrics | Not executed | No stable downstream evaluation pipeline was wired in this pass. |
 | SpeechLLM QA/translation/summarization/instruction tasks | Not executed | Needs an adapter/LoRA or full SpeechLLM pipeline; recommended after tokenizer-level issues are scaled. |
 
 ## Interpretation
@@ -238,7 +262,7 @@ The sanity run supports the basic reproducibility claims for released inference:
 
 The most important negative finding is chunking instability. StableToken is robust to some perturbations, but the Whisper-style non-causal 30s window can still produce substantially different token sequences for the same absolute time span under different streaming policies. The scaled run confirms this beyond a single example, and simple first/majority/center aggregation does not solve it.
 
-The degradation suite says the next robustness budget should go to babble, competing speech, and reverb, not just additive noise. The 100-clip run confirms this ranking. Competing speech is especially valuable because the tokenizer may encode it as real semantic content rather than discard it.
+The degradation suite says the next robustness budget should go to babble, competing speech, and reverb, not just additive noise. The 100-clip run confirms this ranking. The ASR smoke also points at competing speech and babble as the strongest downstream failure modes. Competing speech is especially valuable because the tokenizer may encode it as real semantic content rather than discard it.
 
 The distribution results show broad but sparse code usage, with meaningful language/domain drift. This is not collapse, but it does mean multilingual and noisy/clean analyses need stratified reporting.
 
@@ -324,6 +348,6 @@ Interpretation: the voter matrix is runnable, including the 0-clean and N=7 case
 
 5. Extend the voter/ratio pilot from one-step checks to matched short runs, then report robustness vs clean performance, token entropy/dead tokens, runtime, and downstream ASR/SER.
 
-6. Add downstream ASR WER and SER on the same clean/noisy/degradation splits before investing in full SpeechLLM experiments.
+6. Replace the Whisper-tiny ASR smoke with a stronger ASR model or a StableToken-token ASR head, and add SER on the same clean/noisy/degradation splits before investing in full SpeechLLM experiments.
 
 7. For SpeechLLM usefulness, start with a small adapter/LoRA controlled experiment on spoken QA or noisy spoken dialogue understanding, using identical data and steps across tokenizer variants.
