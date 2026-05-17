@@ -1,0 +1,9 @@
+corruption,items,language,mean_cer,mean_wer
+babble_4spk_10db,2,fr,1.0,1.0
+babble_4spk_10db,2,zh,1.0,1.0
+clean,2,fr,1.0,1.0
+clean,2,zh,1.0,1.0
+competing_speech_16db,2,fr,1.0,1.0
+competing_speech_16db,2,zh,1.0,1.0
+reverb_small_room,2,fr,1.0,1.0
+reverb_small_room,2,zh,1.0,1.0

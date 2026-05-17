@@ -1,0 +1,66 @@
+{
+  "asr": {
+    "model_id": "openai/whisper-large-v3",
+    "encoder_source": "stabletoken:/data/StableToken/checkpoints/StableToken/tokenizer",
+    "rows": 16,
+    "summary": [
+      {
+        "corruption": "babble_4spk_10db",
+        "language": "fr",
+        "items": 2,
+        "mean_wer": 1.0,
+        "mean_cer": 1.0
+      },
+      {
+        "corruption": "babble_4spk_10db",
+        "language": "zh",
+        "items": 2,
+        "mean_wer": 1.0,
+        "mean_cer": 1.0
+      },
+      {
+        "corruption": "clean",
+        "language": "fr",
+        "items": 2,
+        "mean_wer": 1.0,
+        "mean_cer": 1.0
+      },
+      {
+        "corruption": "clean",
+        "language": "zh",
+        "items": 2,
+        "mean_wer": 1.0,
+        "mean_cer": 1.0
+      },
+      {
+        "corruption": "competing_speech_16db",
+        "language": "fr",
+        "items": 2,
+        "mean_wer": 1.0,
+        "mean_cer": 1.0
+      },
+      {
+        "corruption": "competing_speech_16db",
+        "language": "zh",
+        "items": 2,
+        "mean_wer": 1.0,
+        "mean_cer": 1.0
+      },
+      {
+        "corruption": "reverb_small_room",
+        "language": "fr",
+        "items": 2,
+        "mean_wer": 1.0,
+        "mean_cer": 1.0
+      },
+      {
+        "corruption": "reverb_small_room",
+        "language": "zh",
+        "items": 2,
+        "mean_wer": 1.0,
+        "mean_cer": 1.0
+      }
+    ]
+  },
+  "elapsed_seconds": 42.29446915100016
+}

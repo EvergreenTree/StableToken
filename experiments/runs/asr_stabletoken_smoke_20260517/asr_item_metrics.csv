@@ -1,0 +1,17 @@
+cer,corruption,corruption_type,duration_seconds,item,language,prediction,reference,source,wer
+1.0,clean,clean,14.46,fleurs_fr_dev100:0,fr,",,.,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",il y a de nombreuses répercussions sociales et politiques telles que l'utilisation du système métrique le passage de l'absolutisme au républicanisme le nationalisme et la conviction que le pays appartient au peuple et non à un seul dirigeant,fleurs_fr_dev100,1.0
+1.0,clean,clean,6.0,fleurs_fr_dev100:1,fr,,il n'avait pas non plus le pouvoir de déroger aux lois fiscales ni à celles sur les droits de douane entre les états,fleurs_fr_dev100,1.0
+1.0,clean,clean,4.944,cv21_zh_dev100:0,zh,,身穿名为袈裟或筱悬的麻织法衣。,cv21_zh_dev100,1.0
+1.0,clean,clean,4.776,cv21_zh_dev100:1,zh,,大赖草为菊科赖草属下的一个种。,cv21_zh_dev100,1.0
+1.0,reverb_small_room,reverb,14.46,fleurs_fr_dev100:0,fr,",,,,,,,,,,,,,,,,,,,,,",il y a de nombreuses répercussions sociales et politiques telles que l'utilisation du système métrique le passage de l'absolutisme au républicanisme le nationalisme et la conviction que le pays appartient au peuple et non à un seul dirigeant,fleurs_fr_dev100,1.0
+1.0,reverb_small_room,reverb,6.0,fleurs_fr_dev100:1,fr,,il n'avait pas non plus le pouvoir de déroger aux lois fiscales ni à celles sur les droits de douane entre les états,fleurs_fr_dev100,1.0
+1.0,reverb_small_room,reverb,4.944,cv21_zh_dev100:0,zh,,身穿名为袈裟或筱悬的麻织法衣。,cv21_zh_dev100,1.0
+1.0,reverb_small_room,reverb,4.776,cv21_zh_dev100:1,zh,,大赖草为菊科赖草属下的一个种。,cv21_zh_dev100,1.0
+1.0,babble_4spk_10db,babble,14.46,fleurs_fr_dev100:0,fr,",,,....................,,,,,,,,,,,,",il y a de nombreuses répercussions sociales et politiques telles que l'utilisation du système métrique le passage de l'absolutisme au républicanisme le nationalisme et la conviction que le pays appartient au peuple et non à un seul dirigeant,fleurs_fr_dev100,1.0
+1.0,babble_4spk_10db,babble,6.0,fleurs_fr_dev100:1,fr,,il n'avait pas non plus le pouvoir de déroger aux lois fiscales ni à celles sur les droits de douane entre les états,fleurs_fr_dev100,1.0
+1.0,babble_4spk_10db,babble,4.944,cv21_zh_dev100:0,zh,,身穿名为袈裟或筱悬的麻织法衣。,cv21_zh_dev100,1.0
+1.0,babble_4spk_10db,babble,4.776,cv21_zh_dev100:1,zh,,大赖草为菊科赖草属下的一个种。,cv21_zh_dev100,1.0
+1.0,competing_speech_16db,competing_speech,14.46,fleurs_fr_dev100:0,fr,",,,,...................,..,,,,,,,,,,,,,",il y a de nombreuses répercussions sociales et politiques telles que l'utilisation du système métrique le passage de l'absolutisme au républicanisme le nationalisme et la conviction que le pays appartient au peuple et non à un seul dirigeant,fleurs_fr_dev100,1.0
+1.0,competing_speech_16db,competing_speech,6.0,fleurs_fr_dev100:1,fr,,il n'avait pas non plus le pouvoir de déroger aux lois fiscales ni à celles sur les droits de douane entre les états,fleurs_fr_dev100,1.0
+1.0,competing_speech_16db,competing_speech,4.944,cv21_zh_dev100:0,zh,,身穿名为袈裟或筱悬的麻织法衣。,cv21_zh_dev100,1.0
+1.0,competing_speech_16db,competing_speech,4.776,cv21_zh_dev100:1,zh,,大赖草为菊科赖草属下的一个种。,cv21_zh_dev100,1.0

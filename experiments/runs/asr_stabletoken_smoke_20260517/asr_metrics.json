@@ -1,0 +1,254 @@
+{
+  "summary": [
+    {
+      "corruption": "babble_4spk_10db",
+      "language": "fr",
+      "items": 2,
+      "mean_wer": 1.0,
+      "mean_cer": 1.0
+    },
+    {
+      "corruption": "babble_4spk_10db",
+      "language": "zh",
+      "items": 2,
+      "mean_wer": 1.0,
+      "mean_cer": 1.0
+    },
+    {
+      "corruption": "clean",
+      "language": "fr",
+      "items": 2,
+      "mean_wer": 1.0,
+      "mean_cer": 1.0
+    },
+    {
+      "corruption": "clean",
+      "language": "zh",
+      "items": 2,
+      "mean_wer": 1.0,
+      "mean_cer": 1.0
+    },
+    {
+      "corruption": "competing_speech_16db",
+      "language": "fr",
+      "items": 2,
+      "mean_wer": 1.0,
+      "mean_cer": 1.0
+    },
+    {
+      "corruption": "competing_speech_16db",
+      "language": "zh",
+      "items": 2,
+      "mean_wer": 1.0,
+      "mean_cer": 1.0
+    },
+    {
+      "corruption": "reverb_small_room",
+      "language": "fr",
+      "items": 2,
+      "mean_wer": 1.0,
+      "mean_cer": 1.0
+    },
+    {
+      "corruption": "reverb_small_room",
+      "language": "zh",
+      "items": 2,
+      "mean_wer": 1.0,
+      "mean_cer": 1.0
+    }
+  ],
+  "rows": [
+    {
+      "item": "fleurs_fr_dev100:0",
+      "source": "fleurs_fr_dev100",
+      "language": "fr",
+      "duration_seconds": 14.46,
+      "corruption": "clean",
+      "corruption_type": "clean",
+      "reference": "il y a de nombreuses répercussions sociales et politiques telles que l'utilisation du système métrique le passage de l'absolutisme au républicanisme le nationalisme et la conviction que le pays appartient au peuple et non à un seul dirigeant",
+      "prediction": ",,.,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
+      "wer": 1.0,
+      "cer": 1.0
+    },
+    {
+      "item": "fleurs_fr_dev100:1",
+      "source": "fleurs_fr_dev100",
+      "language": "fr",
+      "duration_seconds": 6.0,
+      "corruption": "clean",
+      "corruption_type": "clean",
+      "reference": "il n'avait pas non plus le pouvoir de déroger aux lois fiscales ni à celles sur les droits de douane entre les états",
+      "prediction": "",
+      "wer": 1.0,
+      "cer": 1.0
+    },
+    {
+      "item": "cv21_zh_dev100:0",
+      "source": "cv21_zh_dev100",
+      "language": "zh",
+      "duration_seconds": 4.944,
+      "corruption": "clean",
+      "corruption_type": "clean",
+      "reference": "身穿名为袈裟或筱悬的麻织法衣。",
+      "prediction": "",
+      "wer": 1.0,
+      "cer": 1.0
+    },
+    {
+      "item": "cv21_zh_dev100:1",
+      "source": "cv21_zh_dev100",
+      "language": "zh",
+      "duration_seconds": 4.776,
+      "corruption": "clean",
+      "corruption_type": "clean",
+      "reference": "大赖草为菊科赖草属下的一个种。",
+      "prediction": "",
+      "wer": 1.0,
+      "cer": 1.0
+    },
+    {
+      "item": "fleurs_fr_dev100:0",
+      "source": "fleurs_fr_dev100",
+      "language": "fr",
+      "duration_seconds": 14.46,
+      "corruption": "reverb_small_room",
+      "corruption_type": "reverb",
+      "reference": "il y a de nombreuses répercussions sociales et politiques telles que l'utilisation du système métrique le passage de l'absolutisme au républicanisme le nationalisme et la conviction que le pays appartient au peuple et non à un seul dirigeant",
+      "prediction": ",,,,,,,,,,,,,,,,,,,,,",
+      "wer": 1.0,
+      "cer": 1.0
+    },
+    {
+      "item": "fleurs_fr_dev100:1",
+      "source": "fleurs_fr_dev100",
+      "language": "fr",
+      "duration_seconds": 6.0,
+      "corruption": "reverb_small_room",
+      "corruption_type": "reverb",
+      "reference": "il n'avait pas non plus le pouvoir de déroger aux lois fiscales ni à celles sur les droits de douane entre les états",
+      "prediction": "",
+      "wer": 1.0,
+      "cer": 1.0
+    },
+    {
+      "item": "cv21_zh_dev100:0",
+      "source": "cv21_zh_dev100",
+      "language": "zh",
+      "duration_seconds": 4.944,
+      "corruption": "reverb_small_room",
+      "corruption_type": "reverb",
+      "reference": "身穿名为袈裟或筱悬的麻织法衣。",
+      "prediction": "",
+      "wer": 1.0,
+      "cer": 1.0
+    },
+    {
+      "item": "cv21_zh_dev100:1",
+      "source": "cv21_zh_dev100",
+      "language": "zh",
+      "duration_seconds": 4.776,
+      "corruption": "reverb_small_room",
+      "corruption_type": "reverb",
+      "reference": "大赖草为菊科赖草属下的一个种。",
+      "prediction": "",
+      "wer": 1.0,
+      "cer": 1.0
+    },
+    {
+      "item": "fleurs_fr_dev100:0",
+      "source": "fleurs_fr_dev100",
+      "language": "fr",
+      "duration_seconds": 14.46,
+      "corruption": "babble_4spk_10db",
+      "corruption_type": "babble",
+      "reference": "il y a de nombreuses répercussions sociales et politiques telles que l'utilisation du système métrique le passage de l'absolutisme au républicanisme le nationalisme et la conviction que le pays appartient au peuple et non à un seul dirigeant",
+      "prediction": ",,,....................,,,,,,,,,,,,",
+      "wer": 1.0,
+      "cer": 1.0
+    },
+    {
+      "item": "fleurs_fr_dev100:1",
+      "source": "fleurs_fr_dev100",
+      "language": "fr",
+      "duration_seconds": 6.0,
+      "corruption": "babble_4spk_10db",
+      "corruption_type": "babble",
+      "reference": "il n'avait pas non plus le pouvoir de déroger aux lois fiscales ni à celles sur les droits de douane entre les états",
+      "prediction": "",
+      "wer": 1.0,
+      "cer": 1.0
+    },
+    {
+      "item": "cv21_zh_dev100:0",
+      "source": "cv21_zh_dev100",
+      "language": "zh",
+      "duration_seconds": 4.944,
+      "corruption": "babble_4spk_10db",
+      "corruption_type": "babble",
+      "reference": "身穿名为袈裟或筱悬的麻织法衣。",
+      "prediction": "",
+      "wer": 1.0,
+      "cer": 1.0
+    },
+    {
+      "item": "cv21_zh_dev100:1",
+      "source": "cv21_zh_dev100",
+      "language": "zh",
+      "duration_seconds": 4.776,
+      "corruption": "babble_4spk_10db",
+      "corruption_type": "babble",
+      "reference": "大赖草为菊科赖草属下的一个种。",
+      "prediction": "",
+      "wer": 1.0,
+      "cer": 1.0
+    },
+    {
+      "item": "fleurs_fr_dev100:0",
+      "source": "fleurs_fr_dev100",
+      "language": "fr",
+      "duration_seconds": 14.46,
+      "corruption": "competing_speech_16db",
+      "corruption_type": "competing_speech",
+      "reference": "il y a de nombreuses répercussions sociales et politiques telles que l'utilisation du système métrique le passage de l'absolutisme au républicanisme le nationalisme et la conviction que le pays appartient au peuple et non à un seul dirigeant",
+      "prediction": ",,,,...................,..,,,,,,,,,,,,,",
+      "wer": 1.0,
+      "cer": 1.0
+    },
+    {
+      "item": "fleurs_fr_dev100:1",
+      "source": "fleurs_fr_dev100",
+      "language": "fr",
+      "duration_seconds": 6.0,
+      "corruption": "competing_speech_16db",
+      "corruption_type": "competing_speech",
+      "reference": "il n'avait pas non plus le pouvoir de déroger aux lois fiscales ni à celles sur les droits de douane entre les états",
+      "prediction": "",
+      "wer": 1.0,
+      "cer": 1.0
+    },
+    {
+      "item": "cv21_zh_dev100:0",
+      "source": "cv21_zh_dev100",
+      "language": "zh",
+      "duration_seconds": 4.944,
+      "corruption": "competing_speech_16db",
+      "corruption_type": "competing_speech",
+      "reference": "身穿名为袈裟或筱悬的麻织法衣。",
+      "prediction": "",
+      "wer": 1.0,
+      "cer": 1.0
+    },
+    {
+      "item": "cv21_zh_dev100:1",
+      "source": "cv21_zh_dev100",
+      "language": "zh",
+      "duration_seconds": 4.776,
+      "corruption": "competing_speech_16db",
+      "corruption_type": "competing_speech",
+      "reference": "大赖草为菊科赖草属下的一个种。",
+      "prediction": "",
+      "wer": 1.0,
+      "cer": 1.0
+    }
+  ]
+}
