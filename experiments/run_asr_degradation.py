@@ -34,6 +34,7 @@ from experiments.run_experiment import (  # noqa: E402
     SAMPLE_RATE,
     corrupt_audio,
     ensure_checkpoint,
+    feature_stride_samples,
     load_audio_item,
     load_items,
     load_tokenizer_model,
@@ -73,13 +74,15 @@ def transcribe_batch(
     language: str,
     device: str,
     max_new_tokens: int,
+    pad_to_multiple_of: int | None = None,
 ) -> list[str]:
     inputs = processor(
         arrays,
         sampling_rate=SAMPLE_RATE,
         return_tensors="pt",
-        padding=True,
+        padding="longest",
         return_attention_mask=True,
+        pad_to_multiple_of=pad_to_multiple_of,
     )
     input_features = inputs.input_features.to(device)
     attention_mask = getattr(inputs, "attention_mask", None)
@@ -135,11 +138,13 @@ def main() -> None:
     processor = WhisperProcessor.from_pretrained(model_id)
     model = WhisperForConditionalGeneration.from_pretrained(model_id).to(device)
     encoder_source = "native_whisper"
+    pad_to_multiple_of = None
     if asr_cfg.get("use_stabletoken_encoder", False):
         checkpoint_dir = ensure_checkpoint(cfg.get("checkpoint", {}))
         stabletoken_encoder, stabletoken_feature_extractor = load_tokenizer_model(checkpoint_dir, device)
         model.model.encoder = stabletoken_encoder
         processor.feature_extractor = stabletoken_feature_extractor
+        pad_to_multiple_of = feature_stride_samples(stabletoken_encoder, stabletoken_feature_extractor)
         encoder_source = f"stabletoken:{checkpoint_dir / 'tokenizer'}"
     model.eval()
 
@@ -169,6 +174,7 @@ def main() -> None:
                     language,
                     device,
                     max_new_tokens,
+                    pad_to_multiple_of=pad_to_multiple_of,
                 )
                 for (item, wav), pred in zip(batch, preds):
                     scores = score_pair(item.reference, pred, language)
