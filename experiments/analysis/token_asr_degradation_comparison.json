@@ -1,0 +1,124 @@
+{
+  "rows": [
+    {
+      "corruption": "aac_32k",
+      "language": "fr",
+      "token_mean_ued": 0.2529815650385865,
+      "token_mean_nued": 0.019460120387583577,
+      "asr_mean_wer": 0.12173744998040734,
+      "asr_mean_cer": 0.048789615550711686,
+      "items_token": 100,
+      "items_asr": 100
+    },
+    {
+      "corruption": "aac_32k",
+      "language": "zh",
+      "token_mean_ued": 0.13713327977691392,
+      "token_mean_nued": 0.010548713828993382,
+      "asr_mean_wer": 0.93,
+      "asr_mean_cer": 0.3807392357175916,
+      "items_token": 100,
+      "items_asr": 100
+    },
+    {
+      "corruption": "babble_4spk_10db",
+      "language": "fr",
+      "token_mean_ued": 0.6070818830544167,
+      "token_mean_nued": 0.04669860638880127,
+      "asr_mean_wer": 0.28848582316728894,
+      "asr_mean_cer": 0.1539956500237848,
+      "items_token": 100,
+      "items_asr": 100
+    },
+    {
+      "corruption": "babble_4spk_10db",
+      "language": "zh",
+      "token_mean_ued": 0.417035457411491,
+      "token_mean_nued": 0.03207965057011469,
+      "asr_mean_wer": 0.97,
+      "asr_mean_cer": 0.5058919325426618,
+      "items_token": 100,
+      "items_asr": 100
+    },
+    {
+      "corruption": "competing_speech_16db",
+      "language": "fr",
+      "token_mean_ued": 0.4817445075880146,
+      "token_mean_nued": 0.03705726981446266,
+      "asr_mean_wer": 0.14093668992654387,
+      "asr_mean_cer": 0.06355969921735033,
+      "items_token": 100,
+      "items_asr": 100
+    },
+    {
+      "corruption": "competing_speech_16db",
+      "language": "zh",
+      "token_mean_ued": 0.2750473946550911,
+      "token_mean_nued": 0.021157491896545467,
+      "asr_mean_wer": 0.96,
+      "asr_mean_cer": 0.3872931775554175,
+      "items_token": 100,
+      "items_asr": 100
+    },
+    {
+      "corruption": "gaussian_25db",
+      "language": "fr",
+      "token_mean_ued": 0.2634576420912609,
+      "token_mean_nued": 0.02026597246855853,
+      "asr_mean_wer": 0.1636813952956398,
+      "asr_mean_cer": 0.06920608543325471,
+      "items_token": 100,
+      "items_asr": 100
+    },
+    {
+      "corruption": "gaussian_25db",
+      "language": "zh",
+      "token_mean_ued": 0.13083146932148085,
+      "token_mean_nued": 0.01006395917857545,
+      "asr_mean_wer": 0.9,
+      "asr_mean_cer": 0.33117312153983647,
+      "items_token": 100,
+      "items_asr": 100
+    },
+    {
+      "corruption": "reverb_small_room",
+      "language": "fr",
+      "token_mean_ued": 0.3660655766307539,
+      "token_mean_nued": 0.02815889051005799,
+      "asr_mean_wer": 0.14278006291234824,
+      "asr_mean_cer": 0.06360258882364153,
+      "items_token": 100,
+      "items_asr": 100
+    },
+    {
+      "corruption": "reverb_small_room",
+      "language": "zh",
+      "token_mean_ued": 0.23991753015014086,
+      "token_mean_nued": 0.01845519462693391,
+      "asr_mean_wer": 0.91,
+      "asr_mean_cer": 0.36261527264765037,
+      "items_token": 100,
+      "items_asr": 100
+    },
+    {
+      "corruption": "telephone_bandpass",
+      "language": "fr",
+      "token_mean_ued": 0.25384634584323534,
+      "token_mean_nued": 0.019526641987941185,
+      "asr_mean_wer": 0.11624003198959026,
+      "asr_mean_cer": 0.047994271763076704,
+      "items_token": 100,
+      "items_asr": 100
+    },
+    {
+      "corruption": "telephone_bandpass",
+      "language": "zh",
+      "token_mean_ued": 0.1417999276050158,
+      "token_mean_nued": 0.010907686738847368,
+      "asr_mean_wer": 0.91,
+      "asr_mean_cer": 0.38799639066166536,
+      "items_token": 100,
+      "items_asr": 100
+    }
+  ]
+}

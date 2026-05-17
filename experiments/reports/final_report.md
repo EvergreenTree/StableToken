@@ -50,6 +50,7 @@ This report covers the first feasible experiment pass on the local `main` branch
 | Whisper-small ASR smoke | `3aadf75` | `experiments/runs/asr_degradation_small_20260517/` | Complete |
 | Whisper-small ASR 100-clip config | `2743038` | `experiments/configs/asr_degradation_small_100.yaml` | Complete |
 | Whisper-small ASR 100-clip run | `c1a0a81` | `experiments/runs/asr_degradation_small_100_20260517/` | Complete |
+| Token-vs-ASR comparison | pending | `experiments/analysis/token_asr_degradation_comparison.csv` | Complete |
 
 ## Exact Commands
 
@@ -281,6 +282,29 @@ Artifacts: [`asr_summary.csv`](../runs/asr_degradation_small_20260517/asr_summar
 Scale-up run size: 100 FLEURS-fr + 100 CV21-zh clips x 7 conditions = 1400 rows.
 
 Artifacts: [`asr_summary.csv`](../runs/asr_degradation_small_100_20260517/asr_summary.csv), [`asr_item_metrics.csv`](../runs/asr_degradation_small_100_20260517/asr_item_metrics.csv)
+
+### Token-vs-ASR Comparison
+
+The shared 100-clip token and Whisper-small ASR runs were joined for the overlapping corruptions.
+
+| Corruption | Lang | Token UED | ASR WER | ASR CER |
+|---|---|---:|---:|---:|
+| Babble 4 speakers 10 dB | fr | `0.6071` | `0.2885` | `0.1540` |
+| Babble 4 speakers 10 dB | zh | `0.4170` | `0.9700` | `0.5059` |
+| Competing speech 16 dB | fr | `0.4817` | `0.1409` | `0.0636` |
+| Competing speech 16 dB | zh | `0.2750` | `0.9600` | `0.3873` |
+| Reverb small room | fr | `0.3661` | `0.1428` | `0.0636` |
+| Reverb small room | zh | `0.2399` | `0.9100` | `0.3626` |
+| Gaussian 25 dB | fr | `0.2635` | `0.1637` | `0.0692` |
+| Gaussian 25 dB | zh | `0.1308` | `0.9000` | `0.3312` |
+| AAC 32k | fr | `0.2530` | `0.1217` | `0.0488` |
+| AAC 32k | zh | `0.1371` | `0.9300` | `0.3807` |
+| Telephone bandpass | fr | `0.2538` | `0.1162` | `0.0480` |
+| Telephone bandpass | zh | `0.1418` | `0.9100` | `0.3880` |
+
+Artifacts: [`token_asr_degradation_comparison.csv`](../analysis/token_asr_degradation_comparison.csv), [`token_asr_degradation_comparison.json`](../analysis/token_asr_degradation_comparison.json)
+
+Interpretation: token UED is a useful robustness diagnostic, but it is not a direct proxy for downstream ASR impact. Babble is high on both axes. Competing speech is high token UED but modest French Whisper-small WER, suggesting either the tokenizer changes are not always ASR-relevant or Whisper-small ignores some competing content.
 
 ## What Failed Or Was Infeasible
 
