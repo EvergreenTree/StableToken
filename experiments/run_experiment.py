@@ -501,17 +501,25 @@ def tokenize_long_audio_policy(
 
 
 def token_bins(windows: list[dict[str, Any]], frame_rate: float, mode: str) -> dict[int, int]:
-    bucket: dict[int, list[int]] = defaultdict(list)
+    bucket: dict[int, list[dict[str, float | int]]] = defaultdict(list)
     for win in windows:
         start_bin = int(round(float(win["start_seconds"]) * frame_rate))
         for idx, token in enumerate(win["tokens"]):
-            bucket[start_bin + idx].append(int(token))
+            abs_bin = start_bin + idx
+            token_time = (abs_bin + 0.5) / frame_rate
+            margin = min(
+                token_time - float(win["start_seconds"]),
+                float(win["end_seconds"]) - token_time,
+            )
+            bucket[abs_bin].append({"token": int(token), "margin": margin})
     reduced: dict[int, int] = {}
     for key, vals in bucket.items():
         if mode == "first":
-            reduced[key] = vals[0]
+            reduced[key] = int(vals[0]["token"])
         elif mode == "majority":
-            reduced[key] = Counter(vals).most_common(1)[0][0]
+            reduced[key] = Counter(int(v["token"]) for v in vals).most_common(1)[0][0]
+        elif mode == "center":
+            reduced[key] = int(max(vals, key=lambda v: float(v["margin"]))["token"])
         else:
             raise ValueError(mode)
     return reduced
@@ -730,7 +738,8 @@ def run_chunking(cfg, run_dir: Path, model, feature_extractor, items, device: st
             name = policy["name"]
             hyp_first = token_bins(policy_windows[name], frame_rate, "first")
             hyp_majority = token_bins(policy_windows[name], frame_rate, "majority")
-            for mode, hyp in [("first", hyp_first), ("majority", hyp_majority)]:
+            hyp_center = token_bins(policy_windows[name], frame_rate, "center")
+            for mode, hyp in [("first", hyp_first), ("majority", hyp_majority), ("center", hyp_center)]:
                 base = compare_bins(ref_majority, hyp)
                 base.update({"audio_index": audio_idx, "policy": name, "aggregation": mode, "region": "overall"})
                 all_rows.append(base)
