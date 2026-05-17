@@ -1,0 +1,20 @@
+{
+  "timestamp_utc": "20260517_212223",
+  "git_commit": "f122ad63d7b2ee57f8bfa34f2dbc07cab930f78d",
+  "git_status_short": "",
+  "command": "experiments/run_experiment.py --config experiments/configs/distribution.yaml --run-id distribution_zipf_smoke_20260517",
+  "config_path": "/data/StableToken/experiments/configs/distribution.yaml",
+  "checkpoint_dir": "/data/StableToken/checkpoints/StableToken",
+  "checkpoint": {
+    "repo_id": "tencent/StableToken",
+    "local_dir": "checkpoints/StableToken",
+    "revision": "dd19e26b6e7a2ffcc8523d15b80238175c69a2b6",
+    "allow_patterns": [
+      "tokenizer/*"
+    ]
+  },
+  "python": "/data/venv/bin/python",
+  "torch": "2.11.0+cu128",
+  "cuda_available": true,
+  "device_name": "NVIDIA L4"
+}

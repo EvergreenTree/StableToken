@@ -1,0 +1,49 @@
+{
+  "run_name": "distribution_smoke",
+  "seed": 42,
+  "device": "auto",
+  "checkpoint": {
+    "repo_id": "tencent/StableToken",
+    "local_dir": "checkpoints/StableToken",
+    "revision": "dd19e26b6e7a2ffcc8523d15b80238175c69a2b6",
+    "allow_patterns": [
+      "tokenizer/*"
+    ]
+  },
+  "batch_size": 8,
+  "output_root": "experiments/runs",
+  "tasks": [
+    "distribution"
+  ],
+  "data": {
+    "sources": [
+      {
+        "name": "fleurs_fr_dev100",
+        "type": "jsonl",
+        "path": "/data/speech2text/Qwen3-ASR/finetuning/eval_slices/fleurs_fr_dev100.jsonl",
+        "language": "fr",
+        "max_items": 20
+      },
+      {
+        "name": "cv21_zh_dev100",
+        "type": "jsonl",
+        "path": "/data/speech2text/Qwen3-ASR/finetuning/eval_slices/cv21_zh_dev100.jsonl",
+        "language": "zh",
+        "max_items": 20
+      }
+    ]
+  },
+  "distribution": {
+    "corruptions": [
+      {
+        "name": "clean",
+        "type": "clean"
+      },
+      {
+        "name": "gaussian_25db",
+        "type": "gaussian",
+        "snr_db": 25
+      }
+    ]
+  }
+}
