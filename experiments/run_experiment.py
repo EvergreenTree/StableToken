@@ -464,6 +464,59 @@ def tokenize_arrays(
     return out
 
 
+def voter_quality_from_hidden(model, hidden: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+    """Estimate LFQ voter agreement before the hard code decision."""
+    quantizer = model.quantizer
+    votes = []
+    for project_in in quantizer.project_in:
+        projected = project_in(hidden) if quantizer.has_projections else hidden
+        votes.append((projected > 0).float())
+    vote_tensor = torch.stack(votes, dim=0)
+    p = vote_tensor.mean(dim=0).clamp(1e-6, 1.0 - 1e-6)
+    entropy = -(p * torch.log2(p) + (1.0 - p) * torch.log2(1.0 - p)).mean(dim=-1)
+    margin = (2.0 * torch.abs(p - 0.5)).mean(dim=-1)
+    return margin, entropy
+
+
+def tokenize_arrays_with_metadata(
+    model,
+    feature_extractor,
+    arrays: list[np.ndarray],
+    device: str,
+    batch_size: int,
+) -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
+    stride = feature_stride_samples(model, feature_extractor)
+    for start in range(0, len(arrays), batch_size):
+        batch = arrays[start : start + batch_size]
+        features = feature_extractor(
+            batch,
+            sampling_rate=SAMPLE_RATE,
+            return_attention_mask=True,
+            return_tensors="pt",
+            padding="longest",
+            pad_to_multiple_of=stride,
+        )
+        features = features.to(device)
+        with torch.inference_mode():
+            tokens = model(**features, require_only_quantized_token=True)
+            hidden = model(**features, require_only_hidden_states_before_quant=True)
+            voter_margin, voter_entropy = voter_quality_from_hidden(model, hidden)
+        mask = valid_token_mask(features, model, tokens.shape)
+        for i in range(tokens.shape[0]):
+            valid_len = min(int(mask[i].sum().item()), tokens.shape[1], hidden.shape[1])
+            valid = mask[i, :valid_len]
+            out.append(
+                {
+                    "tokens": tokens[i, :valid_len][valid].detach().cpu().long().tolist(),
+                    "hidden": hidden[i, :valid_len][valid].detach().cpu().float().numpy(),
+                    "voter_margin": voter_margin[i, :valid_len][valid].detach().cpu().float().numpy(),
+                    "voter_entropy": voter_entropy[i, :valid_len][valid].detach().cpu().float().numpy(),
+                }
+            )
+    return out
+
+
 def tokenize_long_audio_policy(
     model,
     feature_extractor,
@@ -473,6 +526,7 @@ def tokenize_long_audio_policy(
     window_seconds: float,
     stride_seconds: float,
     max_windows: int | None = None,
+    include_hidden: bool = False,
 ) -> list[dict[str, Any]]:
     total_seconds = wav.shape[0] / SAMPLE_RATE
     starts: list[float] = []
@@ -494,9 +548,14 @@ def tokenize_long_audio_policy(
         windows.append(segment.astype(np.float32))
         metas.append({"start_seconds": start_sec, "end_seconds": end / SAMPLE_RATE})
 
-    tokens_list = tokenize_arrays(model, feature_extractor, windows, device, batch_size)
-    for meta, tokens in zip(metas, tokens_list):
-        meta["tokens"] = tokens
+    if include_hidden:
+        metadata_list = tokenize_arrays_with_metadata(model, feature_extractor, windows, device, batch_size)
+        for meta, metadata in zip(metas, metadata_list):
+            meta.update(metadata)
+    else:
+        tokens_list = tokenize_arrays(model, feature_extractor, windows, device, batch_size)
+        for meta, tokens in zip(metas, tokens_list):
+            meta["tokens"] = tokens
     return metas
 
 
@@ -523,6 +582,168 @@ def token_bins(windows: list[dict[str, Any]], frame_rate: float, mode: str) -> d
         else:
             raise ValueError(mode)
     return reduced
+
+
+def collect_token_observations(
+    windows: list[dict[str, Any]],
+    frame_rate: float,
+) -> dict[int, list[dict[str, Any]]]:
+    bucket: dict[int, list[dict[str, Any]]] = defaultdict(list)
+    for window_index, win in enumerate(windows):
+        start_seconds = float(win["start_seconds"])
+        end_seconds = float(win["end_seconds"])
+        start_bin = int(round(start_seconds * frame_rate))
+        tokens = [int(token) for token in win["tokens"]]
+        hidden = win.get("hidden")
+        voter_margin = win.get("voter_margin")
+        voter_entropy = win.get("voter_entropy")
+        for idx, token in enumerate(tokens):
+            abs_bin = start_bin + idx
+            token_time = (abs_bin + 0.5) / frame_rate
+            edge_distance = max(0.0, min(token_time - start_seconds, end_seconds - token_time))
+            obs = {
+                "token": token,
+                "abs_bin": abs_bin,
+                "token_time_seconds": token_time,
+                "window_index": window_index,
+                "window_start_seconds": start_seconds,
+                "window_end_seconds": end_seconds,
+                "edge_distance_seconds": edge_distance,
+                "commit_latency_seconds": max(0.0, end_seconds - token_time),
+            }
+            if voter_margin is not None and idx < len(voter_margin):
+                obs["voter_margin"] = float(voter_margin[idx])
+            if voter_entropy is not None and idx < len(voter_entropy):
+                obs["voter_entropy"] = float(voter_entropy[idx])
+            if hidden is not None and idx < len(hidden):
+                obs["hidden"] = np.asarray(hidden[idx], dtype=np.float32)
+            bucket[abs_bin].append(obs)
+    return bucket
+
+
+def observation_weight(obs: dict[str, Any], mode: str) -> float:
+    edge = max(0.0, float(obs.get("edge_distance_seconds", 0.0)))
+    voter = max(0.0, float(obs.get("voter_margin", 1.0)))
+    entropy_quality = max(0.0, 1.0 - float(obs.get("voter_entropy", 0.0)))
+    if mode == "edge_weighted":
+        return 1e-4 + edge
+    if mode == "voter_margin":
+        return 1e-4 + voter
+    if mode == "entropy_weighted":
+        return 1e-4 + entropy_quality
+    if mode == "edge_voter":
+        return 1e-4 + edge * voter
+    if mode == "edge_entropy":
+        return 1e-4 + edge * entropy_quality
+    if mode == "edge_voter_entropy":
+        return 1e-4 + edge * voter * entropy_quality
+    return 1.0
+
+
+def weighted_vote(vals: list[dict[str, Any]], mode: str) -> int:
+    scores: dict[int, float] = defaultdict(float)
+    for obs in vals:
+        scores[int(obs["token"])] += observation_weight(obs, mode)
+    return int(max(scores.items(), key=lambda item: (item[1], -item[0]))[0])
+
+
+def quantize_hidden_vectors(
+    model,
+    hidden_vectors: list[np.ndarray],
+    device: str,
+    batch_tokens: int = 1024,
+) -> list[int]:
+    if not hidden_vectors:
+        return []
+    ids: list[int] = []
+    with torch.inference_mode():
+        for start in range(0, len(hidden_vectors), batch_tokens):
+            arr = np.stack(hidden_vectors[start : start + batch_tokens]).astype(np.float32)
+            tensor = torch.from_numpy(arr).unsqueeze(0).to(device)
+            _, indices, _ = model.quantizer(tensor)
+            ids.extend(indices.squeeze(0).detach().cpu().long().tolist())
+    return ids
+
+
+def aggregate_observation_bins(
+    bucket: dict[int, list[dict[str, Any]]],
+    mode: str,
+    model=None,
+    device: str = "cpu",
+) -> dict[int, int]:
+    reduced: dict[int, int] = {}
+    if mode.startswith("hidden_"):
+        keys: list[int] = []
+        vectors: list[np.ndarray] = []
+        weight_mode = mode.removeprefix("hidden_")
+        for key in sorted(bucket):
+            vals = [obs for obs in bucket[key] if "hidden" in obs]
+            if not vals:
+                continue
+            weights = np.asarray([observation_weight(obs, weight_mode) for obs in vals], dtype=np.float64)
+            if not np.isfinite(weights).all() or float(weights.sum()) <= 0.0:
+                weights = np.ones(len(vals), dtype=np.float64)
+            arr = np.stack([np.asarray(obs["hidden"], dtype=np.float32) for obs in vals])
+            vectors.append(np.average(arr, axis=0, weights=weights).astype(np.float32))
+            keys.append(key)
+        if model is None:
+            raise ValueError(f"{mode} requires model access")
+        tokens = quantize_hidden_vectors(model, vectors, device)
+        return {key: int(token) for key, token in zip(keys, tokens)}
+
+    for key, vals in bucket.items():
+        if not vals:
+            continue
+        if mode == "first":
+            reduced[key] = int(vals[0]["token"])
+        elif mode == "majority":
+            reduced[key] = Counter(int(v["token"]) for v in vals).most_common(1)[0][0]
+        elif mode == "center":
+            reduced[key] = int(max(vals, key=lambda v: float(v["edge_distance_seconds"]))["token"])
+        elif mode in {"edge_weighted", "voter_margin", "entropy_weighted", "edge_voter", "edge_entropy", "edge_voter_entropy"}:
+            reduced[key] = weighted_vote(vals, mode)
+        else:
+            raise ValueError(mode)
+    return reduced
+
+
+def hidden_variance(vals: list[dict[str, Any]]) -> float:
+    hiddens = [np.asarray(obs["hidden"], dtype=np.float32) for obs in vals if "hidden" in obs]
+    if len(hiddens) < 2:
+        return 0.0
+    arr = np.stack(hiddens)
+    centered = arr - arr.mean(axis=0, keepdims=True)
+    return float(np.mean(np.square(centered, dtype=np.float64)))
+
+
+def plot_grouped_line(
+    path: Path,
+    rows: list[dict[str, Any]],
+    x_key: str,
+    y_key: str,
+    group_keys: list[str],
+    title: str,
+    ylabel: str,
+    xlabel: str,
+) -> None:
+    if not rows:
+        return
+    grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        label = " / ".join(str(row[key]) for key in group_keys)
+        grouped[label].append(row)
+    plt.figure(figsize=(8, 4.8))
+    for label, vals in sorted(grouped.items()):
+        vals = sorted(vals, key=lambda row: float(row[x_key]))
+        plt.plot([float(row[x_key]) for row in vals], [float(row[y_key]) for row in vals], marker="o", label=label)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.title(title)
+    plt.legend(fontsize=7)
+    plt.tight_layout()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    plt.savefig(path, dpi=160)
+    plt.close()
 
 
 def levenshtein(a: list[int], b: list[int]) -> int:
@@ -713,12 +934,22 @@ def run_chunking(cfg, run_dir: Path, model, feature_extractor, items, device: st
     long_count = int(spec.get("long_audio_count", 1))
     target_seconds = float(spec.get("target_long_seconds", 75))
     policies = spec["policies"]
+    advanced = bool(spec.get("advanced", False))
+    aggregation_modes = spec.get("aggregation_modes", ["first", "majority", "center"])
+    high_overlap_mode = str(spec.get("high_overlap_reference_mode", "edge_voter"))
+    latency_seconds = [float(x) for x in spec.get("commit_latency_seconds", [1, 3, 5, 10, 15])]
     all_rows: list[dict[str, Any]] = []
     distance_rows: list[dict[str, Any]] = []
+    reference_rows: list[dict[str, Any]] = []
+    overlap_rows: list[dict[str, Any]] = []
+    overlap_summary_rows: list[dict[str, Any]] = []
+    edge_distance_rows: list[dict[str, Any]] = []
+    commit_latency_rows: list[dict[str, Any]] = []
 
     for audio_idx in range(long_count):
         wav = make_long_audio(items[audio_idx:] + items[:audio_idx], target_seconds)
         policy_windows = {}
+        observation_buckets = {}
         for policy in policies:
             policy_windows[policy["name"]] = tokenize_long_audio_policy(
                 model,
@@ -729,10 +960,20 @@ def run_chunking(cfg, run_dir: Path, model, feature_extractor, items, device: st
                 float(policy["window_seconds"]),
                 float(policy["stride_seconds"]),
                 policy.get("max_windows"),
+                include_hidden=advanced,
             )
+            if advanced:
+                observation_buckets[policy["name"]] = collect_token_observations(policy_windows[policy["name"]], frame_rate)
 
         ref_name = policies[0]["name"]
         ref_majority = token_bins(policy_windows[ref_name], frame_rate, "majority")
+        high_overlap_policy = min(policies[1:] or policies, key=lambda row: float(row["stride_seconds"]))
+        high_overlap_name = high_overlap_policy["name"]
+        high_overlap_reference = (
+            aggregate_observation_bins(observation_buckets[high_overlap_name], high_overlap_mode, model, device)
+            if advanced
+            else token_bins(policy_windows[high_overlap_name], frame_rate, "majority")
+        )
         cut_bins = {int(round(x * frame_rate)) for x in np.arange(30.0, target_seconds, 30.0)}
         for policy in policies[1:]:
             name = policy["name"]
@@ -792,9 +1033,138 @@ def run_chunking(cfg, run_dir: Path, model, feature_extractor, items, device: st
                     )
                     distance_rows.append(row)
 
+        if not advanced:
+            continue
+
+        references = {
+            "nonoverlap_majority": ref_majority,
+            f"high_overlap_{high_overlap_name}_{high_overlap_mode}": high_overlap_reference,
+        }
+        for policy in policies:
+            name = policy["name"]
+            bucket = observation_buckets[name]
+            for mode in aggregation_modes:
+                hyp = aggregate_observation_bins(bucket, mode, model, device)
+                for reference_name, reference in references.items():
+                    row = compare_bins(reference, hyp)
+                    row.update(
+                        {
+                            "audio_index": audio_idx,
+                            "policy": name,
+                            "aggregation": mode,
+                            "reference": reference_name,
+                            "coverage_vs_reference": row["tokens"] / max(1, len(reference)),
+                        }
+                    )
+                    reference_rows.append(row)
+
+        edge_bins = [(0, 0.5), (0.5, 1), (1, 2), (2, 5), (5, 10), (10, 15)]
+        for policy in policies:
+            name = policy["name"]
+            bucket = observation_buckets[name]
+            policy_consistency = []
+            for abs_bin, vals in bucket.items():
+                if len(vals) < 2:
+                    continue
+                token_counts = Counter(int(obs["token"]) for obs in vals)
+                top_count = token_counts.most_common(1)[0][1]
+                consistency = top_count / len(vals)
+                policy_consistency.append(1.0 - consistency)
+                overlap_rows.append(
+                    {
+                        "audio_index": audio_idx,
+                        "policy": name,
+                        "abs_bin": abs_bin,
+                        "observations": len(vals),
+                        "unique_tokens": len(token_counts),
+                        "consistency": consistency,
+                        "disagreement": 1.0 - consistency,
+                        "mean_edge_distance_seconds": float(np.mean([obs["edge_distance_seconds"] for obs in vals])),
+                        "max_edge_distance_seconds": float(np.max([obs["edge_distance_seconds"] for obs in vals])),
+                        "mean_voter_margin": float(np.mean([obs.get("voter_margin", 1.0) for obs in vals])),
+                        "mean_voter_entropy": float(np.mean([obs.get("voter_entropy", 0.0) for obs in vals])),
+                        "hidden_variance": hidden_variance(vals),
+                    }
+                )
+            if policy_consistency:
+                overlap_summary_rows.append(
+                    {
+                        "audio_index": audio_idx,
+                        "policy": name,
+                        "overlap_bins": len(policy_consistency),
+                        "mean_overlap_disagreement": float(np.mean(policy_consistency)),
+                        "p90_overlap_disagreement": float(np.quantile(policy_consistency, 0.9)),
+                    }
+                )
+
+            for reference_name, reference in references.items():
+                for lo, hi in edge_bins:
+                    total = 0
+                    mismatches = 0
+                    for abs_bin, vals in bucket.items():
+                        if abs_bin not in reference:
+                            continue
+                        for obs in vals:
+                            edge = float(obs["edge_distance_seconds"])
+                            if lo <= edge < hi:
+                                total += 1
+                                mismatches += int(int(obs["token"]) != int(reference[abs_bin]))
+                    edge_distance_rows.append(
+                        {
+                            "audio_index": audio_idx,
+                            "policy": name,
+                            "reference": reference_name,
+                            "edge_distance_bin": f"{lo:g}-{hi:g}s",
+                            "edge_distance_midpoint_seconds": (lo + hi) / 2.0,
+                            "observations": total,
+                            "mismatch_rate": mismatches / max(1, total),
+                        }
+                    )
+
+        latency_policy_name = str(spec.get("commit_latency_policy", high_overlap_name))
+        latency_bucket = observation_buckets[latency_policy_name]
+        for latency in latency_seconds:
+            gated_bucket = {
+                key: [obs for obs in vals if float(obs["commit_latency_seconds"]) <= latency]
+                for key, vals in latency_bucket.items()
+            }
+            gated_bucket = {key: vals for key, vals in gated_bucket.items() if vals}
+            for mode in aggregation_modes:
+                hyp = aggregate_observation_bins(gated_bucket, mode, model, device)
+                for reference_name, reference in references.items():
+                    row = compare_bins(reference, hyp)
+                    row.update(
+                        {
+                            "audio_index": audio_idx,
+                            "policy": latency_policy_name,
+                            "aggregation": mode,
+                            "reference": reference_name,
+                            "commit_latency_seconds": latency,
+                            "coverage_vs_reference": row["tokens"] / max(1, len(reference)),
+                        }
+                    )
+                    commit_latency_rows.append(row)
+
     write_csv(run_dir / "chunking_metrics.csv", all_rows)
     write_csv(run_dir / "chunking_distance_metrics.csv", distance_rows)
+    write_csv(run_dir / "chunking_reference_comparison.csv", reference_rows)
+    write_csv(run_dir / "chunking_overlap_consistency.csv", overlap_rows)
+    write_csv(run_dir / "chunking_overlap_summary.csv", overlap_summary_rows)
+    write_csv(run_dir / "chunking_edge_distance_metrics.csv", edge_distance_rows)
+    write_csv(run_dir / "chunking_commit_latency_metrics.csv", commit_latency_rows)
     write_json(run_dir / "chunking_metrics.json", {"rows": all_rows, "distance_rows": distance_rows})
+    if advanced:
+        write_json(
+            run_dir / "chunking_advanced_metrics.json",
+            {
+                "reference_rows": reference_rows,
+                "overlap_summary_rows": overlap_summary_rows,
+                "edge_distance_rows": edge_distance_rows,
+                "commit_latency_rows": commit_latency_rows,
+                "high_overlap_reference": f"high_overlap_{high_overlap_name}_{high_overlap_mode}",
+                "aggregation_modes": aggregation_modes,
+            },
+        )
     plot_bar(
         run_dir / "plots" / "chunking_boundary_instability.png",
         [row for row in all_rows if row["aggregation"] == "majority" and row["region"] == "overall"],
@@ -803,9 +1173,66 @@ def run_chunking(cfg, run_dir: Path, model, feature_extractor, items, device: st
         "Chunking mismatch vs non-overlap",
         "Mismatch rate",
     )
+    if advanced:
+        plot_bar(
+            run_dir / "plots" / "advanced_reference_comparison.png",
+            [
+                row
+                for row in reference_rows
+                if row["reference"] == "nonoverlap_majority"
+                and row["policy"] != ref_name
+                and row["aggregation"] in {"first", "edge_voter", "hidden_edge_voter"}
+            ],
+            "aggregation",
+            "mismatch_rate",
+            "Aggregation mismatch vs non-overlap",
+            "Mismatch rate",
+        )
+        plot_grouped_line(
+            run_dir / "plots" / "advanced_overlap_disagreement.png",
+            overlap_summary_rows,
+            "audio_index",
+            "mean_overlap_disagreement",
+            ["policy"],
+            "Overlap disagreement by absolute token index",
+            "Mean overlap disagreement",
+            "Audio index",
+        )
+        plot_grouped_line(
+            run_dir / "plots" / "advanced_edge_distance.png",
+            [
+                row
+                for row in edge_distance_rows
+                if row["reference"] == "nonoverlap_majority" and row["policy"] == high_overlap_name
+            ],
+            "edge_distance_midpoint_seconds",
+            "mismatch_rate",
+            ["policy"],
+            "Token mismatch vs distance from window edge",
+            "Mismatch rate",
+            "Distance from window edge (s)",
+        )
+        plot_grouped_line(
+            run_dir / "plots" / "advanced_commit_latency.png",
+            [
+                row
+                for row in commit_latency_rows
+                if row["reference"] == "nonoverlap_majority"
+                and row["aggregation"] in {"first", "edge_voter", "hidden_edge_voter"}
+            ],
+            "commit_latency_seconds",
+            "mismatch_rate",
+            ["aggregation"],
+            "Pseudo-streaming mismatch by commit latency",
+            "Mismatch rate",
+            "Commit latency (s)",
+        )
     return {
         "rows": len(all_rows),
         "distance_rows": len(distance_rows),
+        "reference_rows": len(reference_rows),
+        "overlap_rows": len(overlap_rows),
+        "commit_latency_rows": len(commit_latency_rows),
         "mean_overall_mismatch": float(
             np.mean([row["mismatch_rate"] for row in all_rows if row["region"] == "overall"])
         )
