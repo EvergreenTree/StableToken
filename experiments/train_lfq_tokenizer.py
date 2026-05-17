@@ -391,6 +391,7 @@ def main() -> None:
         max_grad_norm=float(train_cfg.get("grad_clip", 1.0)),
         bf16=bool(train_cfg.get("bf16", torch.cuda.is_available())),
         logging_steps=int(train_cfg.get("logging_steps", 25)),
+        save_strategy=str(train_cfg.get("save_strategy", "steps" if train_cfg.get("save_model", True) else "no")),
         save_steps=int(train_cfg.get("save_steps", 1000)),
         save_total_limit=2,
         eval_strategy="no",
@@ -408,11 +409,23 @@ def main() -> None:
         data_collator=collator,
         processing_class=tokenizer,
     )
-    trainer.train()
-    trainer.save_model(str(output_dir))
-    tokenizer.save_pretrained(str(output_dir))
-    feature_extractor.save_pretrained(str(output_dir))
-    print(json.dumps({"status": "trained", "output_dir": str(output_dir)}, indent=2))
+    train_output = trainer.train()
+    metrics = {key: float(value) if isinstance(value, (int, float)) else value for key, value in train_output.metrics.items()}
+    result = {
+        "status": "trained",
+        "output_dir": str(output_dir),
+        "variant": variant,
+        "base_model": base_model,
+        "metrics": metrics,
+        "saved_model": bool(train_cfg.get("save_model", True)),
+    }
+    with (output_dir / "result.json").open("w", encoding="utf-8") as handle:
+        json.dump(result, handle, indent=2)
+    if train_cfg.get("save_model", True):
+        trainer.save_model(str(output_dir))
+        tokenizer.save_pretrained(str(output_dir))
+        feature_extractor.save_pretrained(str(output_dir))
+    print(json.dumps(result, indent=2))
 
 
 if __name__ == "__main__":
