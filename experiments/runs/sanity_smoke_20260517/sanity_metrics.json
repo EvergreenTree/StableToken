@@ -1,0 +1,64 @@
+{
+  "summary": {
+    "mean_token_rate_hz": 25.0,
+    "mean_clean_tokens": 750.0,
+    "mean_ued": 0.15533333333333332,
+    "mean_nued": 0.011948717948717949,
+    "expected_vocab_size": 8192,
+    "model_vocab_size": 8192,
+    "pooling_kernel_size": 2,
+    "quantize_position": 16,
+    "num_voters": 5,
+    "num_clean_input": 3
+  },
+  "rows": [
+    {
+      "item": "fleurs_fr_dev100:0",
+      "duration_seconds": 30.0,
+      "clean_tokens": 750,
+      "noisy_tokens": 750,
+      "token_rate_hz": 25.0,
+      "vocab_size": 8192,
+      "bits_per_token": 13.0,
+      "bitrate_bps": 325.0,
+      "ued": 0.11733333333333333,
+      "nued": 0.009025641025641025
+    },
+    {
+      "item": "fleurs_fr_dev100:1",
+      "duration_seconds": 30.0,
+      "clean_tokens": 750,
+      "noisy_tokens": 750,
+      "token_rate_hz": 25.0,
+      "vocab_size": 8192,
+      "bits_per_token": 13.0,
+      "bitrate_bps": 325.0,
+      "ued": 0.16933333333333334,
+      "nued": 0.013025641025641025
+    },
+    {
+      "item": "cv21_zh_dev100:0",
+      "duration_seconds": 30.0,
+      "clean_tokens": 750,
+      "noisy_tokens": 750,
+      "token_rate_hz": 25.0,
+      "vocab_size": 8192,
+      "bits_per_token": 13.0,
+      "bitrate_bps": 325.0,
+      "ued": 0.108,
+      "nued": 0.008307692307692308
+    },
+    {
+      "item": "cv21_zh_dev100:1",
+      "duration_seconds": 30.0,
+      "clean_tokens": 750,
+      "noisy_tokens": 750,
+      "token_rate_hz": 25.0,
+      "vocab_size": 8192,
+      "bits_per_token": 13.0,
+      "bitrate_bps": 325.0,
+      "ued": 0.22666666666666666,
+      "nued": 0.017435897435897435
+    }
+  ]
+}

@@ -22,18 +22,21 @@ The original project README has been preserved at [README.upstream.md](README.up
 
 | Date UTC | Step | Commit | Config / Command | Dataset / Split | Metrics | Lessons | Notes |
 |---|---|---:|---|---|---|---|---|
-| 2026-05-17 | Ledger initialized | pending | `mv README.md README.upstream.md` plus new ledger README | n/a | n/a | Keep the run history in the front page; preserve upstream docs separately. | First implementation step before adding runners or launching experiments. |
+| 2026-05-17 | Ledger initialized | `0d50926` | `mv README.md README.upstream.md` plus new ledger README | n/a | n/a | Keep the run history in the front page; preserve upstream docs separately. | First implementation step before adding runners or launching experiments. |
+| 2026-05-17 | Config-driven inference runner added | `7407108` | `experiments/run_experiment.py` plus `experiments/configs/*.yaml` | Local FLEURS-fr and CV21-zh slices discovered under `/data/speech2text` | Supports sanity, chunking, degradation, distribution, and latency tasks | Inference-first plan is feasible without training data scale changes. | Outputs are CSV/JSON/PNG/TXT under `experiments/runs/`; large checkpoints remain ignored. |
+| 2026-05-17 | LFQ ablation harness scaffolded | `9cbbf5d` | `/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_smoke.yaml --dry-run` | Config-only smoke using local JSONL manifests | Dry run status: `dry_run_ok` | Training-heavy reviewer ablations can be launched later with matched seeds/steps; upstream does not ship full tokenizer training scripts. | Added layer/voter/noise/consensus knobs without launching expensive training. |
+| 2026-05-17 | Reproducibility sanity smoke run | pending | `/data/venv/bin/python experiments/run_experiment.py --config experiments/configs/sanity.yaml --run-id sanity_smoke_20260517` | 2 FLEURS-fr + 2 CV21-zh local dev clips, each 30s crop | Mean token rate `25.0 Hz`; mean clean tokens `750`; vocab `8192`; bits/token `13`; bitrate `325 bps`; mean UED `0.1553`; mean nUED `0.01195` | Released checkpoint loads and basic extraction matches the paper-facing token-rate/vocab claims; audio loading needed `soundfile` before `torchaudio.load` because local TorchCodec/FFmpeg is incomplete. | Run artifacts: `experiments/runs/sanity_smoke_20260517/`. TorchAO optional extension warnings are non-fatal. |
 
 ## Planned Experiment Families
 
 | Priority | Family | Status | Outputs |
 |---:|---|---|---|
-| 1 | Reproducibility and baseline sanity | Planned | Token rate, 30s token count, vocab size, UED/nUED, exact command log |
-| 2 | Chunking and pseudo-streaming stability | Planned | Boundary disagreement CSV/JSON and instability plots |
-| 3 | Degradation suite | Planned | UED/nUED by corruption, SNR/intensity, and split |
-| 4 | Token distribution and drift | Planned | Entropy, dead-token rate, Zipf curves, KL divergence |
-| 5 | Latency and efficiency | Planned | RTF, throughput, memory, batch/duration table |
-| 6 | Training ablations | Planned | Configs and smoke harness first; full runs only if compute is feasible |
+| 1 | Reproducibility and baseline sanity | Smoke complete | `experiments/runs/sanity_smoke_20260517/` |
+| 2 | Chunking and pseudo-streaming stability | Config ready | Boundary disagreement CSV/JSON and instability plots |
+| 3 | Degradation suite | Config ready | UED/nUED by corruption, SNR/intensity, and split |
+| 4 | Token distribution and drift | Config ready | Entropy, dead-token rate, Zipf curves, KL divergence |
+| 5 | Latency and efficiency | Config ready | RTF, throughput, memory, batch/duration table |
+| 6 | Training ablations | Harness dry-run complete | Configs and smoke harness first; full runs only if compute is feasible |
 | 7 | SpeechLLM usefulness | Planned | Adapter/LoRA task configs after tokenizer-level results land |
 
 ## Reproducibility Rules

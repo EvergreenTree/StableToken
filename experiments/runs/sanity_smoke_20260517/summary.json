@@ -1,0 +1,15 @@
+{
+  "sanity": {
+    "mean_token_rate_hz": 25.0,
+    "mean_clean_tokens": 750.0,
+    "mean_ued": 0.15533333333333332,
+    "mean_nued": 0.011948717948717949,
+    "expected_vocab_size": 8192,
+    "model_vocab_size": 8192,
+    "pooling_kernel_size": 2,
+    "quantize_position": 16,
+    "num_voters": 5,
+    "num_clean_input": 3
+  },
+  "elapsed_seconds": 2.5196344510000017
+}

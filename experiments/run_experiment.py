@@ -29,6 +29,7 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
+import soundfile as sf
 import torch
 import torchaudio
 import yaml
@@ -180,10 +181,15 @@ def load_audio_item(item: AudioItem) -> tuple[np.ndarray, int]:
     else:
         if item.path is None:
             raise ValueError(f"Item {item.id} has no path or audio array")
-        tensor, sr = torchaudio.load(item.path)
-        if tensor.ndim == 2:
-            tensor = tensor.mean(dim=0)
-        wav = tensor.cpu().numpy().astype(np.float32)
+        try:
+            wav, sr = sf.read(item.path, dtype="float32", always_2d=False)
+            if wav.ndim == 2:
+                wav = wav.mean(axis=1)
+        except Exception:
+            tensor, sr = torchaudio.load(item.path)
+            if tensor.ndim == 2:
+                tensor = tensor.mean(dim=0)
+            wav = tensor.cpu().numpy().astype(np.float32)
     if sr != SAMPLE_RATE:
         wav_t = torch.from_numpy(wav).unsqueeze(0)
         wav = torchaudio.functional.resample(wav_t, sr, SAMPLE_RATE).squeeze(0).numpy()

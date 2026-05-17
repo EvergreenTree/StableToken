@@ -24,6 +24,7 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
+import soundfile as sf
 import torch
 import torchaudio
 import yaml
@@ -67,12 +68,18 @@ def pick_text(row: dict[str, Any]) -> str:
 
 
 def load_audio(path: str, sample_rate: int) -> np.ndarray:
-    wav, sr = torchaudio.load(path)
-    if wav.ndim == 2:
-        wav = wav.mean(dim=0)
+    try:
+        out, sr = sf.read(path, dtype="float32", always_2d=False)
+        if out.ndim == 2:
+            out = out.mean(axis=1)
+    except Exception:
+        wav, sr = torchaudio.load(path)
+        if wav.ndim == 2:
+            wav = wav.mean(dim=0)
+        out = wav.cpu().numpy().astype(np.float32)
     if sr != sample_rate:
-        wav = torchaudio.functional.resample(wav, sr, sample_rate)
-    out = wav.cpu().numpy().astype(np.float32)
+        wav_t = torch.from_numpy(out).unsqueeze(0)
+        out = torchaudio.functional.resample(wav_t, sr, sample_rate).squeeze(0).numpy()
     peak = float(np.max(np.abs(out))) if out.size else 0.0
     if peak > 1.0:
         out = out / peak
