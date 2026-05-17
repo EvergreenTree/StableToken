@@ -76,12 +76,17 @@ def transcribe_batch(
         sampling_rate=SAMPLE_RATE,
         return_tensors="pt",
         padding=True,
+        return_attention_mask=True,
     )
     input_features = inputs.input_features.to(device)
+    attention_mask = getattr(inputs, "attention_mask", None)
+    if attention_mask is not None:
+        attention_mask = attention_mask.to(device)
     forced_decoder_ids = make_forced_decoder_ids(processor, language)
     with torch.inference_mode():
         pred_ids = model.generate(
             input_features,
+            attention_mask=attention_mask,
             forced_decoder_ids=forced_decoder_ids,
             max_new_tokens=max_new_tokens,
         )
