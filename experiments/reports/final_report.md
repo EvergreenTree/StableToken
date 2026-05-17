@@ -46,6 +46,8 @@ This report covers the first feasible experiment pass on the local `main` branch
 | 100-clip degradation run | `2098fb9` | `experiments/runs/degradation_full_100_20260517/` | Complete |
 | ASR degradation runner | `e39aaa6`, `ed03e6f` | `experiments/run_asr_degradation.py` | Complete |
 | ASR degradation smoke | `112024a` | `experiments/runs/asr_degradation_smoke_20260517/` | Complete |
+| Whisper-small ASR config | `bc1f017` | `experiments/configs/asr_degradation_small.yaml` | Complete |
+| Whisper-small ASR smoke | pending | `experiments/runs/asr_degradation_small_20260517/` | Complete |
 
 ## Exact Commands
 
@@ -80,6 +82,7 @@ This report covers the first feasible experiment pass on the local `main` branch
 /data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/training_voter_pilot.yaml --variant n7_clean4
 /data/venv/bin/python experiments/run_experiment.py --config experiments/configs/degradation_full_100.yaml --run-id degradation_full_100_20260517
 /data/venv/bin/python experiments/run_asr_degradation.py --config experiments/configs/asr_degradation_smoke.yaml --run-id asr_degradation_smoke_20260517
+/data/venv/bin/python experiments/run_asr_degradation.py --config experiments/configs/asr_degradation_small.yaml --run-id asr_degradation_small_20260517
 ```
 
 ## Key Results
@@ -243,6 +246,22 @@ Run size: 8 FLEURS-fr + 8 CV21-zh clips x 7 conditions = 112 rows.
 Artifacts: [`asr_summary.csv`](../runs/asr_degradation_smoke_20260517/asr_summary.csv), [`asr_item_metrics.csv`](../runs/asr_degradation_smoke_20260517/asr_item_metrics.csv)
 
 For Chinese, WER is not useful without word segmentation; use CER.
+
+### Whisper-Small ASR Smoke
+
+The same ASR degradation config was rerun with `openai/whisper-small` to check whether the strongest downstream conclusion survives a better ASR model.
+
+| Corruption | FR WER | FR CER | ZH CER | Note |
+|---|---:|---:|---:|---|
+| Clean | `0.1331` | `0.0562` | `0.4920` | Much stronger French baseline than Whisper-tiny. |
+| Gaussian 25 dB | `0.1713` | `0.0904` | `0.4220` | Moderate FR degradation. |
+| Reverb small room | `0.1808` | `0.0834` | `0.3848` | Moderate FR degradation; zh smoke is noisy. |
+| Babble 4 speakers 10 dB | `0.2522` | `0.1217` | `0.4375` | Largest FR WER hit for the stronger ASR model. |
+| Competing speech 16 dB | `0.1659` | `0.0826` | `0.4868` | Less severe than babble for FR in this tiny slice. |
+| Telephone bandpass | `0.1067` | `0.0406` | `0.4794` | Not harmful for FR here. |
+| AAC 32k | `0.1271` | `0.0485` | `0.5039` | Similar to clean FR WER. |
+
+Artifacts: [`asr_summary.csv`](../runs/asr_degradation_small_20260517/asr_summary.csv), [`asr_item_metrics.csv`](../runs/asr_degradation_small_20260517/asr_item_metrics.csv)
 
 ## What Failed Or Was Infeasible
 
