@@ -104,6 +104,7 @@ The original project README has been preserved at [README.upstream.md](README.up
 /data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/lfq_ablation_multi_clean_no_consensus.yaml
 /data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/lfq_ablation_multi_aug_no_consensus.yaml
 /data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/lfq_ablation_multi_aug_consensus.yaml
+nohup setsid bash experiments/run_lfq_ablation_matrix.sh > experiments/matrix_runs/lfq_ablation_matrix_20260518/nohup_matrix.log 2>&1 < /dev/null &
 ```
 
 ## Report Targets
