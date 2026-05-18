@@ -5,15 +5,31 @@ from __future__ import annotations
 import argparse
 import ast
 import csv
+import json
 import re
 from pathlib import Path
 
 
 def parse_loss_rows(log_path: Path) -> list[dict]:
-    rows = []
     if not log_path.exists():
-        return rows
+        return []
     text = log_path.read_text(encoding="utf-8", errors="ignore").replace("\r", "\n")
+
+    json_rows = []
+    for line in text.splitlines():
+        if "LFQ_LOG " not in line:
+            continue
+        payload = line.split("LFQ_LOG ", 1)[1].strip()
+        try:
+            row = json.loads(payload)
+        except Exception:
+            continue
+        if "loss" in row:
+            json_rows.append(row)
+    if json_rows:
+        return json_rows
+
+    rows = []
     for match in re.finditer(r"\{[^{}]*'loss'[^{}]*\}", text):
         try:
             row = ast.literal_eval(match.group(0))
@@ -33,10 +49,11 @@ def write_csv(path: Path, rows: list[dict], logging_steps: int) -> None:
         )
         writer.writeheader()
         for idx, row in enumerate(rows, 1):
+            step = row.get("step") or idx * logging_steps
             writer.writerow(
                 {
                     "log_index": idx,
-                    "approx_step": idx * logging_steps,
+                    "approx_step": step,
                     "loss": row.get("loss"),
                     "grad_norm": row.get("grad_norm"),
                     "learning_rate": row.get("learning_rate"),
@@ -54,7 +71,7 @@ def write_plot(path: Path, rows: list[dict], logging_steps: int, title: str) -> 
     from matplotlib import pyplot as plt
 
     path.parent.mkdir(parents=True, exist_ok=True)
-    xs = [idx * logging_steps for idx in range(1, len(rows) + 1)]
+    xs = [row.get("step") or idx * logging_steps for idx, row in enumerate(rows, 1)]
     ys = [float(row["loss"]) for row in rows]
     plt.figure(figsize=(7, 4))
     plt.plot(xs, ys, marker="o", linewidth=1.5)

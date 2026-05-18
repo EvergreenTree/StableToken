@@ -32,6 +32,7 @@ import yaml
 from datasets import load_dataset
 from transformers import (
     Trainer,
+    TrainerCallback,
     TrainingArguments,
     WhisperFeatureExtractor,
     WhisperForConditionalGeneration,
@@ -295,6 +296,24 @@ class WhisperLFQForConditionalGeneration(WhisperForConditionalGeneration):
             encoder_hidden_states=encoder_outputs.hidden_states,
             encoder_attentions=encoder_outputs.attentions,
         )
+
+
+class LFQLogCallback(TrainerCallback):
+    """Write parseable training logs alongside Trainer's progress output."""
+
+    def __init__(self, output_dir: Path):
+        self.log_path = output_dir / "trainer_log_history.jsonl"
+        self.log_path.parent.mkdir(parents=True, exist_ok=True)
+
+    def on_log(self, args, state, control, logs=None, **kwargs):
+        if not logs:
+            return
+        row = {"step": int(state.global_step)}
+        row.update({key: float(value) if isinstance(value, (int, float)) else value for key, value in logs.items()})
+        with self.log_path.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(row, ensure_ascii=False) + "\n")
+        if "loss" in row:
+            print("LFQ_LOG " + json.dumps(row, ensure_ascii=False), flush=True)
 
 
 def build_vq_config(base_config, variant: dict[str, Any], train_cfg: dict[str, Any]) -> WhisperVQConfig:
@@ -561,6 +580,7 @@ def main() -> None:
         eval_dataset=eval_ds,
         data_collator=collator,
         processing_class=tokenizer,
+        callbacks=[LFQLogCallback(output_dir)],
     )
     train_output = trainer.train()
     metrics = {key: float(value) if isinstance(value, (int, float)) else value for key, value in train_output.metrics.items()}
