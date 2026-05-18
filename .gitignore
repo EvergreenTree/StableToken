@@ -146,6 +146,15 @@ experiments/training_runs/**
 !experiments/training_runs/**/loss_curve.png
 !experiments/training_runs/**/README.md
 
+# Matrix launch logs/PIDs stay local; commit lightweight summaries explicitly.
+experiments/matrix_runs/**
+!experiments/matrix_runs/
+!experiments/matrix_runs/**/
+!experiments/matrix_runs/**/*.json
+!experiments/matrix_runs/**/*.csv
+!experiments/matrix_runs/**/*.txt
+!experiments/matrix_runs/**/*.md
+
 # Model weights/checkpoints
 *.ckpt
 *.safetensors
