@@ -1,0 +1,98 @@
+{
+  "format": "stabletoken_lfq_training_checkpoint",
+  "git_commit": "3811cef36e5b21b2728ae4453696baf6785cd2da",
+  "git_status_short": "",
+  "base_model": "openai/whisper-medium",
+  "variant": {
+    "name": "multi_aug_consensus",
+    "quantize_position": 12,
+    "pooling_position": 12,
+    "pooling_kernel_size": 2,
+    "pooling_type": "avg",
+    "codebook_bits": 13,
+    "num_voters": 5,
+    "num_clean_input": 3,
+    "augmentation_enabled": true,
+    "consensus_loss_weight": 0.25
+  },
+  "seed": 42,
+  "data": {
+    "train_file": "/data/speech2text/Qwen3-ASR/finetuning/data/fleurs-fr/train/train.jsonl",
+    "eval_file": "/data/speech2text/Qwen3-ASR/finetuning/data/fleurs-fr/dev/dev.jsonl",
+    "language": "fr",
+    "max_train_items": 2000,
+    "max_eval_items": 200,
+    "sample_rate": 16000
+  },
+  "training": {
+    "base_model": "openai/whisper-medium",
+    "batch_size": 1,
+    "grad_accum": 8,
+    "max_steps": 1000,
+    "learning_rate": 1.5e-05,
+    "warmup_steps": 100,
+    "weight_decay": 0.0,
+    "grad_clip": 1.0,
+    "bf16": true,
+    "gradient_checkpointing": true,
+    "save_model": false,
+    "save_tokenizer": true,
+    "save_strategy": "no",
+    "logging_steps": 25,
+    "consensus_loss_weight": 0.25,
+    "commitment_loss_weight": 0.25,
+    "codebook_entropy_loss_weight": 1.0,
+    "augmentation": {
+      "enabled": true,
+      "choices": [
+        {
+          "type": "gaussian",
+          "min_snr_db": 16,
+          "max_snr_db": 30
+        },
+        {
+          "type": "pink",
+          "min_snr_db": 16,
+          "max_snr_db": 24
+        },
+        {
+          "type": "brown",
+          "min_snr_db": 12,
+          "max_snr_db": 24
+        },
+        {
+          "type": "bit_crush",
+          "min_bit_depth": 8,
+          "max_bit_depth": 14
+        }
+      ]
+    }
+  },
+  "quantizer": {
+    "quantize_position": 12,
+    "pooling_position": 12,
+    "pooling_kernel_size": 2,
+    "pooling_type": "avg",
+    "codebook_bits": 13,
+    "quantize_vocab_size": 8192,
+    "num_voters": 5,
+    "num_clean_input": 3,
+    "commitment_loss_weight": 0.25,
+    "consensus_loss_weight": 0.25,
+    "codebook_entropy_loss_weight": 1.0,
+    "codebook_scale": 1.0
+  },
+  "artifacts": {
+    "saved_full_model": false,
+    "saved_tokenizer_encoder": true,
+    "tokenizer_encoder_dir": "tokenizer"
+  },
+  "metrics": {
+    "train_runtime": 2162.0786,
+    "train_samples_per_second": 3.7,
+    "train_steps_per_second": 0.463,
+    "total_flos": 3.157156898951928e+18,
+    "train_loss": -2.7280378684997557,
+    "epoch": 4.0
+  }
+}

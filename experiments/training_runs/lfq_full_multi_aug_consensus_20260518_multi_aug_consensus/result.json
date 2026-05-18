@@ -1,0 +1,27 @@
+{
+  "status": "trained",
+  "output_dir": "/data/StableToken/experiments/training_runs/lfq_full_multi_aug_consensus_20260518_multi_aug_consensus",
+  "variant": {
+    "name": "multi_aug_consensus",
+    "quantize_position": 12,
+    "pooling_position": 12,
+    "pooling_kernel_size": 2,
+    "pooling_type": "avg",
+    "codebook_bits": 13,
+    "num_voters": 5,
+    "num_clean_input": 3,
+    "augmentation_enabled": true,
+    "consensus_loss_weight": 0.25
+  },
+  "base_model": "openai/whisper-medium",
+  "metrics": {
+    "train_runtime": 2162.0786,
+    "train_samples_per_second": 3.7,
+    "train_steps_per_second": 0.463,
+    "total_flos": 3.157156898951928e+18,
+    "train_loss": -2.7280378684997557,
+    "epoch": 4.0
+  },
+  "saved_model": false,
+  "saved_tokenizer": true
+}

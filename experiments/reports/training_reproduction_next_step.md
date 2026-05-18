@@ -28,12 +28,42 @@ Observed smoke training result: `openai/whisper-tiny`, 2 steps, 4 train rows, tr
 
 Observed smoke eval result: 2 dev clips, 750 clean tokens per clip, Gaussian 25 dB mean UED `0.5740`, pink 20 dB mean UED `0.6760`, bit-crush 10-bit mean UED `0.3400`.
 
+## Full Medium Pilot Result
+
+After the smoke implementation landed, the first full medium pilot was launched with:
+
+```bash
+/data/venv/bin/python experiments/train_lfq_tokenizer.py --config experiments/configs/lfq_ablation_multi_aug_consensus.yaml --run-name lfq_full_multi_aug_consensus_20260518
+```
+
+The run used `openai/whisper-medium`, 2000 FLEURS-fr training rows, 1000 optimizer steps, N=5 voters, noisy branches, and consensus loss.
+
+Observed training result:
+
+- Runtime: `2162.1s`
+- Train loss: `-2.7280`
+- Final logged loss at step 1000: `-4.7764`
+- Final grad norm: `12.52`
+- Saved encoder tokenizer: `true`
+
+The negative total loss is possible because the codebook entropy term is an auxiliary optimization objective that can be negative and can dominate the positive CE/commitment components. It should not be read like a plain ASR CE curve.
+
+Smoke evaluation on the same two FLEURS-fr dev clips showed:
+
+- Clean tokens: 750 per clip
+- Clean unique token rate: `0.1447`
+- Gaussian 25 dB mean UED: `0.9020`
+- Pink 20 dB mean UED: `0.9000`
+- Bit-crush 10-bit mean UED: `0.6653`
+
+Interpretation: the medium pilot uses the 8192-code vocabulary much more broadly than the tiny smoke run, but it does not yet produce stable perturbation-invariant tokens on this tiny evaluation. That is a useful failure signal: the next run should compare all five ablations on a larger held-out manifest before treating consensus/noise augmentation as helpful.
+
 ## What Remains Non-Faithful To The Paper
 
 This is not a paper-number reproduction.
 
-- The smoke run uses `openai/whisper-tiny`, not `openai/whisper-medium`, and only runs two optimizer steps.
-- The ablation configs default to `openai/whisper-medium`, but they have not been run to convergence.
+- The initial smoke run uses `openai/whisper-tiny`, not `openai/whisper-medium`, and only runs two optimizer steps.
+- One `openai/whisper-medium` ablation has now run for 1000 steps, but the matched five-way ablation matrix has not been run.
 - The data is local FLEURS-fr smoke data, not the original paper's full tokenizer training corpus.
 - The current implementation trains with Hugging Face Whisper ASR CE as the reconstruction/semantic objective; it does not reproduce any undisclosed upstream trainer details.
 - The evaluator reports tokenizer stability and usage, not downstream SpeechLLM quality.
