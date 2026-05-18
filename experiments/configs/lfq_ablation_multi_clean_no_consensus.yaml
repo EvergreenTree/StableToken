@@ -1,0 +1,41 @@
+run_name: lfq_ablation_multi_clean_no_consensus
+seed: 42
+output_root: experiments/training_runs
+data:
+  train_file: /data/speech2text/Qwen3-ASR/finetuning/data/fleurs-fr/train/train.jsonl
+  eval_file: /data/speech2text/Qwen3-ASR/finetuning/data/fleurs-fr/dev/dev.jsonl
+  language: fr
+  max_train_items: 2000
+  max_eval_items: 200
+  sample_rate: 16000
+training:
+  base_model: openai/whisper-medium
+  batch_size: 1
+  grad_accum: 8
+  max_steps: 1000
+  learning_rate: 1.5e-5
+  warmup_steps: 100
+  weight_decay: 0.0
+  grad_clip: 1.0
+  bf16: true
+  gradient_checkpointing: true
+  save_model: false
+  save_tokenizer: true
+  save_strategy: "no"
+  logging_steps: 25
+  consensus_loss_weight: 0.0
+  commitment_loss_weight: 0.25
+  codebook_entropy_loss_weight: 1.0
+  augmentation:
+    enabled: false
+variant:
+  name: multi_clean_no_consensus
+  quantize_position: 12
+  pooling_position: 12
+  pooling_kernel_size: 2
+  pooling_type: avg
+  codebook_bits: 13
+  num_voters: 5
+  num_clean_input: 5
+  augmentation_enabled: false
+  consensus_loss_weight: 0.0

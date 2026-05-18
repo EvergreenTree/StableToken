@@ -1038,7 +1038,10 @@ class WhisperLFQEncoder(WhisperPreTrainedModel):
         self.quantizer = VotingLFQ(
             dim=self.embed_dim,
             codebook_size=self.quantize_vocab_size,
+            sample_minimization_weight=self.config.sample_minimization_weight,
+            batch_maximization_weight=self.config.batch_maximization_weight,
             projection_has_bias=self.config.use_projection_bias,
+            codebook_scale=self.config.codebook_scale,
             num_voters=self.config.num_voters,
             num_clean_input=self.config.num_clean_input
         )
@@ -1140,8 +1143,7 @@ class WhisperLFQEncoder(WhisperPreTrainedModel):
         codebook_loss_dict = {
             "sample_entropy": loss_breakdown["per_sample_entropy"],
             "avg_entropy": loss_breakdown["codebook_entropy"],
-            "codebook_loss": self.config.sample_minimization_weight * (loss_breakdown["per_sample_entropy"] -
-                             self.config.batch_maximization_weight * loss_breakdown["codebook_entropy"]),
+            "codebook_loss": loss_breakdown["entropy_aux_loss"],
             "commitment_loss": loss_breakdown["commitment_loss"],
             "consensus_loss": loss_breakdown["consensus_loss"],
         }
@@ -1254,14 +1256,15 @@ class WhisperLFQEncoder(WhisperPreTrainedModel):
                 all_attentions = all_attentions + (layer_outputs[1],)
 
             if idx + 1 == self.config.pooling_position and self.config.pooling_kernel_size is not None:
+                pre_pool_attention_mask = attention_mask
                 # clean audio Pooling
                 hidden_states, attention_mask, extended_attention_mask = self._apply_pooling_layer(
-                    hidden_states, attention_mask, batch_size, seq_length
+                    hidden_states, pre_pool_attention_mask, batch_size, seq_length
                 )
                 # noise audio Pooling
                 if noise_hidden_states is not None:
                     noise_hidden_states, n_attention_mask, ext_n_attention_mask = self._apply_pooling_layer(
-                        noise_hidden_states, attention_mask, batch_size, seq_length
+                        noise_hidden_states, pre_pool_attention_mask, batch_size, seq_length
                     )
 
             if idx + 1 == self.config.quantize_position and self.config.quantize_vocab_size is not None:

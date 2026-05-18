@@ -18,6 +18,7 @@ import json
 import math
 import os
 import random
+import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -65,6 +66,20 @@ def pick_text(row: dict[str, Any]) -> str:
     if "<asr_text>" in text:
         text = text.split("<asr_text>", 1)[1]
     return text
+
+
+def pick_audio_path(row: dict[str, Any]) -> str:
+    audio_path = row.get("audio_path") or row.get("audio") or row.get("path")
+    if not audio_path:
+        raise KeyError("Manifest row must include `audio_path`, `audio`, or `path`")
+    return str(audio_path)
+
+
+def run_cmd(args: list[str]) -> str:
+    try:
+        return subprocess.check_output(args, cwd=REPO_ROOT, text=True).strip()
+    except Exception:
+        return "unknown"
 
 
 def load_audio(path: str, sample_rate: int) -> np.ndarray:
@@ -121,10 +136,54 @@ def bit_crush(wav: np.ndarray, bit_depth: int) -> np.ndarray:
     return np.clip(np.round(wav * levels) / levels, -1.0, 1.0).astype(np.float32)
 
 
-def augment_audio(wav: np.ndarray, aug_cfg: dict[str, Any], sample_rate: int, rng: np.random.Generator) -> np.ndarray:
+def discover_noise_paths(aug_cfg: dict[str, Any]) -> list[str]:
+    noise_paths: list[str] = []
+    for key in ("real_noise_manifest", "noise_manifest"):
+        if not aug_cfg.get(key):
+            continue
+        with Path(aug_cfg[key]).open("r", encoding="utf-8") as handle:
+            for line in handle:
+                row = json.loads(line)
+                noise_paths.append(pick_audio_path(row))
+    for key in ("real_noise_dir", "noise_dir"):
+        if not aug_cfg.get(key):
+            continue
+        root = Path(aug_cfg[key])
+        for suffix in ("*.wav", "*.flac", "*.mp3", "*.ogg", "*.m4a"):
+            noise_paths.extend(str(path) for path in sorted(root.rglob(suffix)))
+    return noise_paths
+
+
+def mix_real_noise(clean: np.ndarray, noise: np.ndarray, snr_db: float, rng: np.random.Generator) -> np.ndarray:
+    if noise.shape[0] < clean.shape[0]:
+        repeats = int(math.ceil(clean.shape[0] / max(1, noise.shape[0])))
+        noise = np.tile(noise, repeats)
+    if noise.shape[0] > clean.shape[0]:
+        max_start = noise.shape[0] - clean.shape[0]
+        start = int(rng.integers(0, max_start + 1)) if max_start > 0 else 0
+        noise = noise[start : start + clean.shape[0]]
+    noise = noise.astype(np.float32)
+    noise = noise - float(np.mean(noise))
+    target = rms(clean) / (10.0 ** (snr_db / 20.0))
+    noise = noise * (target / (rms(noise) + 1e-9))
+    return np.clip(clean + noise, -1.0, 1.0).astype(np.float32)
+
+
+def augment_audio(
+    wav: np.ndarray,
+    aug_cfg: dict[str, Any],
+    sample_rate: int,
+    rng: np.random.Generator,
+    real_noise_paths: list[str] | None = None,
+) -> np.ndarray:
     if not aug_cfg.get("enabled", False):
         return wav.copy()
-    choices = aug_cfg.get("choices") or [{"type": "gaussian", "min_snr_db": 20, "max_snr_db": 30}]
+    choices = aug_cfg.get("choices") or [
+        {"type": "gaussian", "min_snr_db": 16, "max_snr_db": 30},
+        {"type": "pink", "min_snr_db": 16, "max_snr_db": 24},
+        {"type": "brown", "min_snr_db": 12, "max_snr_db": 24},
+        {"type": "bit_crush", "min_bit_depth": 8, "max_bit_depth": 14},
+    ]
     choice = dict(random.choice(choices))
     ctype = choice["type"]
     if ctype in {"gaussian", "pink", "brown"}:
@@ -133,6 +192,13 @@ def augment_audio(wav: np.ndarray, aug_cfg: dict[str, Any], sample_rate: int, rn
     if ctype == "bit_crush":
         bit_depth = int(rng.integers(int(choice["min_bit_depth"]), int(choice["max_bit_depth"]) + 1))
         return bit_crush(wav, bit_depth)
+    if ctype in {"real_noise", "real_world_noise"}:
+        paths = real_noise_paths or discover_noise_paths(choice)
+        if not paths:
+            raise ValueError("real_noise augmentation requires `real_noise_manifest`, `noise_manifest`, or noise dir")
+        snr = float(rng.uniform(float(choice.get("min_snr_db", 12)), float(choice.get("max_snr_db", 24))))
+        noise = load_audio(str(paths[int(rng.integers(0, len(paths)))]), sample_rate)
+        return mix_real_noise(wav, noise, snr, rng)
     raise ValueError(f"Unsupported augmentation type: {ctype}")
 
 
@@ -233,13 +299,16 @@ class WhisperLFQForConditionalGeneration(WhisperForConditionalGeneration):
 
 def build_vq_config(base_config, variant: dict[str, Any], train_cfg: dict[str, Any]) -> WhisperVQConfig:
     data = base_config.to_dict()
+    quantize_vocab_size = int(variant.get("quantize_vocab_size", 8192))
+    if "codebook_bits" in variant:
+        quantize_vocab_size = 2 ** int(variant["codebook_bits"])
     data.update(
         {
             "quantize_position": int(variant["quantize_position"]),
             "pooling_position": int(variant.get("pooling_position", variant["quantize_position"])),
             "pooling_kernel_size": variant.get("pooling_kernel_size", 2),
             "pooling_type": variant.get("pooling_type", "avg"),
-            "quantize_vocab_size": int(variant.get("quantize_vocab_size", 8192)),
+            "quantize_vocab_size": quantize_vocab_size,
             "num_voters": int(variant.get("num_voters", 5)),
             "num_clean_input": int(variant.get("num_clean_input", 3)),
             "quantize_commit_coefficient": float(train_cfg.get("commitment_loss_weight", 0.25)),
@@ -247,8 +316,11 @@ def build_vq_config(base_config, variant: dict[str, Any], train_cfg: dict[str, A
             "codebook_entropy_loss_weight": float(train_cfg.get("codebook_entropy_loss_weight", 1.0)),
             "sample_minimization_weight": 1.0,
             "batch_maximization_weight": 1.0,
+            "codebook_scale": float(variant.get("codebook_scale", train_cfg.get("codebook_scale", 1.0))),
         }
     )
+    if not math.log2(data["quantize_vocab_size"]).is_integer():
+        raise ValueError(f"quantize_vocab_size must be a power of two, got {data['quantize_vocab_size']}")
     if data["quantize_position"] > data["encoder_layers"]:
         raise ValueError(
             f"quantize_position={data['quantize_position']} exceeds encoder_layers={data['encoder_layers']}"
@@ -279,10 +351,14 @@ class LFQDataCollator:
 
     def __post_init__(self):
         self.rng = np.random.default_rng(self.seed)
+        self.real_noise_paths = discover_noise_paths(self.augmentation)
 
     def __call__(self, features: list[dict[str, Any]]) -> dict[str, torch.Tensor]:
-        audios = [load_audio(f["audio"], self.sample_rate) for f in features]
-        noisy = [augment_audio(w, self.augmentation, self.sample_rate, self.rng) for w in audios]
+        audios = [load_audio(pick_audio_path(f), self.sample_rate) for f in features]
+        noisy = [
+            augment_audio(w, self.augmentation, self.sample_rate, self.rng, self.real_noise_paths)
+            for w in audios
+        ]
         texts = [pick_text(f) for f in features]
 
         clean_inputs = self.feature_extractor(
@@ -319,14 +395,91 @@ def load_json_dataset(path: str, max_items: int | None):
     return ds
 
 
+def save_lfq_metadata(
+    output_dir: Path,
+    cfg: dict[str, Any],
+    variant: dict[str, Any],
+    model: WhisperLFQForConditionalGeneration,
+    metrics: dict[str, Any],
+    saved_full_model: bool,
+    saved_tokenizer_encoder: bool,
+) -> None:
+    qcfg = model.model.encoder.config
+    metadata = {
+        "format": "stabletoken_lfq_training_checkpoint",
+        "git_commit": run_cmd(["git", "rev-parse", "HEAD"]),
+        "git_status_short": run_cmd(["git", "status", "--short"]),
+        "base_model": cfg["training"]["base_model"],
+        "variant": variant,
+        "seed": int(cfg.get("seed", 42)),
+        "data": cfg["data"],
+        "training": cfg["training"],
+        "quantizer": {
+            "quantize_position": qcfg.quantize_position,
+            "pooling_position": qcfg.pooling_position,
+            "pooling_kernel_size": qcfg.pooling_kernel_size,
+            "pooling_type": qcfg.pooling_type,
+            "codebook_bits": int(math.log2(qcfg.quantize_vocab_size)),
+            "quantize_vocab_size": qcfg.quantize_vocab_size,
+            "num_voters": qcfg.num_voters,
+            "num_clean_input": qcfg.num_clean_input,
+            "commitment_loss_weight": qcfg.quantize_commit_coefficient,
+            "consensus_loss_weight": qcfg.consensus_loss_weight,
+            "codebook_entropy_loss_weight": qcfg.codebook_entropy_loss_weight,
+            "codebook_scale": qcfg.codebook_scale,
+        },
+        "artifacts": {
+            "saved_full_model": saved_full_model,
+            "saved_tokenizer_encoder": saved_tokenizer_encoder,
+            "tokenizer_encoder_dir": "tokenizer" if saved_tokenizer_encoder else None,
+        },
+        "metrics": metrics,
+    }
+    with (output_dir / "lfq_tokenizer_metadata.json").open("w", encoding="utf-8") as handle:
+        json.dump(metadata, handle, indent=2, ensure_ascii=False)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", required=True)
     parser.add_argument("--variant", default=None, help="Variant name to run. Defaults to top-level `variant`.")
     parser.add_argument("--dry-run", action="store_true", help="Validate config without downloading or training.")
+    parser.add_argument("--train-file", default=None, help="Override data.train_file.")
+    parser.add_argument("--eval-file", default=None, help="Override data.eval_file.")
+    parser.add_argument("--base-model", default=None, help="Override training.base_model.")
+    parser.add_argument("--max-steps", type=int, default=None, help="Override training.max_steps.")
+    parser.add_argument("--batch-size", type=int, default=None, help="Override training.batch_size.")
+    parser.add_argument("--output-root", default=None, help="Override output_root.")
+    parser.add_argument("--run-name", default=None, help="Override run_name.")
+    parser.add_argument("--save-model", choices=["true", "false"], default=None, help="Override training.save_model.")
+    parser.add_argument(
+        "--save-tokenizer",
+        choices=["true", "false"],
+        default=None,
+        help="Override training.save_tokenizer. Saves encoder-only tokenizer checkpoint for UED eval.",
+    )
     args = parser.parse_args()
 
     cfg = load_yaml(Path(args.config))
+    if args.output_root:
+        cfg["output_root"] = args.output_root
+    if args.run_name:
+        cfg["run_name"] = args.run_name
+    if args.train_file:
+        cfg["data"]["train_file"] = args.train_file
+    if args.eval_file:
+        cfg["data"]["eval_file"] = args.eval_file
+    if args.base_model:
+        cfg["training"]["base_model"] = args.base_model
+    if args.max_steps is not None:
+        cfg["training"]["max_steps"] = args.max_steps
+    if args.batch_size is not None:
+        cfg["training"]["batch_size"] = args.batch_size
+    if args.save_model is not None:
+        cfg["training"]["save_model"] = args.save_model == "true"
+    if args.save_tokenizer is not None:
+        cfg["training"]["save_tokenizer"] = args.save_tokenizer == "true"
+
     set_seed(int(cfg.get("seed", 42)))
     train_cfg = dict(cfg["training"])
     data_cfg = cfg["data"]
@@ -389,7 +542,7 @@ def main() -> None:
         warmup_steps=int(train_cfg.get("warmup_steps", 0)),
         weight_decay=float(train_cfg.get("weight_decay", 0.0)),
         max_grad_norm=float(train_cfg.get("grad_clip", 1.0)),
-        bf16=bool(train_cfg.get("bf16", torch.cuda.is_available())),
+        bf16=bool(train_cfg.get("bf16", torch.cuda.is_available())) and torch.cuda.is_available(),
         logging_steps=int(train_cfg.get("logging_steps", 25)),
         save_strategy=str(train_cfg.get("save_strategy", "steps" if train_cfg.get("save_model", True) else "no")),
         save_steps=int(train_cfg.get("save_steps", 1000)),
@@ -418,13 +571,27 @@ def main() -> None:
         "base_model": base_model,
         "metrics": metrics,
         "saved_model": bool(train_cfg.get("save_model", True)),
+        "saved_tokenizer": bool(train_cfg.get("save_tokenizer", train_cfg.get("save_model", True))),
     }
     with (output_dir / "result.json").open("w", encoding="utf-8") as handle:
         json.dump(result, handle, indent=2)
+    saved_full_model = False
+    saved_tokenizer_encoder = False
     if train_cfg.get("save_model", True):
         trainer.save_model(str(output_dir))
         tokenizer.save_pretrained(str(output_dir))
         feature_extractor.save_pretrained(str(output_dir))
+        saved_full_model = True
+    if train_cfg.get("save_tokenizer", train_cfg.get("save_model", True)):
+        tokenizer_dir = output_dir / "tokenizer"
+        model.model.encoder.save_pretrained(str(tokenizer_dir))
+        feature_extractor.save_pretrained(str(tokenizer_dir))
+        saved_tokenizer_encoder = True
+    result["saved_model"] = saved_full_model
+    result["saved_tokenizer"] = saved_tokenizer_encoder
+    with (output_dir / "result.json").open("w", encoding="utf-8") as handle:
+        json.dump(result, handle, indent=2)
+    save_lfq_metadata(output_dir, cfg, variant, model, metrics, saved_full_model, saved_tokenizer_encoder)
     print(json.dumps(result, indent=2))
 
 

@@ -1,0 +1,83 @@
+{
+  "config": {
+    "run_name": "lfq_reproduction_smoke",
+    "seed": 42,
+    "output_root": "experiments/training_runs",
+    "data": {
+      "train_file": "/data/speech2text/Qwen3-ASR/finetuning/data/fleurs-fr/train/train.jsonl",
+      "eval_file": "/data/speech2text/Qwen3-ASR/finetuning/data/fleurs-fr/dev/dev.jsonl",
+      "language": "fr",
+      "max_train_items": 4,
+      "max_eval_items": 2,
+      "sample_rate": 16000
+    },
+    "training": {
+      "base_model": "openai/whisper-tiny",
+      "batch_size": 1,
+      "grad_accum": 1,
+      "max_steps": 2,
+      "learning_rate": 1.5e-05,
+      "warmup_steps": 0,
+      "weight_decay": 0.0,
+      "grad_clip": 1.0,
+      "bf16": true,
+      "gradient_checkpointing": false,
+      "save_model": false,
+      "save_tokenizer": true,
+      "save_strategy": "no",
+      "logging_steps": 1,
+      "consensus_loss_weight": 0.25,
+      "commitment_loss_weight": 0.25,
+      "codebook_entropy_loss_weight": 1.0,
+      "augmentation": {
+        "enabled": true,
+        "choices": [
+          {
+            "type": "gaussian",
+            "min_snr_db": 16,
+            "max_snr_db": 30
+          },
+          {
+            "type": "pink",
+            "min_snr_db": 16,
+            "max_snr_db": 24
+          },
+          {
+            "type": "brown",
+            "min_snr_db": 12,
+            "max_snr_db": 24
+          },
+          {
+            "type": "bit_crush",
+            "min_bit_depth": 8,
+            "max_bit_depth": 14
+          }
+        ]
+      }
+    },
+    "variant": {
+      "name": "tiny_mid_n3_aug_consensus",
+      "quantize_position": 2,
+      "pooling_position": 2,
+      "pooling_kernel_size": 2,
+      "pooling_type": "avg",
+      "codebook_bits": 13,
+      "num_voters": 3,
+      "num_clean_input": 2,
+      "augmentation_enabled": true,
+      "consensus_loss_weight": 0.25
+    }
+  },
+  "variant": {
+    "name": "tiny_mid_n3_aug_consensus",
+    "quantize_position": 2,
+    "pooling_position": 2,
+    "pooling_kernel_size": 2,
+    "pooling_type": "avg",
+    "codebook_bits": 13,
+    "num_voters": 3,
+    "num_clean_input": 2,
+    "augmentation_enabled": true,
+    "consensus_loss_weight": 0.25
+  }
+}

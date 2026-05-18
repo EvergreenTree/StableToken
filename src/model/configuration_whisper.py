@@ -18,6 +18,7 @@ class WhisperVQConfig(WhisperConfig):
                  codebook_entropy_loss_weight=1.0,
                  batch_maximization_weight=1.0,
                  sample_minimization_weight=1.0,
+                 codebook_scale=1.0,
                  layernorm_after_quantize=False,
                  use_projection_bias=True,
                  encoder_causal_convolution=False,
@@ -52,6 +53,8 @@ class WhisperVQConfig(WhisperConfig):
                 Encourages diverse token usage across batch samples.
             sample_minimization_weight (float): Weight for sample-level consistency loss.
                 Encourages consistent token usage within each sample.
+            codebook_scale (float): Magnitude used for LFQ binary {-scale, +scale}
+                values before projecting back to the Whisper hidden dimension.
             layernorm_after_quantize (bool): Whether to normalize after quantization.
                 Can help stabilize training with discrete representations.
             use_projection_bias (bool): Whether to use bias terms in projection layers.
@@ -77,6 +80,7 @@ class WhisperVQConfig(WhisperConfig):
         self.codebook_entropy_loss_weight = codebook_entropy_loss_weight
         self.batch_maximization_weight = batch_maximization_weight
         self.sample_minimization_weight = sample_minimization_weight
+        self.codebook_scale = codebook_scale
         self.layernorm_after_quantize = layernorm_after_quantize
         self.use_projection_bias = use_projection_bias
         self.encoder_causal_convolution = encoder_causal_convolution

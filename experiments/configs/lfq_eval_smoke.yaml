@@ -1,0 +1,22 @@
+seed: 42
+device: auto
+checkpoint: experiments/training_runs/lfq_reproduction_smoke_tiny_mid_n3_aug_consensus
+manifest: /data/speech2text/Qwen3-ASR/finetuning/data/fleurs-fr/dev/dev.jsonl
+output_dir: experiments/runs/lfq_eval_smoke_20260518
+max_items: 2
+batch_size: 1
+sample_rate: 16000
+duration_seconds: 30
+perturbations:
+  - name: gaussian_25db
+    type: gaussian
+    min_snr_db: 25
+    max_snr_db: 25
+  - name: pink_20db
+    type: pink
+    min_snr_db: 20
+    max_snr_db: 20
+  - name: bit_crush_10bit
+    type: bit_crush
+    min_bit_depth: 10
+    max_bit_depth: 10

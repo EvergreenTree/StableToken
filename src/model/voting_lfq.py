@@ -69,6 +69,10 @@ class VotingLFQ(nn.Module):
         # Check parameters
         if dim is None or codebook_size is None:
             raise ValueError('dim and codebook_size must be specified for LFQ')
+        if num_voters < 1:
+            raise ValueError('num_voters must be at least 1')
+        if num_clean_input < 0:
+            raise ValueError('num_clean_input must be non-negative')
 
         if not log2(codebook_size).is_integer():
             raise ValueError(f'LFQ codebook size must be a power of 2')
@@ -187,7 +191,8 @@ class VotingLFQ(nn.Module):
         voter_loss_breakdown = {}
 
         # Randomly select n_clean inputs as clean audio, others use noisy audio
-        clean_indices = set(torch.randperm(self.num_voters)[:self.num_clean_input].tolist())
+        clean_indices = set(torch.randperm(self.num_voters, device=x.device)[:self.num_clean_input].cpu().tolist())
+        codebook_value = x.new_tensor(self.codebook_scale)
 
         # Perform quantization for each voter
         for i, project_in_i in enumerate(self.project_in):
@@ -201,7 +206,6 @@ class VotingLFQ(nn.Module):
                 x_i = input_x
 
             # 2. Quantization step - use codebook_scale for quantized values
-            codebook_value = torch.tensor(self.codebook_scale, device=x.device, dtype=x.dtype)
             quantized = torch.where(x_i > 0, codebook_value, -codebook_value)
 
             # Use straight-through gradients
@@ -214,7 +218,7 @@ class VotingLFQ(nn.Module):
             # Entropy auxiliary loss
             if self.training:
                 # Use normalized codebook for distance calculation
-                codebook = self.codebook
+                codebook = self.codebook.to(device=x_i.device, dtype=x_i.dtype)
 
                 # Calculate logits: 2 * (x @ codebook.T)
                 # x: [batch, seq, codebook_dim], codebook: [codebook_size, codebook_dim]
@@ -235,6 +239,7 @@ class VotingLFQ(nn.Module):
             local_loss_breakdown = dict(
                 per_sample_entropy = per_sample_entropy,
                 codebook_entropy = codebook_entropy,
+                entropy_aux_loss = entropy_aux_loss,
             )
 
             for key, value in local_loss_breakdown.items():
@@ -246,8 +251,8 @@ class VotingLFQ(nn.Module):
         sum_quantized = torch.stack(voter_quantized, dim=0).sum(dim=0)  # [batch, seq, codebook_dim]
         final_quantized = sum_quantized / self.num_voters  # [batch, seq, codebook_dim]
 
-        # Convert binary bits to indices: use bit weights [1, 2, 4, 8, ...] for weighted sum
-        indices = ((final_quantized > 0).int() * self.bit_weights.int()).sum(dim=-1)  # [batch, seq]
+        # Convert majority-voted signs to integer token IDs with bit weights [1, 2, 4, ...].
+        indices = self.bits_to_indices(final_quantized > 0)  # [batch, seq]
 
         # During inference, take sign again to ensure quantized results are exactly 1 or -1
         if not self.training:
@@ -291,8 +296,8 @@ class VotingLFQ(nn.Module):
                     mse_loss = F.mse_loss(voter_x_i, consensus_target.detach())
                 consensus_losses.append(mse_loss)
 
-            # Sum consensus losses from all voters
-            consensus_loss = torch.stack(consensus_losses).sum()
+            # Average over voters so the configured loss weight is comparable for N=3/5.
+            consensus_loss = torch.stack(consensus_losses).mean()
 
         # Calculate final losses
         loss_breakdown = {key: torch.stack(value).mean() if value else None
