@@ -1,0 +1,27 @@
+{
+  "status": "trained",
+  "output_dir": "/data/StableToken/experiments/training_runs/lfq_full_single_aug_20260518_single_aug",
+  "variant": {
+    "name": "single_aug",
+    "quantize_position": 12,
+    "pooling_position": 12,
+    "pooling_kernel_size": 2,
+    "pooling_type": "avg",
+    "codebook_bits": 13,
+    "num_voters": 1,
+    "num_clean_input": 0,
+    "augmentation_enabled": true,
+    "consensus_loss_weight": 0.0
+  },
+  "base_model": "openai/whisper-medium",
+  "metrics": {
+    "train_runtime": 1977.991,
+    "train_samples_per_second": 4.045,
+    "train_steps_per_second": 0.506,
+    "total_flos": 3.156919500103799e+18,
+    "train_loss": -2.9630175952911375,
+    "epoch": 4.0
+  },
+  "saved_model": false,
+  "saved_tokenizer": true
+}

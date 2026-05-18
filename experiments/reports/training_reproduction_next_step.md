@@ -58,6 +58,36 @@ Smoke evaluation on the same two FLEURS-fr dev clips showed:
 
 Interpretation: the medium pilot uses the 8192-code vocabulary much more broadly than the tiny smoke run, but it does not yet produce stable perturbation-invariant tokens on this tiny evaluation. That is a useful failure signal: the next run should compare all five ablations on a larger held-out manifest before treating consensus/noise augmentation as helpful.
 
+## Five-Way Ablation Matrix Result
+
+The matched matrix was then run for all five planned variants with `openai/whisper-medium`, 2000 FLEURS-fr training rows, 1000 steps, seed `42`, and a shared 50-clip FLEURS-fr eval manifest.
+
+| Variant | Voters | Augmentation | Consensus | Final logged loss | Clean unique token rate | Gaussian 25 dB UED | Pink 20 dB UED | Bit-crush 10-bit UED | Mean all UED |
+|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
+| single_clean | 1 | no | 0.00 | `-4.6840` | `0.7476` | `0.8508` | `0.8457` | `0.4452` | `0.7139` |
+| single_aug | 1 | yes | 0.00 | `-4.6965` | `0.7285` | `0.8333` | `0.8326` | `0.3947` | `0.6869` |
+| multi_clean_no_consensus | 5 | no | 0.00 | `-4.7713` | `0.7982` | `0.9161` | `0.9135` | `0.5943` | `0.8080` |
+| multi_aug_no_consensus | 5 | yes | 0.00 | `-4.7802` | `0.8185` | `0.9126` | `0.9085` | `0.5719` | `0.7977` |
+| multi_aug_consensus | 5 | yes | 0.25 | `-4.7764` | `0.7946` | `0.9116` | `0.9038` | `0.5756` | `0.7970` |
+
+Findings:
+
+- All five models trained and saved reloadable encoder tokenizers.
+- All five learned broad code usage on the 50-clip eval, with clean unique token rates from `0.7285` to `0.8185` of the 8192-code vocabulary.
+- The best perturbation stability in this matrix is `single_aug`, not a multi-branch model. It improves mean all-UED by about `0.0271` absolute over `single_clean`.
+- Multi-branch voting broadens code usage, but worsens UED substantially at this training scale. `multi_clean_no_consensus` is the worst row with mean all-UED `0.8080`.
+- Augmentation helps inside both single-branch and multi-branch settings, but only modestly.
+- Consensus loss slightly improves multi-branch noisy UED versus multi-branch augmentation without consensus (`0.7970` vs `0.7977` mean all-UED), but the effect is tiny and does not recover the single-branch baseline.
+
+Interpretation: the pipeline can now run the intended ablations, but this 1000-step French-only pilot does not support the paper-style intuition that Voting-LFQ + noise + consensus automatically improves token stability. At this scale, the simpler single-branch augmented LFQ is the strongest variant by UED, while multi-branch voting appears undertrained or poorly calibrated for perturbation-invariant token extraction.
+
+Primary artifacts:
+
+- `experiments/analysis/lfq_ablation_matrix_summary.csv`
+- `experiments/analysis/lfq_ablation_matrix_summary.json`
+- `experiments/runs/lfq_matrix_*_eval_20260518/`
+- `experiments/training_runs/lfq_full_*_20260518_*/`
+
 ## What Remains Non-Faithful To The Paper
 
 This is not a paper-number reproduction.

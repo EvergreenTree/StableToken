@@ -1,0 +1,1 @@
+experiments/eval_lfq_tokenizer.py --config experiments/configs/lfq_eval_matrix.yaml --checkpoint experiments/training_runs/lfq_full_multi_clean_no_consensus_20260518_multi_clean_no_consensus --output-dir experiments/runs/lfq_matrix_multi_clean_no_consensus_eval_20260518

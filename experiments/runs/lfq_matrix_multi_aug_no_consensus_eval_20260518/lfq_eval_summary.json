@@ -1,0 +1,130 @@
+{
+  "items": 150,
+  "groups": {
+    "French:bit_crush_10bit": {
+      "items": 50,
+      "mean_edit_distance": 428.96,
+      "mean_ued": 0.5719466666666667,
+      "mean_normalized_edit_distance": 0.5719466666666667,
+      "mean_clean_tokens": 750.0,
+      "mean_perturbed_tokens": 750.0
+    },
+    "French:gaussian_25db": {
+      "items": 50,
+      "mean_edit_distance": 684.44,
+      "mean_ued": 0.9125866666666665,
+      "mean_normalized_edit_distance": 0.9125866666666665,
+      "mean_clean_tokens": 750.0,
+      "mean_perturbed_tokens": 750.0
+    },
+    "French:pink_20db": {
+      "items": 50,
+      "mean_edit_distance": 681.34,
+      "mean_ued": 0.9084533333333333,
+      "mean_normalized_edit_distance": 0.9084533333333333,
+      "mean_clean_tokens": 750.0,
+      "mean_perturbed_tokens": 750.0
+    },
+    "all:bit_crush_10bit": {
+      "items": 50,
+      "mean_edit_distance": 428.96,
+      "mean_ued": 0.5719466666666667,
+      "mean_normalized_edit_distance": 0.5719466666666667,
+      "mean_clean_tokens": 750.0,
+      "mean_perturbed_tokens": 750.0
+    },
+    "all:gaussian_25db": {
+      "items": 50,
+      "mean_edit_distance": 684.44,
+      "mean_ued": 0.9125866666666665,
+      "mean_normalized_edit_distance": 0.9125866666666665,
+      "mean_clean_tokens": 750.0,
+      "mean_perturbed_tokens": 750.0
+    },
+    "all:pink_20db": {
+      "items": 50,
+      "mean_edit_distance": 681.34,
+      "mean_ued": 0.9084533333333333,
+      "mean_normalized_edit_distance": 0.9084533333333333,
+      "mean_clean_tokens": 750.0,
+      "mean_perturbed_tokens": 750.0
+    }
+  },
+  "histograms": {
+    "bit_crush_10bit": {
+      "total_tokens": 37500,
+      "unique_tokens": 6689,
+      "unique_token_rate": 0.8165283203125,
+      "top_tokens": [
+        3331,
+        2307,
+        1283,
+        3395,
+        2315,
+        2371,
+        2403,
+        3335,
+        2339,
+        2400
+      ]
+    },
+    "clean": {
+      "total_tokens": 37500,
+      "unique_tokens": 6705,
+      "unique_token_rate": 0.8184814453125,
+      "top_tokens": [
+        3331,
+        2307,
+        3395,
+        2403,
+        1283,
+        6500,
+        2315,
+        2371,
+        2400,
+        1287
+      ]
+    },
+    "gaussian_25db": {
+      "total_tokens": 37500,
+      "unique_tokens": 7317,
+      "unique_token_rate": 0.8931884765625,
+      "top_tokens": [
+        3331,
+        3363,
+        3335,
+        3334,
+        3367,
+        3330,
+        7500,
+        3332,
+        3364,
+        3427
+      ]
+    },
+    "pink_20db": {
+      "total_tokens": 37500,
+      "unique_tokens": 7256,
+      "unique_token_rate": 0.8857421875,
+      "top_tokens": [
+        3331,
+        3363,
+        2307,
+        6508,
+        3335,
+        2339,
+        7492,
+        3334,
+        3367,
+        3364
+      ]
+    }
+  },
+  "checkpoint": "experiments/training_runs/lfq_full_multi_aug_no_consensus_20260518_multi_aug_no_consensus",
+  "tokenizer_dir": "experiments/training_runs/lfq_full_multi_aug_no_consensus_20260518_multi_aug_no_consensus/tokenizer",
+  "manifest": "/data/speech2text/Qwen3-ASR/finetuning/data/fleurs-fr/dev/dev.jsonl",
+  "output_dir": "experiments/runs/lfq_matrix_multi_aug_no_consensus_eval_20260518",
+  "seed": 42,
+  "device": "cuda",
+  "batch_size": 1
+}

@@ -1,0 +1,1 @@
+experiments/eval_lfq_tokenizer.py --config experiments/configs/lfq_eval_matrix.yaml --checkpoint experiments/training_runs/lfq_full_single_aug_20260518_single_aug --output-dir experiments/runs/lfq_matrix_single_aug_eval_20260518
