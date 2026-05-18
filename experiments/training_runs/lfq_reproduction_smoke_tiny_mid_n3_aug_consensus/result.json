@@ -1,0 +1,27 @@
+{
+  "status": "trained",
+  "output_dir": "/data/StableToken/experiments/training_runs/lfq_reproduction_smoke_tiny_mid_n3_aug_consensus",
+  "variant": {
+    "name": "tiny_mid_n3_aug_consensus",
+    "quantize_position": 2,
+    "pooling_position": 2,
+    "pooling_kernel_size": 2,
+    "pooling_type": "avg",
+    "codebook_bits": 13,
+    "num_voters": 3,
+    "num_clean_input": 2,
+    "augmentation_enabled": true,
+    "consensus_loss_weight": 0.25
+  },
+  "base_model": "openai/whisper-tiny",
+  "metrics": {
+    "train_runtime": 0.8132,
+    "train_samples_per_second": 2.459,
+    "train_steps_per_second": 2.459,
+    "total_flos": 21197493417600.0,
+    "train_loss": 8.583653211593628,
+    "epoch": 0.5
+  },
+  "saved_model": false,
+  "saved_tokenizer": true
+}

@@ -1,0 +1,7 @@
+id,language,perturbation,clean_tokens,perturbed_tokens,edit_distance,ued,normalized_edit_distance,reference
+dev:0,French,gaussian_25db,750,750,435,0.58,0.58,il y a de nombreuses répercussions sociales et politiques telles que l'utilisation du système métrique le passage de l'absolutisme au républicanisme le nationalisme et la conviction que le pays appartient au peuple et non à un seul dirigeant
+dev:1,French,gaussian_25db,750,750,426,0.568,0.568,il n'avait pas non plus le pouvoir de déroger aux lois fiscales ni à celles sur les droits de douane entre les états
+dev:0,French,pink_20db,750,750,485,0.6466666666666666,0.6466666666666666,il y a de nombreuses répercussions sociales et politiques telles que l'utilisation du système métrique le passage de l'absolutisme au républicanisme le nationalisme et la conviction que le pays appartient au peuple et non à un seul dirigeant
+dev:1,French,pink_20db,750,750,529,0.7053333333333334,0.7053333333333334,il n'avait pas non plus le pouvoir de déroger aux lois fiscales ni à celles sur les droits de douane entre les états
+dev:0,French,bit_crush_10bit,750,750,270,0.36,0.36,il y a de nombreuses répercussions sociales et politiques telles que l'utilisation du système métrique le passage de l'absolutisme au républicanisme le nationalisme et la conviction que le pays appartient au peuple et non à un seul dirigeant
+dev:1,French,bit_crush_10bit,750,750,240,0.32,0.32,il n'avait pas non plus le pouvoir de déroger aux lois fiscales ni à celles sur les droits de douane entre les états
