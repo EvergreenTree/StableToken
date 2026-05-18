@@ -408,7 +408,7 @@ def save_lfq_metadata(
     metadata = {
         "format": "stabletoken_lfq_training_checkpoint",
         "git_commit": run_cmd(["git", "rev-parse", "HEAD"]),
-        "git_status_short": run_cmd(["git", "status", "--short"]),
+        "git_status_short": run_cmd(["git", "status", "--short", "--untracked-files=no"]),
         "base_model": cfg["training"]["base_model"],
         "variant": variant,
         "seed": int(cfg.get("seed", 42)),

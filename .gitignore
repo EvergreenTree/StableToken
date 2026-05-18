@@ -141,6 +141,7 @@ experiments/training_runs/**
 !experiments/training_runs/**/
 !experiments/training_runs/**/resolved_config.json
 !experiments/training_runs/**/result.json
+!experiments/training_runs/**/lfq_tokenizer_metadata.json
 !experiments/training_runs/**/README.md
 
 # Model weights/checkpoints
