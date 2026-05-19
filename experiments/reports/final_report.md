@@ -31,21 +31,25 @@ This report covers the first feasible experiment pass on the local `main` branch
 
 ## Illustrative Figures
 
-![Figure 1: Chunking policy and commit-latency tradeoff](figures/figure_chunking_tradeoff.png)
+![Figure 1: 100-clip token degradation UED](../runs/degradation_full_100_20260517/plots/degradation_mean_ued.png)
 
-Figure 1. Pseudo-streaming is a serving-contract problem. The left panel compares overlap policies against the offline non-overlap tokenizer; the right panel shows that lower-latency commits remain unstable, especially when judged against the non-overlap reference.
+Figure 1. The strongest tokenizer perturbations are speech-like corruptions. Babble is the hardest condition in both French and Chinese, followed by competing speech and reverb; codec and channel effects are measurable but not dominant.
 
-![Figure 2: Token UED versus downstream ASR impact](figures/figure_token_asr_mismatch.png)
+![Figure 2: Chunking policy and commit-latency tradeoff](figures/figure_chunking_tradeoff.png)
 
-Figure 2. Token UED and direct Whisper-small ASR degradation are related but not interchangeable. Babble is high on both axes, while competing speech is much more severe for token stability than for French direct ASR WER.
+Figure 2. Pseudo-streaming is a serving-contract problem. The left panel compares overlap policies against the offline non-overlap tokenizer; the right panel shows that lower-latency commits remain unstable, especially when judged against the non-overlap reference.
 
-![Figure 3: Hard-corruption token distribution drift](figures/figure_distribution_drift.png)
+![Figure 3: Token UED versus downstream ASR impact](figures/figure_token_asr_mismatch.png)
 
-Figure 3. Clean-to-corruption KL shows that babble and reverb/competing speech induce more token-distribution drift than Gaussian noise in both French and Chinese.
+Figure 3. Token UED and direct Whisper-small ASR degradation are related but not interchangeable. Babble is high on both axes, while competing speech is much more severe for token stability than for French direct ASR WER.
 
-![Figure 4: LFQ ablation matrix summary](figures/figure_lfq_ablation_matrix.png)
+![Figure 4: Hard-corruption token distribution drift](figures/figure_distribution_drift.png)
 
-Figure 4. The matched LFQ matrix highlights the tradeoff between mean UED and clean token usage. These short runs are useful diagnostics, but they should not be interpreted as full training-scale ablations.
+Figure 4. Clean-to-corruption KL shows that babble and reverb/competing speech induce more token-distribution drift than Gaussian noise in both French and Chinese.
+
+![Figure 5: LFQ ablation matrix summary](figures/figure_lfq_ablation_matrix.png)
+
+Figure 5. The matched LFQ matrix highlights the tradeoff between mean UED and clean token usage. These short runs are useful diagnostics, but they should not be interpreted as full training-scale ablations.
 
 ## What Ran
 
