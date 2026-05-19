@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StableToken Interview Deck</title>
+  <style>
+    :root {
+      --bg: #f7f4ee;
+      --ink: #182026;
+      --muted: #607079;
+      --blue: #315f72;
+      --teal: #6fa39b;
+      --red: #b85450;
+      --paper: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow: hidden;
+    }
+    .deck {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+    .slide {
+      display: none;
+      width: 100vw;
+      height: 100vh;
+      padding: 4.2vh 4.8vw;
+      background: var(--bg);
+    }
+    .slide.active { display: flex; flex-direction: column; }
+    .slide-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 2rem;
+      min-height: 14vh;
+    }
+    .eyebrow {
+      margin: 0 0 0.6rem;
+      color: var(--red);
+      font-size: clamp(0.9rem, 1.25vw, 1.25rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+    h1 {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(2rem, 4.4vw, 4.6rem);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+    .counter {
+      min-width: 5rem;
+      padding: 0.65rem 0.8rem;
+      border-top: 4px solid var(--blue);
+      text-align: right;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 1.05rem;
+    }
+    .slide-body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(18rem, 24vw);
+      gap: 3vw;
+      align-items: stretch;
+      min-height: 0;
+    }
+    figure {
+      margin: 0;
+      background: var(--paper);
+      border: 1px solid #ded8cd;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+      padding: 1rem;
+      box-shadow: 0 14px 35px rgba(24, 32, 38, 0.09);
+    }
+    figure img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    aside {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1rem;
+      min-height: 0;
+    }
+    .metrics {
+      display: grid;
+      gap: 0.85rem;
+    }
+    .metric {
+      background: var(--paper);
+      border-left: 6px solid var(--blue);
+      border-radius: 8px;
+      padding: 0.9rem 1rem;
+      box-shadow: 0 8px 24px rgba(24, 32, 38, 0.07);
+    }
+    .metric:nth-child(2n) { border-left-color: var(--teal); }
+    .metric:nth-child(3n) { border-left-color: var(--red); }
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: clamp(0.8rem, 1vw, 0.95rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      margin-bottom: 0.35rem;
+    }
+    .metric strong {
+      display: block;
+      color: var(--ink);
+      font-size: clamp(1.15rem, 1.75vw, 1.7rem);
+      line-height: 1.1;
+    }
+    .message {
+      margin: 0;
+      background: #182026;
+      color: white;
+      border-radius: 8px;
+      padding: 1rem 1.1rem;
+      font-size: clamp(1rem, 1.35vw, 1.35rem);
+      line-height: 1.35;
+      font-weight: 700;
+    }
+    .nav-hint {
+      position: fixed;
+      left: 1rem;
+      bottom: 0.7rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    @media (max-aspect-ratio: 4/3) {
+      .slide { padding: 3vh 4vw; }
+      .slide-body { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; }
+      aside { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; }
+    }
+    @media print {
+      body { overflow: visible; background: white; }
+      .deck { width: auto; height: auto; }
+      .slide, .slide.active {
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        page-break-after: always;
+      }
+      .nav-hint { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck">
+
+      <section class="slide" id="slide-1">
+        <div class="slide-head">
+          <div>
+            <p class="eyebrow">Technical interview deck</p>
+            <h1>StableToken: Robust Speech Token Evaluation</h1>
+          </div>
+          <div class="counter">01/18</div>
+        </div>
+        <div class="slide-body">
+          <figure>
+            <img src="assets/slide_01_title.png" alt="StableToken: Robust Speech Token Evaluation visual">
+          </figure>
+          <aside>
+            <div class="metrics"><div class="metric"><span>Presenter</span><strong>Changqing Fu</strong></div>
+<div class="metric"><span>Affiliation</span><strong>IFM MBZUAI Paris</strong></div>
+<div class="metric"><span>Date</span><strong>May 19, 2026</strong></div></div>
+            <p class="message">A 30-minute review of reproducibility, robustness, pseudo-streaming, distribution drift, and downstream usefulness.</p>
+          </aside>
+        </div>
+      </section>
+    
+
+      <section class="slide" id="slide-2">
+        <div class="slide-head">
+          <div>
+            <p class="eyebrow">Reviewer concern map</p>
+            <h1>Why This Evaluation</h1>
+          </div>
+          <div class="counter">02/18</div>
+        </div>
+        <div class="slide-body">
+          <figure>
+            <img src="assets/slide_02_claim_map.png" alt="Why This Evaluation visual">
+          </figure>
+          <aside>
+            <div class="metrics"><div class="metric"><span>Baseline</span><strong>released checkpoint</strong></div>
+<div class="metric"><span>Evidence</span><strong>10 experiment families</strong></div></div>
+            <p class="message">Robustness, streaming behavior, and downstream usefulness are separate claims that need separate evidence.</p>
+          </aside>
+        </div>
+      </section>
+    
+
+      <section class="slide" id="slide-3">
+        <div class="slide-head">
+          <div>
+            <p class="eyebrow">Released tokenizer shape</p>
+            <h1>StableToken At A Glance</h1>
+          </div>
+          <div class="counter">03/18</div>
+        </div>
+        <div class="slide-body">
+          <figure>
+            <img src="assets/slide_03_pipeline.png" alt="StableToken At A Glance visual">
+          </figure>
+          <aside>
+            <div class="metrics"><div class="metric"><span>Clean baseline</span><strong>30s -&gt; 750 tokens</strong></div>
+<div class="metric"><span>Result shape</span><strong>8192 vocab, 325 bps</strong></div></div>
+            <p class="message">The released tokenizer is fast and compact, but it is built around non-causal 30s chunks.</p>
+          </aside>
+        </div>
+      </section>
+    
+
+      <section class="slide" id="slide-4">
+        <div class="slide-head">
+          <div>
+            <p class="eyebrow">Audit-friendly runs</p>
+            <h1>Experiment Harness</h1>
+          </div>
+          <div class="counter">04/18</div>
+        </div>
+        <div class="slide-body">
+          <figure>
+            <img src="assets/slide_04_harness.png" alt="Experiment Harness visual">
+          </figure>
+          <aside>
+            <div class="metrics"><div class="metric"><span>Baseline</span><strong>fixed HF SHA</strong></div>
+<div class="metric"><span>Artifacts</span><strong>CSV, JSON, PNG</strong></div></div>
+            <p class="message">Every result is config-driven and tied to local splits, seeds, commands, and committed artifacts.</p>
+          </aside>
+        </div>
+      </section>
+    
+
+      <section class="slide" id="slide-5">
+        <div class="slide-head">
+          <div>
+            <p class="eyebrow">Released checkpoint loads</p>
+            <h1>Reproducibility Sanity</h1>
+          </div>
+          <div class="counter">05/18</div>
+        </div>
+        <div class="slide-body">
+          <figure>
+            <img src="assets/slide_05_sanity_cards.png" alt="Reproducibility Sanity visual">
+          </figure>
+          <aside>
+            <div class="metrics"><div class="metric"><span>Clean baseline</span><strong>25.0 Hz</strong></div>
+<div class="metric"><span>Result</span><strong>750 tokens per 30s</strong></div></div>
+            <p class="message">The released checkpoint matches the expected token rate, vocabulary size, and bitrate.</p>
+          </aside>
+        </div>
+      </section>
+    
+
+      <section class="slide" id="slide-6">
+        <div class="slide-head">
+          <div>
+            <p class="eyebrow">100-clip UED scale-up</p>
+            <h1>Hard Degradations</h1>
+          </div>
+          <div class="counter">06/18</div>
+        </div>
+        <div class="slide-body">
+          <figure>
+            <img src="assets/slide_06_degradation_mean_ued.png" alt="Hard Degradations visual">
+          </figure>
+          <aside>
+            <div class="metrics"><div class="metric"><span>Clean reference</span><strong>UED 0</strong></div>
+<div class="metric"><span>Babble UED</span><strong>FR 0.6071, ZH 0.4170</strong></div></div>
+            <p class="message">Speech-like interference is harder than Gaussian noise and should be a headline robustness test.</p>
+          </aside>
+        </div>
+      </section>
+    
+
+      <section class="slide" id="slide-7">
+        <div class="slide-head">
+          <div>
+            <p class="eyebrow">Low-bitrate and telephone stressors</p>
+            <h1>Codec And Channel Effects</h1>
+          </div>
+          <div class="counter">07/18</div>
+        </div>
+        <div class="slide-body">
+          <figure>
+            <img src="assets/slide_07_codec_channel.png" alt="Codec And Channel Effects visual">
+          </figure>
+          <aside>
+            <div class="metrics"><div class="metric"><span>AAC UED</span><strong>FR 0.2530, ZH 0.1371</strong></div>
+<div class="metric"><span>Telephone UED</span><strong>FR 0.2538, ZH 0.1418</strong></div></div>
+            <p class="message">Codec and channel effects are measurable, but they are not the dominant failure mode in this slice.</p>
+          </aside>
+        </div>
+      </section>
+    
+
+      <section class="slide" id="slide-8">
+        <div class="slide-head">
+          <div>
+            <p class="eyebrow">Window placement changes tokens</p>
+            <h1>Pseudo-Streaming Problem</h1>
+          </div>
+          <div class="counter">08/18</div>
+        </div>
+        <div class="slide-body">
+          <figure>
+            <img src="assets/slide_08_streaming_windows.png" alt="Pseudo-Streaming Problem visual">
+          </figure>
+          <aside>
+            <div class="metrics"><div class="metric"><span>Baseline</span><strong>non-overlap = 0 mismatch</strong></div>
+<div class="metric"><span>Best overlap</span><strong>0.3191 mismatch</strong></div></div>
+            <p class="message">The same absolute audio can tokenize differently depending on which 30s window contains it.</p>
+          </aside>
+        </div>
+      </section>
+    
+
+      <section class="slide" id="slide-9">
+        <div class="slide-head">
+          <div>
+            <p class="eyebrow">Post-hoc fixes are weak</p>
+            <h1>Aggregation And Commit Latency</h1>
+          </div>
+          <div class="counter">09/18</div>
+        </div>
+        <div class="slide-body">
+          <figure>
+            <img src="assets/slide_09_chunking_tradeoff.png" alt="Aggregation And Commit Latency visual">
+          </figure>
+          <aside>
+            <div class="metrics"><div class="metric"><span>1s latency</span><strong>0.7954 mismatch</strong></div>
+<div class="metric"><span>15s latency</span><strong>0.6051 mismatch</strong></div></div>
+            <p class="message">Confidence and hidden-state aggregation do not recover the offline non-overlap token stream.</p>
+          </aside>
+        </div>
+      </section>
+    
+
+      <section class="slide" id="slide-10">
+        <div class="slide-head">
+          <div>
+            <p class="eyebrow">KL clean to corruption</p>
+            <h1>Token Distribution Drift</h1>
+          </div>
+          <div class="counter">10/18</div>
+        </div>
+        <div class="slide-body">
+          <figure>
+            <img src="assets/slide_10_distribution_drift.png" alt="Token Distribution Drift visual">
+          </figure>
+          <aside>
+            <div class="metrics"><div class="metric"><span>Gaussian KL</span><strong>FR 1.124, ZH 0.913</strong></div>
+<div class="metric"><span>Babble KL</span><strong>FR 2.456, ZH 2.353</strong></div></div>
+            <p class="message">Hard corruptions shift token usage more than additive Gaussian noise.</p>
+          </aside>
+        </div>
+      </section>
+    
+
+      <section class="slide" id="slide-11">
+        <div class="slide-head">
+          <div>
+            <p class="eyebrow">No obvious collapse</p>
+            <h1>Token Usage And Zipf</h1>
+          </div>
+          <div class="counter">11/18</div>
+        </div>
+        <div class="slide-body">
+          <figure>
+            <img src="assets/slide_11_distribution_zipf.png" alt="Token Usage And Zipf visual">
+          </figure>
+          <aside>
+            <div class="metrics"><div class="metric"><span>FR clean unique</span><strong>4237 tokens</strong></div>
+<div class="metric"><span>FR babble unique</span><strong>4665 tokens</strong></div></div>
+            <p class="message">Code usage is broad, but analyses must be stratified by language and corruption.</p>
+          </aside>
+        </div>
+      </section>
+    
+
+      <section class="slide" id="slide-12">
+        <div class="slide-head">
+          <div>
+            <p class="eyebrow">Tokenizer UED is not task WER</p>
+            <h1>Downstream ASR Mismatch</h1>
+          </div>
+          <div class="counter">12/18</div>
+        </div>
+        <div class="slide-body">
+          <figure>
+            <img src="assets/slide_12_token_asr_mismatch.png" alt="Downstream ASR Mismatch visual">
+          </figure>
+          <aside>
+            <div class="metrics"><div class="metric"><span>Clean FR WER</span><strong>0.1165</strong></div>
+<div class="metric"><span>Babble FR WER</span><strong>0.2885</strong></div></div>
+            <p class="message">Token robustness and direct Whisper-small ASR degradation are related but not interchangeable.</p>
+          </aside>
+        </div>
+      </section>
+    
+
+      <section class="slide" id="slide-13">
+        <div class="slide-head">
+          <div>
+            <p class="eyebrow">Zero-shot decoder replacement</p>
+            <h1>StableToken-Token ASR Probe</h1>
+          </div>
+          <div class="counter">13/18</div>
+        </div>
+        <div class="slide-body">
+          <figure>
+            <img src="assets/slide_13_asr_probe.png" alt="StableToken-Token ASR Probe visual">
+          </figure>
+          <aside>
+            <div class="metrics"><div class="metric"><span>Clean WER/CER</span><strong>1.0</strong></div>
+<div class="metric"><span>Output</span><strong>empty or punctuation</strong></div></div>
+            <p class="message">WER through StableToken needs a trained adapter or head, not a stock Whisper decoder.</p>
+          </aside>
+        </div>
+      </section>
+    
+
+      <section class="slide" id="slide-14">
+        <div class="slide-head">
+          <div>
+            <p class="eyebrow">Reconstructed LFQ path</p>
+            <h1>Training Harness</h1>
+          </div>
+          <div class="counter">14/18</div>
+        </div>
+        <div class="slide-body">
+          <figure>
+            <img src="assets/slide_14_training_harness.png" alt="Training Harness visual">
+          </figure>
+          <aside>
+            <div class="metrics"><div class="metric"><span>Matrix</span><strong>5 matched variants</strong></div>
+<div class="metric"><span>Budget</span><strong>1000 steps, 2000 FR rows</strong></div></div>
+            <p class="message">The training runs are short diagnostics and should not be treated as paper-number reproduction.</p>
+          </aside>
+        </div>
+      </section>
+    
+
+      <section class="slide" id="slide-15">
+        <div class="slide-head">
+          <div>
+            <p class="eyebrow">Short matched pilot</p>
+            <h1>LFQ Ablation Matrix</h1>
+          </div>
+          <div class="counter">15/18</div>
+        </div>
+        <div class="slide-body">
+          <figure>
+            <img src="assets/slide_15_lfq_ablation_matrix.png" alt="LFQ Ablation Matrix visual">
+          </figure>
+          <aside>
+            <div class="metrics"><div class="metric"><span>Best mean UED</span><strong>single_aug 0.6869</strong></div>
+<div class="metric"><span>Voting row</span><strong>multi_aug_consensus 0.7970</strong></div></div>
+            <p class="message">Augmentation helped modestly, while multi-branch Voting-LFQ hurt UED at this scale.</p>
+          </aside>
+        </div>
+      </section>
+    
+
+      <section class="slide" id="slide-16">
+        <div class="slide-head">
+          <div>
+            <p class="eyebrow">Latency smoke</p>
+            <h1>Efficiency</h1>
+          </div>
+          <div class="counter">16/18</div>
+        </div>
+        <div class="slide-body">
+          <figure>
+            <img src="assets/slide_16_latency_rtf.png" alt="Efficiency visual">
+          </figure>
+          <aside>
+            <div class="metrics"><div class="metric"><span>30s batch 1</span><strong>0.151s</strong></div>
+<div class="metric"><span>RTF</span><strong>0.00504</strong></div></div>
+            <p class="message">Token extraction is comfortably faster than realtime on the observed L4.</p>
+          </aside>
+        </div>
+      </section>
+    
+
+      <section class="slide" id="slide-17">
+        <div class="slide-head">
+          <div>
+            <p class="eyebrow">Next evidence gaps</p>
+            <h1>What Failed Or Remains Open</h1>
+          </div>
+          <div class="counter">17/18</div>
+        </div>
+        <div class="slide-body">
+          <figure>
+            <img src="assets/slide_17_open_work.png" alt="What Failed Or Remains Open visual">
+          </figure>
+          <aside>
+            <div class="metrics"><div class="metric"><span>Not executed</span><strong>SER, speaker, prosody</strong></div>
+<div class="metric"><span>Next step</span><strong>trained ASR/SpeechLLM adapter</strong></div></div>
+            <p class="message">The strongest next experiment is a tokenizer-through-task adapter evaluated on the fixed corruption suite.</p>
+          </aside>
+        </div>
+      </section>
+    
+
+      <section class="slide" id="slide-18">
+        <div class="slide-head">
+          <div>
+            <p class="eyebrow">Interview close</p>
+            <h1>Takeaways</h1>
+          </div>
+          <div class="counter">18/18</div>
+        </div>
+        <div class="slide-body">
+          <figure>
+            <img src="assets/slide_18_takeaways.png" alt="Takeaways visual">
+          </figure>
+          <aside>
+            <div class="metrics"><div class="metric"><span>Reproducible</span><strong>25 Hz</strong></div>
+<div class="metric"><span>Hardest</span><strong>babble</strong></div>
+<div class="metric"><span>Streaming</span><strong>not true streaming</strong></div></div>
+            <p class="message">StableToken is inspectable and efficient, but robustness claims must separate tokenizer stability from downstream task impact.</p>
+          </aside>
+        </div>
+      </section>
+    
+  </main>
+  <div class="nav-hint">Use left/right arrows, space, Home, End. Print to PDF from the browser.</div>
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    let current = 0;
+    function show(index) {
+      current = Math.max(0, Math.min(slides.length - 1, index));
+      slides.forEach((slide, idx) => slide.classList.toggle('active', idx === current));
+      window.location.hash = `slide-${current + 1}`;
+    }
+    function fromHash() {
+      const match = window.location.hash.match(/slide-(\d+)/);
+      if (match) show(Number(match[1]) - 1);
+      else show(0);
+    }
+    window.addEventListener('keydown', event => {
+      if (['ArrowRight', 'PageDown', ' '].includes(event.key)) { event.preventDefault(); show(current + 1); }
+      if (['ArrowLeft', 'PageUp'].includes(event.key)) { event.preventDefault(); show(current - 1); }
+      if (event.key === 'Home') { event.preventDefault(); show(0); }
+      if (event.key === 'End') { event.preventDefault(); show(slides.length - 1); }
+    });
+    window.addEventListener('hashchange', fromHash);
+    fromHash();
+  </script>
+</body>
+</html>

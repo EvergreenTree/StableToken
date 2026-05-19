@@ -1,0 +1,298 @@
+[
+  {
+    "title": "StableToken: Robust Speech Token Evaluation",
+    "eyebrow": "Technical interview deck",
+    "image": "assets/slide_01_title.png",
+    "metrics": [
+      {
+        "label": "Presenter",
+        "value": "Changqing Fu"
+      },
+      {
+        "label": "Affiliation",
+        "value": "IFM MBZUAI Paris"
+      },
+      {
+        "label": "Date",
+        "value": "May 19, 2026"
+      }
+    ],
+    "message": "A 30-minute review of reproducibility, robustness, pseudo-streaming, distribution drift, and downstream usefulness."
+  },
+  {
+    "title": "Why This Evaluation",
+    "eyebrow": "Reviewer concern map",
+    "image": "assets/slide_02_claim_map.png",
+    "metrics": [
+      {
+        "label": "Baseline",
+        "value": "released checkpoint"
+      },
+      {
+        "label": "Evidence",
+        "value": "10 experiment families"
+      }
+    ],
+    "message": "Robustness, streaming behavior, and downstream usefulness are separate claims that need separate evidence."
+  },
+  {
+    "title": "StableToken At A Glance",
+    "eyebrow": "Released tokenizer shape",
+    "image": "assets/slide_03_pipeline.png",
+    "metrics": [
+      {
+        "label": "Clean baseline",
+        "value": "30s -> 750 tokens"
+      },
+      {
+        "label": "Result shape",
+        "value": "8192 vocab, 325 bps"
+      }
+    ],
+    "message": "The released tokenizer is fast and compact, but it is built around non-causal 30s chunks."
+  },
+  {
+    "title": "Experiment Harness",
+    "eyebrow": "Audit-friendly runs",
+    "image": "assets/slide_04_harness.png",
+    "metrics": [
+      {
+        "label": "Baseline",
+        "value": "fixed HF SHA"
+      },
+      {
+        "label": "Artifacts",
+        "value": "CSV, JSON, PNG"
+      }
+    ],
+    "message": "Every result is config-driven and tied to local splits, seeds, commands, and committed artifacts."
+  },
+  {
+    "title": "Reproducibility Sanity",
+    "eyebrow": "Released checkpoint loads",
+    "image": "assets/slide_05_sanity_cards.png",
+    "metrics": [
+      {
+        "label": "Clean baseline",
+        "value": "25.0 Hz"
+      },
+      {
+        "label": "Result",
+        "value": "750 tokens per 30s"
+      }
+    ],
+    "message": "The released checkpoint matches the expected token rate, vocabulary size, and bitrate."
+  },
+  {
+    "title": "Hard Degradations",
+    "eyebrow": "100-clip UED scale-up",
+    "image": "assets/slide_06_degradation_mean_ued.png",
+    "metrics": [
+      {
+        "label": "Clean reference",
+        "value": "UED 0"
+      },
+      {
+        "label": "Babble UED",
+        "value": "FR 0.6071, ZH 0.4170"
+      }
+    ],
+    "message": "Speech-like interference is harder than Gaussian noise and should be a headline robustness test."
+  },
+  {
+    "title": "Codec And Channel Effects",
+    "eyebrow": "Low-bitrate and telephone stressors",
+    "image": "assets/slide_07_codec_channel.png",
+    "metrics": [
+      {
+        "label": "AAC UED",
+        "value": "FR 0.2530, ZH 0.1371"
+      },
+      {
+        "label": "Telephone UED",
+        "value": "FR 0.2538, ZH 0.1418"
+      }
+    ],
+    "message": "Codec and channel effects are measurable, but they are not the dominant failure mode in this slice."
+  },
+  {
+    "title": "Pseudo-Streaming Problem",
+    "eyebrow": "Window placement changes tokens",
+    "image": "assets/slide_08_streaming_windows.png",
+    "metrics": [
+      {
+        "label": "Baseline",
+        "value": "non-overlap = 0 mismatch"
+      },
+      {
+        "label": "Best overlap",
+        "value": "0.3191 mismatch"
+      }
+    ],
+    "message": "The same absolute audio can tokenize differently depending on which 30s window contains it."
+  },
+  {
+    "title": "Aggregation And Commit Latency",
+    "eyebrow": "Post-hoc fixes are weak",
+    "image": "assets/slide_09_chunking_tradeoff.png",
+    "metrics": [
+      {
+        "label": "1s latency",
+        "value": "0.7954 mismatch"
+      },
+      {
+        "label": "15s latency",
+        "value": "0.6051 mismatch"
+      }
+    ],
+    "message": "Confidence and hidden-state aggregation do not recover the offline non-overlap token stream."
+  },
+  {
+    "title": "Token Distribution Drift",
+    "eyebrow": "KL clean to corruption",
+    "image": "assets/slide_10_distribution_drift.png",
+    "metrics": [
+      {
+        "label": "Gaussian KL",
+        "value": "FR 1.124, ZH 0.913"
+      },
+      {
+        "label": "Babble KL",
+        "value": "FR 2.456, ZH 2.353"
+      }
+    ],
+    "message": "Hard corruptions shift token usage more than additive Gaussian noise."
+  },
+  {
+    "title": "Token Usage And Zipf",
+    "eyebrow": "No obvious collapse",
+    "image": "assets/slide_11_distribution_zipf.png",
+    "metrics": [
+      {
+        "label": "FR clean unique",
+        "value": "4237 tokens"
+      },
+      {
+        "label": "FR babble unique",
+        "value": "4665 tokens"
+      }
+    ],
+    "message": "Code usage is broad, but analyses must be stratified by language and corruption."
+  },
+  {
+    "title": "Downstream ASR Mismatch",
+    "eyebrow": "Tokenizer UED is not task WER",
+    "image": "assets/slide_12_token_asr_mismatch.png",
+    "metrics": [
+      {
+        "label": "Clean FR WER",
+        "value": "0.1165"
+      },
+      {
+        "label": "Babble FR WER",
+        "value": "0.2885"
+      }
+    ],
+    "message": "Token robustness and direct Whisper-small ASR degradation are related but not interchangeable."
+  },
+  {
+    "title": "StableToken-Token ASR Probe",
+    "eyebrow": "Zero-shot decoder replacement",
+    "image": "assets/slide_13_asr_probe.png",
+    "metrics": [
+      {
+        "label": "Clean WER/CER",
+        "value": "1.0"
+      },
+      {
+        "label": "Output",
+        "value": "empty or punctuation"
+      }
+    ],
+    "message": "WER through StableToken needs a trained adapter or head, not a stock Whisper decoder."
+  },
+  {
+    "title": "Training Harness",
+    "eyebrow": "Reconstructed LFQ path",
+    "image": "assets/slide_14_training_harness.png",
+    "metrics": [
+      {
+        "label": "Matrix",
+        "value": "5 matched variants"
+      },
+      {
+        "label": "Budget",
+        "value": "1000 steps, 2000 FR rows"
+      }
+    ],
+    "message": "The training runs are short diagnostics and should not be treated as paper-number reproduction."
+  },
+  {
+    "title": "LFQ Ablation Matrix",
+    "eyebrow": "Short matched pilot",
+    "image": "assets/slide_15_lfq_ablation_matrix.png",
+    "metrics": [
+      {
+        "label": "Best mean UED",
+        "value": "single_aug 0.6869"
+      },
+      {
+        "label": "Voting row",
+        "value": "multi_aug_consensus 0.7970"
+      }
+    ],
+    "message": "Augmentation helped modestly, while multi-branch Voting-LFQ hurt UED at this scale."
+  },
+  {
+    "title": "Efficiency",
+    "eyebrow": "Latency smoke",
+    "image": "assets/slide_16_latency_rtf.png",
+    "metrics": [
+      {
+        "label": "30s batch 1",
+        "value": "0.151s"
+      },
+      {
+        "label": "RTF",
+        "value": "0.00504"
+      }
+    ],
+    "message": "Token extraction is comfortably faster than realtime on the observed L4."
+  },
+  {
+    "title": "What Failed Or Remains Open",
+    "eyebrow": "Next evidence gaps",
+    "image": "assets/slide_17_open_work.png",
+    "metrics": [
+      {
+        "label": "Not executed",
+        "value": "SER, speaker, prosody"
+      },
+      {
+        "label": "Next step",
+        "value": "trained ASR/SpeechLLM adapter"
+      }
+    ],
+    "message": "The strongest next experiment is a tokenizer-through-task adapter evaluated on the fixed corruption suite."
+  },
+  {
+    "title": "Takeaways",
+    "eyebrow": "Interview close",
+    "image": "assets/slide_18_takeaways.png",
+    "metrics": [
+      {
+        "label": "Reproducible",
+        "value": "25 Hz"
+      },
+      {
+        "label": "Hardest",
+        "value": "babble"
+      },
+      {
+        "label": "Streaming",
+        "value": "not true streaming"
+      }
+    ],
+    "message": "StableToken is inspectable and efficient, but robustness claims must separate tokenizer stability from downstream task impact."
+  }
+]

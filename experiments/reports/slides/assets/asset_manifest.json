@@ -1,0 +1,20 @@
+{
+  "title": "assets/slide_01_title.png",
+  "why": "assets/slide_02_claim_map.png",
+  "pipeline": "assets/slide_03_pipeline.png",
+  "harness": "assets/slide_04_harness.png",
+  "sanity": "assets/slide_05_sanity_cards.png",
+  "degradation": "assets/slide_06_degradation_mean_ued.png",
+  "codec": "assets/slide_07_codec_channel.png",
+  "streaming": "assets/slide_08_streaming_windows.png",
+  "chunking": "assets/slide_09_chunking_tradeoff.png",
+  "distribution": "assets/slide_10_distribution_drift.png",
+  "zipf": "assets/slide_11_distribution_zipf.png",
+  "asr_mismatch": "assets/slide_12_token_asr_mismatch.png",
+  "asr_probe": "assets/slide_13_asr_probe.png",
+  "training": "assets/slide_14_training_harness.png",
+  "lfq_matrix": "assets/slide_15_lfq_ablation_matrix.png",
+  "latency": "assets/slide_16_latency_rtf.png",
+  "open_work": "assets/slide_17_open_work.png",
+  "takeaways": "assets/slide_18_takeaways.png"
+}
