@@ -29,6 +29,24 @@ This report covers the first feasible experiment pass on the local `main` branch
 | WER through StableToken needs a trained adapter/head. | Replace Whisper-large-v3 encoder with released StableToken encoder and decode with stock Whisper decoder. | WER/CER were `1.0` for every row in the 16-row smoke; outputs were empty or punctuation. | Zero-shot decoder replacement is not a usable StableToken-token ASR evaluation. |
 | Token distribution drift is language- and corruption-dependent. | Distribution/Zipf/KL under clean, Gaussian, reverb, babble, and competing speech for FR/ZH. | Clean→babble KL was `2.456` bits FR and `2.353` bits ZH; Gaussian was lower at `1.124`/`0.913`. | Token-collapse and drift reports should be stratified by language and hard corruption type. |
 
+## Illustrative Figures
+
+![Figure 1: Chunking policy and commit-latency tradeoff](figures/figure_chunking_tradeoff.png)
+
+Figure 1. Pseudo-streaming is a serving-contract problem. The left panel compares overlap policies against the offline non-overlap tokenizer; the right panel shows that lower-latency commits remain unstable, especially when judged against the non-overlap reference.
+
+![Figure 2: Token UED versus downstream ASR impact](figures/figure_token_asr_mismatch.png)
+
+Figure 2. Token UED and direct Whisper-small ASR degradation are related but not interchangeable. Babble is high on both axes, while competing speech is much more severe for token stability than for French direct ASR WER.
+
+![Figure 3: Hard-corruption token distribution drift](figures/figure_distribution_drift.png)
+
+Figure 3. Clean-to-corruption KL shows that babble and reverb/competing speech induce more token-distribution drift than Gaussian noise in both French and Chinese.
+
+![Figure 4: LFQ ablation matrix summary](figures/figure_lfq_ablation_matrix.png)
+
+Figure 4. The matched LFQ matrix highlights the tradeoff between mean UED and clean token usage. These short runs are useful diagnostics, but they should not be interpreted as full training-scale ablations.
+
 ## What Ran
 
 | Family | Commit | Run Directory | Status |
