@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Generate an offline HTML slide deck from the StableToken report artifacts."""
+"""Generate offline HTML and PowerPoint decks from StableToken report artifacts."""
 from __future__ import annotations
 
 import csv
@@ -16,6 +16,8 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 SLIDE_DIR = ROOT / "experiments" / "reports" / "slides"
 ASSET_DIR = SLIDE_DIR / "assets"
+HTML_PATH = SLIDE_DIR / "stabletoken_interview_deck.html"
+PPTX_PATH = SLIDE_DIR / "stabletoken_interview_deck.pptx"
 
 BG = "#f7f4ee"
 INK = "#182026"
@@ -490,7 +492,7 @@ def render_metrics(metrics: list[dict[str, str]]) -> str:
     )
 
 
-def render_slide(slide: dict[str, Any], index: int, total: int) -> str:
+def render_slide(slide: dict[str, Any], index: int, _total: int) -> str:
     metrics_html = render_metrics(slide["metrics"])
     return f"""
       <section class="slide" id="slide-{index}">
@@ -499,7 +501,6 @@ def render_slide(slide: dict[str, Any], index: int, total: int) -> str:
             <p class="eyebrow">{html.escape(slide["eyebrow"])}</p>
             <h1>{html.escape(slide["title"])}</h1>
           </div>
-          <div class="counter">{index:02d}/{total:02d}</div>
         </div>
         <div class="slide-body">
           <figure>
@@ -574,15 +575,6 @@ def render_html(deck_slides: list[dict[str, Any]]) -> str:
       font-size: clamp(2rem, 4.4vw, 4.6rem);
       line-height: 1.02;
       letter-spacing: 0;
-    }}
-    .counter {{
-      min-width: 5rem;
-      padding: 0.65rem 0.8rem;
-      border-top: 4px solid var(--blue);
-      text-align: right;
-      color: var(--muted);
-      font-weight: 800;
-      font-size: 1.05rem;
     }}
     .slide-body {{
       flex: 1;
@@ -713,15 +705,151 @@ def render_html(deck_slides: list[dict[str, Any]]) -> str:
 """
 
 
+def hex_to_rgb(value: str) -> tuple[int, int, int]:
+    clean = value.lstrip("#")
+    return tuple(int(clean[idx : idx + 2], 16) for idx in (0, 2, 4))
+
+
+def render_pptx(deck_slides: list[dict[str, Any]], path: Path) -> None:
+    try:
+        from PIL import Image
+        from pptx import Presentation
+        from pptx.dml.color import RGBColor
+        from pptx.enum.shapes import MSO_SHAPE
+        from pptx.enum.text import PP_ALIGN
+        from pptx.util import Inches, Pt
+    except ImportError as exc:
+        raise RuntimeError(
+            "PowerPoint export requires python-pptx and Pillow. "
+            "Install requirements.txt or run: pip install python-pptx Pillow"
+        ) from exc
+
+    def rgb(value: str) -> Any:
+        return RGBColor(*hex_to_rgb(value))
+
+    def set_fill(shape: Any, color: str) -> None:
+        shape.fill.solid()
+        shape.fill.fore_color.rgb = rgb(color)
+
+    def set_line(shape: Any, color: str, width: float = 1.0) -> None:
+        shape.line.color.rgb = rgb(color)
+        shape.line.width = Pt(width)
+
+    def add_box(
+        slide: Any,
+        left: float,
+        top: float,
+        width: float,
+        height: float,
+        fill: str,
+        line: str | None = None,
+    ) -> Any:
+        shape = slide.shapes.add_shape(
+            MSO_SHAPE.ROUNDED_RECTANGLE,
+            Inches(left),
+            Inches(top),
+            Inches(width),
+            Inches(height),
+        )
+        set_fill(shape, fill)
+        set_line(shape, line or fill, 0.75)
+        shape.text_frame.clear()
+        return shape
+
+    def add_text(
+        slide: Any,
+        left: float,
+        top: float,
+        width: float,
+        height: float,
+        text: str,
+        size: float,
+        color: str = INK,
+        bold: bool = False,
+        align: Any | None = None,
+    ) -> Any:
+        box = slide.shapes.add_textbox(Inches(left), Inches(top), Inches(width), Inches(height))
+        frame = box.text_frame
+        frame.clear()
+        frame.word_wrap = True
+        paragraph = frame.paragraphs[0]
+        paragraph.alignment = align or PP_ALIGN.LEFT
+        run = paragraph.add_run()
+        run.text = text
+        run.font.name = "Aptos"
+        run.font.size = Pt(size)
+        run.font.bold = bold
+        run.font.color.rgb = rgb(color)
+        return box
+
+    def add_metric(slide: Any, left: float, top: float, width: float, label: str, value: str, accent: str) -> None:
+        add_box(slide, left, top, width, 0.72, "#ffffff", "#ded8cd")
+        add_box(slide, left, top, 0.08, 0.72, accent, accent)
+        add_text(slide, left + 0.2, top + 0.08, width - 0.35, 0.16, label.upper(), 7.5, MUTED, True)
+        add_text(slide, left + 0.2, top + 0.28, width - 0.35, 0.32, value, 14, INK, True)
+
+    def add_contained_picture(slide: Any, image_path: Path, left: float, top: float, width: float, height: float) -> None:
+        add_box(slide, left, top, width, height, "#ffffff", "#ded8cd")
+        with Image.open(image_path) as image:
+            image_width, image_height = image.size
+        scale = min((width - 0.28) / image_width, (height - 0.28) / image_height)
+        picture_width = image_width * scale
+        picture_height = image_height * scale
+        picture_left = left + (width - picture_width) / 2
+        picture_top = top + (height - picture_height) / 2
+        slide.shapes.add_picture(
+            str(image_path),
+            Inches(picture_left),
+            Inches(picture_top),
+            width=Inches(picture_width),
+            height=Inches(picture_height),
+        )
+
+    presentation = Presentation()
+    presentation.slide_width = Inches(13.333)
+    presentation.slide_height = Inches(7.5)
+    blank = presentation.slide_layouts[6]
+    accents = [BLUE, TEAL, RED]
+
+    for slide_data in deck_slides:
+        slide = presentation.slides.add_slide(blank)
+        background = slide.background.fill
+        background.solid()
+        background.fore_color.rgb = rgb(BG)
+
+        add_text(slide, 0.62, 0.34, 7.6, 0.24, slide_data["eyebrow"], 10.5, RED, True)
+        add_text(slide, 0.62, 0.62, 8.9, 0.75, slide_data["title"], 30, INK, True)
+        add_contained_picture(slide, SLIDE_DIR / slide_data["image"], 0.62, 1.5, 8.15, 5.48)
+
+        metric_top = 2.0 if len(slide_data["metrics"]) <= 2 else 1.72
+        for idx, item in enumerate(slide_data["metrics"]):
+            add_metric(
+                slide,
+                9.08,
+                metric_top + idx * 0.86,
+                3.58,
+                item["label"],
+                item["value"],
+                accents[idx % len(accents)],
+            )
+
+        add_box(slide, 9.08, 5.55, 3.58, 1.1, INK, INK)
+        add_text(slide, 9.28, 5.73, 3.18, 0.75, slide_data["message"], 13.5, "#ffffff", True)
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    presentation.save(path)
+
+
 def main() -> None:
     setup_style()
     assets = build_assets()
     deck_slides = slides(assets)
     SLIDE_DIR.mkdir(parents=True, exist_ok=True)
-    html_path = SLIDE_DIR / "stabletoken_interview_deck.html"
-    html_path.write_text(render_html(deck_slides), encoding="utf-8")
+    HTML_PATH.write_text(render_html(deck_slides), encoding="utf-8")
+    render_pptx(deck_slides, PPTX_PATH)
     write_json(SLIDE_DIR / "slides_manifest.json", deck_slides)
-    print(f"Wrote {html_path}")
+    print(f"Wrote {HTML_PATH}")
+    print(f"Wrote {PPTX_PATH}")
 
 
 if __name__ == "__main__":
